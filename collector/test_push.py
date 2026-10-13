@@ -5,7 +5,7 @@ import json
 
 import re
 
-from push import VAPID_SUB, events_for, subscriptions
+from push import VAPID_SUB, events_for, select_events, subscriptions
 
 ITEMS = [
     {"name": "가나", "broker": "KB증권", "brokers": ["KB증권", "NH투자증권"],
@@ -23,6 +23,12 @@ def test_events_for_day():
                                                      ("미정", "sub_start")]
     assert ev[0]["key"] == "가나|2026-10-20" and ev[0]["brokers"] == ["KB증권", "NH투자증권"]
     assert ev[1]["brokers"] == ["대신증권"]                     # brokers 없으면 대표 1곳
+
+def test_listing_and_subscription_alerts_are_split():
+    day = dt.date(2026, 10, 21)
+    assert [e["name"] for e in select_events(ITEMS, day, "listing")] == ["다라"]            # 8시 반쯤
+    assert [(e["name"], e["kind"]) for e in select_events(ITEMS, day, "subscription")] == \
+        [("가나", "sub_end"), ("미정", "sub_start")]                                     # 10시 이후
 
 def test_vapid_sub_is_bare_https_origin():
     # 발송 라이브러리(py_vapid)는 https 주소에 경로가 붙으면 거부함 (2026-10-14 실제로 겪음)
