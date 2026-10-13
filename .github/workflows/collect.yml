@@ -1,0 +1,29 @@
+name: collect
+on:
+  schedule:
+    - cron: "30 22 * * *"   # 매일 한국시간 07:30
+    - cron: "0 12 * * *"    # 매일 한국시간 21:00
+  workflow_dispatch:         # 수동 실행 버튼
+permissions:
+  contents: write
+concurrency:
+  group: collect
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 38커뮤니케이션에서 수집
+        run: python collector/fetch_ipo.py
+      - name: 판정 및 파일 생성
+        run: python collector/build.py
+      - name: 변경사항 저장
+        run: |
+          git config user.name "ipo-bot"
+          git config user.email "ipo-bot@users.noreply.github.com"
+          git add data/raw.json data/ipos.json web/ipo.ics
+          git diff --cached --quiet || (git commit -m "update ipo data" && git push)
