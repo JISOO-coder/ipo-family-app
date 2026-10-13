@@ -39,11 +39,10 @@ jobs:
           PUSH_TEST: ${{ inputs.push_test }}
           # 폰마다 Secret 하나 (등록 안 한 칸은 비어 있어도 괜찮음). 폰이 더 생기면 줄을 복사해 이름만 바꾸기
           PUSH_SUB_JISOO: ${{ secrets.PUSH_SUB_JISOO }}
-          PUSH_SUB_MOM: ${{ secrets.PUSH_SUB_MOM }}
-          PUSH_SUB_DAD: ${{ secrets.PUSH_SUB_DAD }}
-          PUSH_SUB_EXTRA1: ${{ secrets.PUSH_SUB_EXTRA1 }}
-          PUSH_SUB_EXTRA2: ${{ secrets.PUSH_SUB_EXTRA2 }}
-          PUSH_SUB_EXTRA3: ${{ secrets.PUSH_SUB_EXTRA3 }}
+          PUSH_SUB_KIM: ${{ secrets.PUSH_SUB_KIM }}
+          PUSH_SUB_SEO: ${{ secrets.PUSH_SUB_SEO }}
+          PUSH_SUB_CHOI: ${{ secrets.PUSH_SUB_CHOI }}
+          PUSH_SUB_PARK: ${{ secrets.PUSH_SUB_PARK }}
       - name: 변경사항 저장
         run: |
           git config user.name "ipo-bot"
