@@ -1,0 +1,14 @@
+[
+  {"name": "샘플알짜", "broker": "미래에셋증권", "band_low": 10000, "band_high": 12000,
+   "final_price": 12000, "min_shares": 10, "sub_start": "2026-10-20", "sub_end": "2026-10-21",
+   "listing_date": "2026-10-29", "inst_competition": 1100, "lockup_ratio": 16,
+   "float_amount": 350, "existing_holder_ratio": 10},
+  {"name": "샘플미달", "broker": "KB증권", "band_low": 10000, "band_high": 12000,
+   "final_price": 12000, "sub_start": "2026-10-20", "sub_end": "2026-10-21",
+   "listing_date": "2026-10-29", "inst_competition": 300, "lockup_ratio": 5,
+   "float_amount": 500, "existing_holder_ratio": 10},
+  {"name": "샘플수요예측전", "broker": "NH투자증권", "band_low": 10000, "band_high": 12000,
+   "final_price": null, "sub_start": "2026-11-05", "sub_end": "2026-11-06",
+   "listing_date": "2026-11-14", "inst_competition": null, "lockup_ratio": null,
+   "float_amount": null, "existing_holder_ratio": null}
+]

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>가족 공모주 알림</title>
+<style>
+  :root {
+    --bg: #f4f5f7; --card: #ffffff; --text: #1b1d21; --sub: #6b7280;
+    --line: #e5e7eb; --accent: #2563eb; --star: #d97706; --star-bg: #fef3c7;
+    --soft: #eef2ff; --soft-text: #1d4ed8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111315; --card: #1c1f23; --text: #f1f3f5; --sub: #9aa1ab;
+      --line: #2c3036; --accent: #6ea0ff; --star: #fbbf24; --star-bg: #3a2e0f;
+      --soft: #232a3d; --soft-text: #9db8ff;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    padding: 16px; max-width: 520px; margin-inline: auto;
+  }
+  h1 { font-size: 20px; margin: 8px 0 4px; }
+  .updated { color: var(--sub); font-size: 13px; margin-bottom: 16px; }
+  .card {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 16px; padding: 16px; margin-bottom: 14px;
+  }
+  .tag {
+    display: inline-block; background: var(--star-bg); color: var(--star);
+    font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 999px;
+  }
+  .name { font-size: 20px; font-weight: 700; margin: 8px 0 2px; }
+  .badge { font-size: 13px; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+  .row { display: flex; justify-content: space-between; gap: 12px;
+         padding: 8px 0; border-top: 1px solid var(--line); font-size: 15px; }
+  .row .k { color: var(--sub); flex-shrink: 0; }
+  .row .v { text-align: right; font-weight: 600; }
+  .acct { font-variant-numeric: tabular-nums; }
+  .acct.empty { color: var(--sub); font-weight: 400; }
+  button {
+    width: 100%; margin-top: 10px; padding: 14px; font-size: 16px; font-weight: 700;
+    border: none; border-radius: 12px; background: var(--accent); color: #fff;
+    cursor: pointer;
+  }
+  button.done { background: #16a34a; }
+  .btn-row { display: flex; gap: 8px; }
+  button.soft {
+    background: var(--soft); color: var(--soft-text); font-size: 14px; padding: 12px 6px;
+  }
+  details { background: var(--card); border: 1px solid var(--line);
+            border-radius: 16px; padding: 14px 16px; margin-top: 20px; }
+  summary { font-weight: 700; cursor: pointer; }
+  .hint { color: var(--sub); font-size: 13px; margin: 8px 0 12px; line-height: 1.5; }
+  .group-title { font-size: 13px; font-weight: 700; color: var(--accent); margin: 16px 0 0; }
+  label { display: block; font-size: 14px; margin-top: 10px; color: var(--sub); }
+  input {
+    width: 100%; margin-top: 4px; padding: 12px; font-size: 16px;
+    border: 1px solid var(--line); border-radius: 10px;
+    background: var(--bg); color: var(--text);
+  }
+  .empty-msg { text-align: center; color: var(--sub); padding: 40px 0; line-height: 1.6; }
+  footer { color: var(--sub); font-size: 12px; text-align: center; margin: 24px 0; line-height: 1.6; }
+</style>
+</head>
+<body>
+  <h1>📈 가족 공모주 알림</h1>
+  <div class="updated" id="updated">불러오는 중...</div>
+  <div id="list"></div>
+
+  <details id="settings">
+    <summary>⚙️ 내 증권사 계좌번호 설정</summary>
+    <p class="hint">
+      여기 적은 계좌번호는 <b>이 폰(이 브라우저) 안에만</b> 저장되고,
+      인터넷 어디에도 올라가지 않습니다. 쓰는 증권사만 입력하세요.
+      입력해 두면 청약 종목의 주관 증권사에 맞는 계좌가 자동으로 카드에 나옵니다.
+    </p>
+    <div id="inputs"></div>
+  </details>
+
+  <footer>
+    조건 기반 참고용 도구입니다. 공모주도 손실이 날 수 있으니<br>
+    최종 판단과 책임은 본인에게 있습니다.
+  </footer>
+
+<script>
+  // =====================================================================
+  //  ★ 여기가 "설정표"입니다. 앱 열기 버튼은 이 표를 보고 동작합니다.
+  //    android = 안드로이드 앱 패키지명 (구글 플레이 주소 끝 id=... 부분)
+  //    iosId   = 앱스토어 주소의 id 뒤 숫자
+  //    iosScheme = 아이폰에서 앱을 바로 여는 주소 (모르면 비워둠)
+  //  비어 있는 항목은 "스토어에서 앱 검색" 화면으로 연결됩니다.
+  // =====================================================================
+  const BANK_APPS = [
+    { name: "토스",       android: "viva.republica.toss",  iosId: "839333328",  iosScheme: "supertoss://" },
+    { name: "카카오뱅크", android: "com.kakaobank.channel", iosId: "1258016944", iosScheme: "" }
+  ];
+  const BROKER_APPS = {
+    // 키는 증권사 이름에서 "증권/투자증권/금융투자"를 뺀 이름
+    "미래에셋": { android: "", iosId: "1248716281", iosScheme: "" }
+    // 예) "키움": { android: "패키지명", iosId: "숫자", iosScheme: "" },
+  };
+  const BROKERS = [
+    "미래에셋증권", "KB증권", "NH투자증권", "한국투자증권", "삼성증권", "신한투자증권",
+    "하나증권", "대신증권", "키움증권", "유안타증권", "하이투자증권", "교보증권",
+    "DB금융투자", "유진투자증권", "IBK투자증권", "SK증권", "한화투자증권", "현대차증권",
+    "신영증권", "상상인증권", "다올투자증권", "iM증권", "메리츠증권", "LS증권",
+    "토스증권", "카카오페이증권"
+  ];
+
+  // ---------- 증권사 이름 맞추기 ("NH투자증권" = "NH증권" = "nh" ) ----------
+  function norm(name) {
+    return String(name).toLowerCase()
+      .replace(/\(주\)|주식회사|\s/g, "")
+      .replace(/금융투자|투자증권|증권/g, "");
+  }
+
+  // ---------- 계좌번호 저장 (이 기기 안에만) ----------
+  const KEY = "ipo_accounts_v1";
+  function loadAccounts() {
+    let raw = {};
+    try { raw = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) {}
+    const out = {};
+    Object.keys(raw).forEach(function (k) { out[norm(k)] = raw[k]; }); // 예전 저장분도 호환
+    return out;
+  }
+  function saveAccounts(obj) {
+    try { localStorage.setItem(KEY, JSON.stringify(obj)); } catch (e) {}
+  }
+
+  // ---------- 작은 도우미 ----------
+  const DAYS = ["일", "월", "화", "수", "목", "금", "토"];
+  function parseDate(s) {
+    const p = s.split("-").map(Number);
+    return new Date(p[0], p[1] - 1, p[2]);
+  }
+  function fmt(s) {
+    const d = parseDate(s);
+    return (d.getMonth() + 1) + "/" + d.getDate() + "(" + DAYS[d.getDay()] + ")";
+  }
+  function daysFromToday(s) {
+    const t = new Date(); t.setHours(0, 0, 0, 0);
+    return Math.round((parseDate(s) - t) / 86400000);
+  }
+  function statusText(it) {
+    const a = daysFromToday(it.sub_start);
+    const b = daysFromToday(it.sub_end);
+    const c = daysFromToday(it.listing_date);
+    if (c === 0) return "🔔 오늘 상장!";
+    if (b === 0) return "🔥 오늘 청약 마감!";
+    if (a === 0) return "🔔 오늘 청약 시작!";
+    if (a > 0) return "청약까지 D-" + a;
+    if (b > 0) return "청약 진행 중";
+    if (c > 0) return "청약 끝 · 상장까지 D-" + c;
+    return "";
+  }
+  function el(tag, cls, text) {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+  function row(k, v, extraCls) {
+    const r = el("div", "row");
+    r.appendChild(el("span", "k", k));
+    r.appendChild(el("span", "v" + (extraCls ? " " + extraCls : ""), v));
+    return r;
+  }
+
+  // ---------- 복사 ----------
+  async function copyText(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (e) {
+      const ta = document.createElement("textarea");
+      ta.value = text; document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand("copy"); } catch (e2) {}
+      document.body.removeChild(ta);
+      return ok;
+    }
+  }
+
+  // ---------- 앱 열기 ----------
+  const UA = navigator.userAgent;
+  const IS_ANDROID = /Android/i.test(UA);
+  const IS_IOS = /iPhone|iPad|iPod/i.test(UA);
+
+  function playStoreUrl(app, label) {
+    return app.android
+      ? "https://play.google.com/store/apps/details?id=" + app.android
+      : "https://play.google.com/store/search?q=" + encodeURIComponent(label) + "&c=apps";
+  }
+  function appStoreUrl(app, label) {
+    return app.iosId
+      ? "https://apps.apple.com/kr/app/id" + app.iosId
+      : "itms-apps://search.itunes.apple.com/WebObjects/MZSearch.woa/wa/search?media=software&term=" + encodeURIComponent(label);
+  }
+
+  // 앱이 있으면 앱을 열고, 없으면 스토어로 보냅니다.
+  function openApp(app, label) {
+    if (IS_ANDROID) {
+      if (app.android) {
+        location.href = "intent:#Intent;action=android.intent.action.MAIN;" +
+          "category=android.intent.category.LAUNCHER;package=" + app.android + ";" +
+          "S.browser_fallback_url=" + encodeURIComponent(playStoreUrl(app, label)) + ";end";
+      } else {
+        location.href = playStoreUrl(app, label);
+      }
+    } else if (IS_IOS) {
+      if (app.iosScheme) {
+        location.href = app.iosScheme;
+        setTimeout(function () {
+          if (!document.hidden) location.href = appStoreUrl(app, label); // 앱이 안 열렸으면 앱스토어로
+        }, 1500);
+      } else {
+        location.href = appStoreUrl(app, label);
+      }
+    } else {
+      alert("앱 열기 버튼은 스마트폰에서만 동작합니다.");
+    }
+  }
+
+  // ---------- 화면 그리기 ----------
+  let ITEMS = [];
+
+  function renderCards() {
+    const list = document.getElementById("list");
+    list.textContent = "";
+    if (ITEMS.length === 0) {
+      const m = el("div", "empty-msg");
+      m.innerHTML = "지금 청약할 만한 추천 공모주가 없습니다.<br>조건에 맞는 종목이 나오면 여기에 표시됩니다.";
+      list.appendChild(m);
+      return;
+    }
+    const accounts = loadAccounts();
+    ITEMS.forEach(function (it) {
+      const card = el("div", "card");
+      card.appendChild(el("span", "tag", it.tag || "★ 추천 공모주"));
+      card.appendChild(el("div", "name", it.name));
+      card.appendChild(el("div", "badge", statusText(it)));
+
+      card.appendChild(row("청약", fmt(it.sub_start) + " ~ " + fmt(it.sub_end)));
+      card.appendChild(row("상장일", fmt(it.listing_date)));
+      card.appendChild(row("공모가", it.final_price.toLocaleString() + "원"));
+      card.appendChild(row("필요 증거금(" + it.min_shares + "주)",
+                           it.margin.toLocaleString() + "원"));
+      card.appendChild(row("주관 증권사", it.broker));
+
+      const bkey = norm(it.broker);
+      const acct = accounts[bkey];
+      card.appendChild(row("내 계좌", acct ? acct : "미입력 (맨 아래 설정에서 입력)",
+                           "acct" + (acct ? "" : " empty")));
+
+      // 1) 계좌번호 복사
+      const copyBtn = el("button", "", "📋 계좌번호 복사");
+      copyBtn.addEventListener("click", async function () {
+        if (!acct) {
+          alert("먼저 맨 아래 '내 증권사 계좌번호 설정'에서\n" + it.broker + " 계좌번호를 입력해 주세요.");
+          document.getElementById("settings").open = true;
+          return;
+        }
+        const ok = await copyText(acct);
+        copyBtn.textContent = ok ? "✅ 복사됨!" : "복사 실패 - 직접 길게 눌러 복사하세요";
+        copyBtn.className = ok ? "done" : "";
+        setTimeout(function () {
+          copyBtn.textContent = "📋 계좌번호 복사"; copyBtn.className = "";
+        }, 1800);
+      });
+      card.appendChild(copyBtn);
+
+      // 2) 은행/토스 앱 열기 (입금용)
+      const bankRow = el("div", "btn-row");
+      BANK_APPS.forEach(function (b) {
+        const bb = el("button", "soft", "📲 " + b.name + " 열기");
+        bb.addEventListener("click", function () { openApp(b, b.name); });
+        bankRow.appendChild(bb);
+      });
+      card.appendChild(bankRow);
+
+      // 3) 증권사 앱 열기 (청약용)
+      const mts = BROKER_APPS[bkey] || {};
+      const mtsBtn = el("button", "soft", "📲 " + it.broker + " 앱 열기");
+      mtsBtn.addEventListener("click", function () { openApp(mts, it.broker); });
+      card.appendChild(mtsBtn);
+
+      list.appendChild(card);
+    });
+  }
+
+  function renderInputs() {
+    const box = document.getElementById("inputs");
+    box.textContent = "";
+    const accounts = loadAccounts();
+
+    // 이번 청약 종목의 증권사 + 기본 목록(중복 제거)
+    const now = [], seen = {};
+    ITEMS.forEach(function (i) {
+      const k = norm(i.broker);
+      if (!seen[k]) { seen[k] = true; now.push(i.broker); }
+    });
+    const rest = BROKERS.filter(function (b) {
+      const k = norm(b);
+      if (seen[k]) return false;
+      seen[k] = true; return true;
+    });
+
+    function addGroup(title, names) {
+      if (names.length === 0) return;
+      box.appendChild(el("div", "group-title", title));
+      names.forEach(function (b) {
+        const lab = el("label", "", b + " 계좌번호");
+        const inp = document.createElement("input");
+        inp.type = "text"; inp.inputMode = "numeric";
+        inp.placeholder = "예: 123-45-678901";
+        inp.value = accounts[norm(b)] || "";
+        inp.addEventListener("input", function () {
+          const a = loadAccounts();
+          const v = inp.value.trim();
+          if (v) a[norm(b)] = v; else delete a[norm(b)];
+          saveAccounts(a);
+          renderCards();
+        });
+        lab.appendChild(inp);
+        box.appendChild(lab);
+      });
+    }
+    addGroup("🔔 이번 청약 종목의 증권사", now);
+    addGroup("그 외 증권사", rest);
+  }
+
+  // ---------- 시작 ----------
+  fetch("../data/ipos.json", { cache: "no-store" })
+    .then(function (r) {
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      return r.json();
+    })
+    .then(function (data) {
+      ITEMS = data.items || [];
+      document.getElementById("updated").textContent =
+        "마지막 업데이트: " + data.updated;
+      renderCards();
+      renderInputs();
+    })
+    .catch(function (e) {
+      document.getElementById("updated").textContent =
+        "데이터를 불러오지 못했습니다. (" + e.message + ")";
+    });
+</script>
+</body>
+</html>
