@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>가족 공모주 알림</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2563eb">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="공모주">
+<link rel="apple-touch-icon" href="icon-192.png">
 <style>
   :root {
     --bg: #f4f5f7; --card: #ffffff; --text: #1b1d21; --sub: #6b7280;
@@ -63,6 +69,21 @@
     background: var(--bg); color: var(--text);
   }
   .hint2 { color: var(--sub); font-size: 12px; margin-top: 6px; text-align: center; }
+  .warn { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; border-radius: 12px;
+          padding: 12px 14px; font-size: 14px; line-height: 1.5; margin-bottom: 14px; font-weight: 600; }
+  @media (prefers-color-scheme: dark) { .warn { background: #3b1414; color: #fca5a5; border-color: #5b2020; } }
+  .sum-grid { display: flex; gap: 10px; margin-bottom: 14px; }
+  .sum-box { flex: 1; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; }
+  .sum-label { font-size: 13px; color: var(--sub); }
+  .sum-num { font-size: 26px; font-weight: 800; margin: 2px 0 4px; }
+  .sum-num.on { color: var(--accent); }
+  .sum-names { font-size: 13px; line-height: 1.5; color: var(--text); }
+  .selbox { border-top: 1px solid var(--line); padding: 10px 0 2px; }
+  .sellabel { font-size: 13px; color: var(--sub); }
+  button.chip { width: auto; margin: 8px 6px 0 0; padding: 8px 12px; font-size: 14px; font-weight: 600;
+                background: var(--bg); color: var(--text); border: 1px solid var(--line); }
+  button.chip.on { background: var(--soft); color: var(--soft-text); border-color: var(--accent); }
+  .needsel { color: var(--star); font-size: 13px; font-weight: 600; margin-top: 8px; }
   .empty-msg { text-align: center; color: var(--sub); padding: 40px 0; line-height: 1.6; }
   footer { color: var(--sub); font-size: 12px; text-align: center; margin: 24px 0; line-height: 1.6; }
 </style>
@@ -70,6 +91,8 @@
 <body>
   <h1>📈 가족 공모주 알림</h1>
   <div class="updated" id="updated">불러오는 중...</div>
+  <div class="warn" id="warn" style="display:none"></div>
+  <div id="summary"></div>
   <div id="list"></div>
 
   <details id="settings">
@@ -246,6 +269,83 @@
   // ---------- 화면 그리기 ----------
   let ITEMS = [];
 
+  // ---------- 증권사 선택 (종목별, 이 기기 안에만 저장) ----------
+  const SEL_KEY = "ipo_sel_v1";
+  function loadSel() {
+    try { return JSON.parse(localStorage.getItem(SEL_KEY) || "{}"); } catch (e) { return {}; }
+  }
+  function saveSel(o) {
+    try { localStorage.setItem(SEL_KEY, JSON.stringify(o)); } catch (e) {}
+    // 알림(서비스 워커)이 읽을 수 있도록 같은 내용을 IndexedDB에도 복사
+    try {
+      const rq = indexedDB.open("ipo-family", 1);
+      rq.onupgradeneeded = function () { rq.result.createObjectStore("kv"); };
+      rq.onsuccess = function () {
+        try { rq.result.transaction("kv", "readwrite").objectStore("kv").put(o, "selections"); } catch (e) {}
+      };
+    } catch (e) {}
+  }
+  function itemKey(it) { return it.name + "|" + it.sub_start; }
+  function brokersOf(it) {
+    return (it.brokers && it.brokers.length) ? it.brokers : [it.broker];
+  }
+  // 증권사가 1곳이면 자동 선택, 여러 곳이면 내가 체크한 것만
+  function selectedOf(it, sel) {
+    const all = brokersOf(it);
+    if (all.length === 1) return [all[0]];
+    const picked = sel[itemKey(it)] || [];
+    return all.filter(function (b) { return picked.indexOf(b) >= 0; });
+  }
+
+  // ---------- 오늘 요약 ----------
+  function todayCounts(items) {
+    const subs = [], lists = [];
+    items.forEach(function (it) {
+      const a = daysFromToday(it.sub_start), b = daysFromToday(it.sub_end);
+      if (a <= 0 && b >= 0) subs.push(it);                       // 오늘 청약 가능(시작~마감)
+      if (daysFromToday(it.listing_date) === 0) lists.push(it);   // 오늘 상장
+    });
+    return { subs: subs, lists: lists };
+  }
+  function nameWithBroker(it, sel) {
+    const chosen = selectedOf(it, sel);
+    if (chosen.length) return it.name + " · " + chosen.join(", ");
+    return it.name + " · 증권사 미선택";
+  }
+  function renderSummary() {
+    const box = document.getElementById("summary");
+    box.textContent = "";
+    if (ITEMS.length === 0) return;
+    const sel = loadSel();
+    const c = todayCounts(ITEMS);
+    const grid = el("div", "sum-grid");
+    [["오늘 청약", c.subs, function (it) {
+        return nameWithBroker(it, sel) + (daysFromToday(it.sub_end) === 0 ? " (오늘 마감!)" : "");
+      }],
+     ["오늘 상장", c.lists, function (it) { return nameWithBroker(it, sel); }]
+    ].forEach(function (g) {
+      const bx = el("div", "sum-box");
+      bx.appendChild(el("div", "sum-label", g[0]));
+      bx.appendChild(el("div", "sum-num" + (g[1].length ? " on" : ""), g[1].length + "건"));
+      const names = el("div", "sum-names");
+      if (g[1].length === 0) { names.textContent = "없음"; }
+      g[1].forEach(function (it) { names.appendChild(el("div", "", g[2](it))); });
+      bx.appendChild(names);
+      grid.appendChild(bx);
+    });
+    box.appendChild(grid);
+  }
+
+  // ---------- 카드 ----------
+  function sortRank(it) {
+    const a = daysFromToday(it.sub_start), b = daysFromToday(it.sub_end), c = daysFromToday(it.listing_date);
+    if ((a <= 0 && b >= 0) || c === 0) return 0;   // 오늘 할 일
+    if (a > 0) return 1;                            // 청약 예정
+    return 2;                                       // 청약 끝, 상장 대기
+  }
+
+  function renderAll() { renderSummary(); renderCards(); }
+
   function renderCards() {
     const list = document.getElementById("list");
     list.textContent = "";
@@ -256,7 +356,11 @@
       return;
     }
     const accounts = loadAccounts();
-    ITEMS.forEach(function (it) {
+    const sel = loadSel();
+    const sorted = ITEMS.slice().sort(function (x, y) {
+      return (sortRank(x) - sortRank(y)) || (x.sub_start < y.sub_start ? -1 : 1);
+    });
+    sorted.forEach(function (it) {
       const card = el("div", "card");
       card.appendChild(el("span", "tag", it.tag || "★ 추천 공모주"));
       card.appendChild(el("div", "name", it.name));
@@ -267,45 +371,76 @@
       card.appendChild(row("공모가", it.final_price.toLocaleString() + "원"));
       card.appendChild(row("필요 증거금(" + it.min_shares + "주)",
                            it.margin.toLocaleString() + "원"));
-      card.appendChild(row("주관 증권사", it.broker));
 
-      const bkey = norm(it.broker);
-      const acct = accounts[bkey];
-      card.appendChild(row("내 계좌", acct ? acct : "미입력 (맨 아래 설정에서 입력)",
-                           "acct" + (acct ? "" : " empty")));
-
-      // 1) 계좌번호 복사
-      const copyBtn = el("button", "", "📋 계좌번호 복사");
-      copyBtn.addEventListener("click", async function () {
-        if (!acct) {
-          alert("먼저 맨 아래 '내 증권사 계좌번호 설정'에서\n" + it.broker + " 계좌번호를 입력해 주세요.");
-          document.getElementById("settings").open = true;
-          return;
+      // 증권사: 1곳이면 그냥 표시, 여러 곳이면 체크 선택
+      const all = brokersOf(it);
+      const chosen = selectedOf(it, sel);
+      if (all.length === 1) {
+        card.appendChild(row("주관 증권사", all[0]));
+      } else {
+        const box = el("div", "selbox");
+        box.appendChild(el("div", "sellabel", "청약한 증권사를 눌러서 선택하세요 (여러 곳 가능)"));
+        all.forEach(function (b) {
+          const on = chosen.indexOf(b) >= 0;
+          const chip = el("button", "chip" + (on ? " on" : ""),
+                          (on ? "✔ " : "") + b + (b === it.broker ? " (대표)" : ""));
+          chip.addEventListener("click", function () {
+            const cur = loadSel();
+            const arr = (cur[itemKey(it)] || []).slice();
+            const i = arr.indexOf(b);
+            if (i >= 0) arr.splice(i, 1); else arr.push(b);
+            cur[itemKey(it)] = arr;
+            saveSel(cur);
+            renderAll();
+          });
+          box.appendChild(chip);
+        });
+        if (chosen.length === 0) {
+          box.appendChild(el("div", "needsel", "증권사를 선택하면 내 계좌번호와 앱 버튼이 나타납니다."));
         }
-        const ok = await copyText(acct);
-        copyBtn.textContent = ok ? "✅ 복사됨!" : "복사 실패 - 직접 길게 눌러 복사하세요";
-        copyBtn.className = ok ? "done" : "";
-        setTimeout(function () {
-          copyBtn.textContent = "📋 계좌번호 복사"; copyBtn.className = "";
-        }, 1800);
-      });
-      card.appendChild(copyBtn);
+        card.appendChild(box);
+      }
 
-      // 2) 은행/토스 앱 열기 (입금용)
+      // 선택된 증권사별 계좌 표시 + 복사 버튼
+      chosen.forEach(function (b) {
+        const acct = accounts[norm(b)];
+        card.appendChild(row("내 계좌 · " + b, acct ? acct : "미입력 (맨 아래 설정에서 입력)",
+                             "acct" + (acct ? "" : " empty")));
+        const label = chosen.length > 1 ? "📋 " + b + " 계좌번호 복사" : "📋 계좌번호 복사";
+        const copyBtn = el("button", "", label);
+        copyBtn.addEventListener("click", async function () {
+          if (!acct) {
+            alert("먼저 맨 아래 '내 증권사 계좌번호 설정'에서\n" + b + " 계좌번호를 입력해 주세요.");
+            document.getElementById("settings").open = true;
+            return;
+          }
+          const ok = await copyText(acct);
+          copyBtn.textContent = ok ? "✅ 복사됨!" : "복사 실패 - 직접 길게 눌러 복사하세요";
+          copyBtn.className = ok ? "done" : "";
+          setTimeout(function () { copyBtn.textContent = label; copyBtn.className = ""; }, 1800);
+        });
+        card.appendChild(copyBtn);
+      });
+
+      // 은행/토스 앱 열기 (입금용)
       const bankRow = el("div", "btn-row");
-      BANK_APPS.forEach(function (b) {
-        const bb = el("button", "soft", "📲 " + b.name + " 열기");
-        bb.addEventListener("click", function () { openApp(b, b.name); });
+      BANK_APPS.forEach(function (bk) {
+        const bb = el("button", "soft", "📲 " + bk.name + " 열기");
+        bb.addEventListener("click", function () { openApp(bk, bk.name); });
         bankRow.appendChild(bb);
       });
       card.appendChild(bankRow);
 
-      // 3) 증권사 앱 열기 (청약용)
-      const mts = BROKER_APPS[bkey] || {};
-      const mtsBtn = el("button", "soft", "📲 " + it.broker + " 앱 열기");
-      mtsBtn.addEventListener("click", function () { openApp(mts, it.broker); });
-      card.appendChild(mtsBtn);
-      card.appendChild(el("div", "hint2", "바로 안 열리면 스토어 화면의 '열기'를 눌러 주세요"));
+      // 선택된 증권사 앱 열기 (청약용)
+      chosen.forEach(function (b) {
+        const mts = BROKER_APPS[norm(b)] || {};
+        const mtsBtn = el("button", "soft", "📲 " + b + " 앱 열기");
+        mtsBtn.addEventListener("click", function () { openApp(mts, b); });
+        card.appendChild(mtsBtn);
+      });
+      if (chosen.length) {
+        card.appendChild(el("div", "hint2", "바로 안 열리면 스토어 화면의 '열기'를 눌러 주세요"));
+      }
 
       list.appendChild(card);
     });
@@ -319,8 +454,10 @@
     // 이번 청약 종목의 증권사 + 기본 목록(중복 제거)
     const now = [], seen = {};
     ITEMS.forEach(function (i) {
-      const k = norm(i.broker);
-      if (!seen[k]) { seen[k] = true; now.push(i.broker); }
+      brokersOf(i).forEach(function (bn) {
+        const k = norm(bn);
+        if (!seen[k]) { seen[k] = true; now.push(bn); }
+      });
     });
     const rest = BROKERS.filter(function (b) {
       const k = norm(b);
@@ -342,7 +479,7 @@
           const v = inp.value.trim();
           if (v) a[norm(b)] = v; else delete a[norm(b)];
           saveAccounts(a);
-          renderCards();
+          renderAll();
         });
         lab.appendChild(inp);
         box.appendChild(lab);
@@ -350,6 +487,11 @@
     }
     addGroup("🔔 이번 청약 종목의 증권사", now);
     addGroup("그 외 증권사", rest);
+  }
+
+  // ---------- 앱 설치용 서비스 워커 ----------
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js").catch(function () {});
   }
 
   // ---------- 시작 ----------
@@ -362,7 +504,13 @@
       ITEMS = data.items || [];
       document.getElementById("updated").textContent =
         "마지막 업데이트: " + data.updated;
-      renderCards();
+      const stale = -daysFromToday(data.updated);
+      if (stale >= 3) {
+        const w = document.getElementById("warn");
+        w.textContent = "⚠️ 공모주 정보가 " + stale + "일째 갱신되지 않았습니다. 새 종목이 안 보일 수 있으니 관리자에게 알려주세요.";
+        w.style.display = "block";
+      }
+      renderAll();
       renderInputs();
     })
     .catch(function (e) {
