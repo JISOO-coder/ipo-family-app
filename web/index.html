@@ -104,6 +104,11 @@
   button.chip.on { background: var(--soft); color: var(--soft-text); border-color: var(--accent); }
   .needsel { color: var(--star); font-size: 13px; font-weight: 600; margin-top: 8px; }
   .row .v.mine { color: var(--ok); }
+  .pill.done { background: var(--soft); color: var(--ok); }
+  button.soft.on { background: var(--ok); color: #fff; }
+  .card.skiprow { display: flex; justify-content: space-between; align-items: center; gap: 10px;
+                  padding: 12px 16px; opacity: 0.7; }
+  .card.skiprow button.link { margin: 0; }
   button.link { width: auto; display: block; margin: 0 0 4px auto; padding: 4px 0; background: none;
                 color: var(--sub); font-size: 14px; font-weight: 400; text-decoration: underline; }
   .empty-msg { text-align: center; color: var(--sub); padding: 40px 0; line-height: 1.6; }
@@ -116,6 +121,15 @@
   <div class="warn" id="warn" style="display:none"></div>
   <div id="summary"></div>
   <div id="list"></div>
+
+  <details id="pushbox">
+    <summary id="pushsum">🔔 이 폰에서 알림 받기</summary>
+    <p class="hint">
+      청약 시작·마감일과 상장일 아침에 이 폰으로 알림을 보내 드려요.
+      '청약했어요/이번엔 패스'를 눌러 두면 그에 맞춰 알림이 줄어들어요.
+    </p>
+    <div id="push"></div>
+  </details>
 
   <details id="settings">
     <summary>⚙️ 내 증권사 계좌번호 설정</summary>
@@ -288,14 +302,35 @@
   }
   function saveSel(o) {
     try { localStorage.setItem(SEL_KEY, JSON.stringify(o)); } catch (e) {}
-    // 알림(서비스 워커)이 읽을 수 있도록 같은 내용을 IndexedDB에도 복사
+    putKV("selections", o);
+  }
+  // 알림(서비스 워커)이 읽을 수 있도록 같은 내용을 IndexedDB에도 복사
+  function putKV(key, value) {
     try {
       const rq = indexedDB.open("ipo-family", 1);
       rq.onupgradeneeded = function () { rq.result.createObjectStore("kv"); };
       rq.onsuccess = function () {
-        try { rq.result.transaction("kv", "readwrite").objectStore("kv").put(o, "selections"); } catch (e) {}
+        try { rq.result.transaction("kv", "readwrite").objectStore("kv").put(value, key); } catch (e) {}
       };
     } catch (e) {}
+  }
+
+  // ---------- 청약했어요 / 이번엔 패스 (종목별, 이 기기 안에만 저장) ----------
+  // joined = 청약함 (마감 알림 생략), skip = 패스 (그 종목 알림·카드 숨김)
+  const STATUS_KEY = "ipo_status_v1";
+  function loadStatus() {
+    try { return JSON.parse(localStorage.getItem(STATUS_KEY) || "{}"); } catch (e) { return {}; }
+  }
+  function setStatus(it, v) {
+    const s = loadStatus();
+    if (v) s[itemKey(it)] = v; else delete s[itemKey(it)];
+    try { localStorage.setItem(STATUS_KEY, JSON.stringify(s)); } catch (e) {}
+    putKV("status", s);
+    renderAll();
+  }
+  function activeItems() {
+    const s = loadStatus();
+    return ITEMS.filter(function (it) { return s[itemKey(it)] !== "skip"; });
   }
   function itemKey(it) { return it.name + "|" + it.sub_start; }
   function brokersOf(it) {
@@ -339,7 +374,8 @@
     box.textContent = "";
     if (ITEMS.length === 0) return;
     const sel = loadSel();
-    const c = todayCounts(ITEMS);
+    const active = activeItems();          // 패스한 종목은 요약에서 뺌
+    const c = todayCounts(active);
     const grid = el("div", "sum-grid");
     [["오늘 청약", c.subs, function (it) {
         return nameWithBroker(it, sel) + (daysFromToday(it.sub_end) === 0 ? " (오늘 마감!)" : "");
@@ -359,7 +395,7 @@
 
     // 오늘 할 일이 없으면 가장 가까운 다음 일정 하나를 안내
     if (c.subs.length === 0 && c.lists.length === 0) {
-      const n = nextEvent(ITEMS);
+      const n = nextEvent(active);
       if (n) {
         const nx = el("div", "next");
         nx.appendChild(document.createTextNode("📅 다음 일정: "));
@@ -524,6 +560,37 @@
     if (chosen.length && mode === "sub") {
       card.appendChild(el("div", "hint2", "바로 안 열리면 스토어 화면의 '열기'를 눌러 주세요"));
     }
+
+    // 청약했어요 / 패스: 누른 내용에 맞춰 알림이 줄어듦
+    const st = loadStatus()[itemKey(it)];
+    if (mode === "sub") {
+      const r2 = el("div", "btn-row");
+      const done = el("button", "soft" + (st === "joined" ? " on" : ""),
+                      st === "joined" ? "✅ 청약 완료 (취소)" : "✅ 청약했어요");
+      done.addEventListener("click", function () { setStatus(it, st === "joined" ? null : "joined"); });
+      const skip = el("button", "soft", "🙅 이번엔 패스");
+      skip.addEventListener("click", function () { setStatus(it, "skip"); });
+      r2.appendChild(done);
+      r2.appendChild(skip);
+      card.appendChild(r2);
+    } else if (st !== "joined") {
+      const no = el("button", "link", "청약 안 했어요 · 이 종목 알림 끄기");
+      no.addEventListener("click", function () { setStatus(it, "skip"); });
+      card.appendChild(no);
+    }
+  }
+
+  // 패스한 종목: 맨 아래에 한 줄로, 되돌리기 가능
+  function skipRow(it) {
+    const r = el("div", "card skiprow");
+    const t = el("div", "");
+    t.appendChild(el("div", "mini-name", it.name));
+    t.appendChild(el("div", "mini-sub", "청약 " + fmt(it.sub_start) + " · 상장 " + fmt(it.listing_date)));
+    r.appendChild(t);
+    const back = el("button", "link", "되돌리기");
+    back.addEventListener("click", function () { setStatus(it, null); });
+    r.appendChild(back);
+    return r;
   }
 
   // 크게 보이는 카드 (오늘 할 일, 상장 기다리는 중)
@@ -532,6 +599,7 @@
     const p = pillOf(it);
     const pills = el("div", "pills");
     pills.appendChild(el("span", "pill " + p[1], p[0]));
+    if (loadStatus()[itemKey(it)] === "joined") pills.appendChild(el("span", "pill done", "✅ 청약함"));
     if (it.check) pills.appendChild(el("span", "pill wait", "⚠️ 확인 필요"));
     card.appendChild(pills);
     card.appendChild(el("div", "name", it.name));
@@ -557,6 +625,7 @@
       fmt(it.sub_start) + " 청약 · " + it.margin.toLocaleString() + "원 · " + who));
     const right = el("div", "mini-right");
     if (it.check) right.appendChild(el("span", "pill wait", "⚠️"));
+    if (loadStatus()[itemKey(it)] === "joined") right.appendChild(el("span", "pill done", "✅"));
     right.appendChild(el("span", "pill soon", "D-" + daysFromToday(it.sub_start)));
     right.appendChild(el("span", "chev", "▼"));
     s.appendChild(left);
@@ -580,8 +649,11 @@
     }
     const accounts = loadAccounts();
     const sel = loadSel();
-    const g = { today: [], soon: [], wait: [] };
-    ITEMS.forEach(function (it) { g[stageOf(it)].push(it); });
+    const status = loadStatus();
+    const g = { today: [], soon: [], wait: [] }, skipped = [];
+    ITEMS.forEach(function (it) {
+      if (status[itemKey(it)] === "skip") skipped.push(it); else g[stageOf(it)].push(it);
+    });
     g.today.sort(function (x, y) { return (todayRank(x) - todayRank(y)) || byDate("sub_end")(x, y); });
     g.soon.sort(byDate("sub_start"));
     g.wait.sort(byDate("listing_date"));
@@ -600,6 +672,10 @@
     if (g.wait.length) {
       list.appendChild(el("div", "sec-title", "⏳ 상장 기다리는 중 (" + g.wait.length + ")"));
       g.wait.forEach(function (it) { list.appendChild(bigCard(it, accounts, sel, "app", false)); });
+    }
+    if (skipped.length) {
+      list.appendChild(el("div", "sec-title", "🙅 패스한 종목 (" + skipped.length + ")"));
+      skipped.forEach(function (it) { list.appendChild(skipRow(it)); });
     }
   }
 
@@ -646,10 +722,78 @@
     addGroup("그 외 증권사", rest);
   }
 
-  // ---------- 앱 설치용 서비스 워커 ----------
+  // ---------- 앱 설치·알림용 서비스 워커 ----------
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("sw.js").catch(function () {});
   }
+  // 예전 버전에서 저장한 선택도 알림이 읽을 수 있게 한 번 복사
+  putKV("selections", loadSel());
+  putKV("status", loadStatus());
+
+  // ---------- 푸시 알림 켜기 ----------
+  // 공개 키(VAPID). 짝이 되는 비밀 키는 GitHub 저장소의 Secret(VAPID_PRIVATE_KEY)에만 있음
+  const VAPID_PUBLIC = "BG5af9yf8r8eaqIShNDGF4FHZRIzFdQeIuLYo4iK-fmH6m3k60Tjqp4LRdaNwGIFbAKoowmpaJqfnTvaz0Zdn9U";
+  function b64ToBytes(s) {
+    s = s.replace(/-/g, "+").replace(/_/g, "/");
+    while (s.length % 4) s += "=";
+    const raw = atob(s), out = new Uint8Array(raw.length);
+    for (let i = 0; i < raw.length; i++) out[i] = raw.charCodeAt(i);
+    return out;
+  }
+  // 이 폰의 알림 주소를 카톡으로 보내기 쉬운 한 줄 코드로
+  function subCode(sub) {
+    return btoa(unescape(encodeURIComponent(JSON.stringify(sub))))
+      .replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  }
+  function renderPush() {
+    const box = document.getElementById("push"), sum = document.getElementById("pushsum");
+    box.textContent = "";
+    const standalone = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone;
+    if (IS_IOS && !standalone) {
+      box.appendChild(el("p", "hint", "아이폰은 사파리에서 공유 버튼 → '홈 화면에 추가'를 한 뒤, " +
+                                      "홈 화면에 생긴 앱으로 열어야 알림을 켤 수 있어요."));
+      return;
+    }
+    if (!("serviceWorker" in navigator) || !("PushManager" in window) || !("Notification" in window)) {
+      box.appendChild(el("p", "hint", "이 브라우저는 알림을 지원하지 않아요. 안드로이드는 크롬으로 열어 주세요."));
+      return;
+    }
+    navigator.serviceWorker.ready
+      .then(function (reg) { return reg.pushManager.getSubscription(); })
+      .then(function (sub) {
+        if (!sub) {
+          sum.textContent = "🔔 이 폰에서 알림 받기 (꺼짐)";
+          const on = el("button", "", "🔔 알림 켜기");
+          on.addEventListener("click", function () {
+            Notification.requestPermission().then(function (p) {
+              if (p !== "granted") {
+                alert("알림이 허용되지 않았어요. 폰 설정에서 이 앱(또는 크롬)의 알림을 허용해 주세요.");
+                return;
+              }
+              return navigator.serviceWorker.ready.then(function (reg) {
+                return reg.pushManager.subscribe({ userVisibleOnly: true,
+                                                   applicationServerKey: b64ToBytes(VAPID_PUBLIC) });
+              }).then(renderPush);
+            }).catch(function (e) { alert("알림을 켜지 못했어요: " + e.message); });
+          });
+          box.appendChild(on);
+          return;
+        }
+        sum.textContent = "🔔 이 폰에서 알림 받기 (켜짐)";
+        const code = subCode(sub.toJSON());
+        box.appendChild(el("p", "hint", "✅ 이 폰은 알림이 켜졌어요. 처음 한 번만 아래 '알림 코드'를 " +
+                                        "지수에게 카톡으로 보내 주세요. 등록하면 그때부터 알림이 와요."));
+        const cp = el("button", "", "📋 알림 코드 복사");
+        cp.addEventListener("click", async function () {
+          const ok = await copyText(code);
+          cp.textContent = ok ? "✅ 복사됨! 카톡에 붙여 넣어 보내 주세요" : "복사 실패 - 다시 눌러 주세요";
+          setTimeout(function () { cp.textContent = "📋 알림 코드 복사"; }, 2500);
+        });
+        box.appendChild(cp);
+      })
+      .catch(function () {});
+  }
+  renderPush();
 
   // ---------- 시작 ----------
   fetch("../data/ipos.json", { cache: "no-store" })
