@@ -3,12 +3,7 @@ on:
   schedule:
     - cron: "30 22 * * *"   # 매일 한국시간 07:30
     - cron: "0 12 * * *"    # 매일 한국시간 21:00
-  workflow_dispatch:         # 수동 실행 버튼
-    inputs:
-      push_test:
-        description: "테스트 알림 보내기"
-        type: boolean
-        default: false
+  workflow_dispatch:         # 수동 실행 버튼 (알림 테스트는 push 실행에서)
 permissions:
   contents: write
 concurrency:
@@ -29,20 +24,6 @@ jobs:
       - name: 상장 결과 기록 (실패해도 앱 갱신은 계속)
         run: python collector/history.py
         continue-on-error: true
-      - name: 앱 푸시 알림 (실패해도 앱 갱신은 계속)
-        run: |
-          pip install -q pywebpush
-          python collector/push.py
-        continue-on-error: true
-        env:
-          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
-          PUSH_TEST: ${{ inputs.push_test }}
-          # 폰마다 Secret 하나 (등록 안 한 칸은 비어 있어도 괜찮음). 폰이 더 생기면 줄을 복사해 이름만 바꾸기
-          PUSH_SUB_JISOO: ${{ secrets.PUSH_SUB_JISOO }}
-          PUSH_SUB_KIM: ${{ secrets.PUSH_SUB_KIM }}
-          PUSH_SUB_SEO: ${{ secrets.PUSH_SUB_SEO }}
-          PUSH_SUB_CHOI: ${{ secrets.PUSH_SUB_CHOI }}
-          PUSH_SUB_PARK: ${{ secrets.PUSH_SUB_PARK }}
       - name: 변경사항 저장
         run: |
           git config user.name "ipo-bot"
