@@ -2,18 +2,18 @@
   "updated": "2026-10-13",
   "items": [
     {
-      "name": "샘플알짜",
-      "broker": "미래에셋증권",
-      "sub_start": "2026-10-20",
-      "sub_end": "2026-10-21",
-      "listing_date": "2026-10-29",
-      "final_price": 12000,
+      "name": "멜콘(구.에스앤에프솔루션)",
+      "broker": "대신증권",
+      "sub_start": "2026-10-01",
+      "sub_end": "2026-10-02",
+      "listing_date": "2026-10-15",
+      "final_price": 12300,
       "min_shares": 10,
-      "margin": 60000,
-      "inst_competition": 1100,
-      "lockup_ratio": 16,
+      "margin": 61500,
+      "inst_competition": 1136.84,
+      "lockup_ratio": 36.07,
       "grade": 4,
-      "reason": "기본: 알짜 중소형주",
+      "reason": "예외1: 초대형 대어주",
       "tag": "★ 추천 공모주"
     }
   ]

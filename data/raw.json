@@ -1,14 +1,464 @@
 [
-  {"name": "샘플알짜", "broker": "미래에셋증권", "band_low": 10000, "band_high": 12000,
-   "final_price": 12000, "min_shares": 10, "sub_start": "2026-10-20", "sub_end": "2026-10-21",
-   "listing_date": "2026-10-29", "inst_competition": 1100, "lockup_ratio": 16,
-   "float_amount": 350, "existing_holder_ratio": 10},
-  {"name": "샘플미달", "broker": "KB증권", "band_low": 10000, "band_high": 12000,
-   "final_price": 12000, "sub_start": "2026-10-20", "sub_end": "2026-10-21",
-   "listing_date": "2026-10-29", "inst_competition": 300, "lockup_ratio": 5,
-   "float_amount": 500, "existing_holder_ratio": 10},
-  {"name": "샘플수요예측전", "broker": "NH투자증권", "band_low": 10000, "band_high": 12000,
-   "final_price": null, "sub_start": "2026-11-05", "sub_end": "2026-11-06",
-   "listing_date": "2026-11-14", "inst_competition": null, "lockup_ratio": null,
-   "float_amount": null, "existing_holder_ratio": null}
+  {
+    "name": "멜콘(구.에스앤에프솔루션)",
+    "sub_start": "2026-10-01",
+    "sub_end": "2026-10-02",
+    "listing_date": "2026-10-15",
+    "band_low": 10700,
+    "band_high": 12300,
+    "final_price": 12300,
+    "inst_competition": 1136.84,
+    "lockup_ratio": 36.07,
+    "float_amount": 534.6,
+    "existing_holder_ratio": 42.48,
+    "broker": "대신증권",
+    "brokers": [
+      "대신증권"
+    ]
+  },
+  {
+    "name": "진코스텍",
+    "sub_start": "2026-10-02",
+    "sub_end": "2026-10-06",
+    "listing_date": "2026-10-15",
+    "band_low": 19500,
+    "band_high": 23500,
+    "final_price": 23500,
+    "inst_competition": 1097.62,
+    "lockup_ratio": 5.29,
+    "float_amount": 520.0,
+    "existing_holder_ratio": 61.5,
+    "broker": "하나증권",
+    "brokers": [
+      "하나증권"
+    ]
+  },
+  {
+    "name": "엘리스그룹",
+    "sub_start": "2026-10-07",
+    "sub_end": "2026-10-08",
+    "listing_date": "2026-10-20",
+    "band_low": 70400,
+    "band_high": 90500,
+    "final_price": 90500,
+    "inst_competition": 388.84,
+    "lockup_ratio": 13.7,
+    "float_amount": 2092.3,
+    "existing_holder_ratio": 3.89,
+    "broker": "미래에셋증권",
+    "brokers": [
+      "미래에셋증권",
+      "삼성증권"
+    ]
+  },
+  {
+    "name": "엠에스바이오",
+    "sub_start": "2026-10-12",
+    "sub_end": "2026-10-13",
+    "listing_date": "2026-10-22",
+    "band_low": 6800,
+    "band_high": 7800,
+    "final_price": 7800,
+    "inst_competition": 1096.56,
+    "lockup_ratio": 30.62,
+    "float_amount": 495.1,
+    "existing_holder_ratio": 36.98,
+    "broker": "KB증권",
+    "brokers": [
+      "KB증권"
+    ]
+  },
+  {
+    "name": "디티에스(구.동양티에스)",
+    "sub_start": "2026-10-13",
+    "sub_end": "2026-10-14",
+    "listing_date": "2026-10-23",
+    "band_low": 17000,
+    "band_high": 18500,
+    "final_price": 18500,
+    "inst_competition": 983.98,
+    "lockup_ratio": 13.31,
+    "float_amount": 416.4,
+    "existing_holder_ratio": 0.97,
+    "broker": "대신증권",
+    "brokers": [
+      "대신증권",
+      "유진증권"
+    ]
+  },
+  {
+    "name": "SK증권스팩14호",
+    "sub_start": "2026-10-15",
+    "sub_end": "2026-10-16",
+    "listing_date": null,
+    "band_low": 2000,
+    "band_high": 2000,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "SK증권",
+    "brokers": [
+      "SK증권"
+    ]
+  },
+  {
+    "name": "한화플러스스팩6호",
+    "sub_start": "2026-10-20",
+    "sub_end": "2026-10-21",
+    "listing_date": null,
+    "band_low": 2000,
+    "band_high": 2000,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "한화투자증권",
+    "brokers": [
+      "한화투자증권"
+    ]
+  },
+  {
+    "name": "크리에이츠",
+    "sub_start": "2026-10-20",
+    "sub_end": "2026-10-21",
+    "listing_date": null,
+    "band_low": 15000,
+    "band_high": 18000,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "삼성증권",
+    "brokers": [
+      "삼성증권"
+    ]
+  },
+  {
+    "name": "티앤이코리아",
+    "sub_start": "2026-10-20",
+    "sub_end": "2026-10-21",
+    "listing_date": null,
+    "band_low": 12600,
+    "band_high": 15300,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "신한투자증권",
+    "brokers": [
+      "신한투자증권"
+    ]
+  },
+  {
+    "name": "인텔리빅스",
+    "sub_start": "2026-10-21",
+    "sub_end": "2026-10-22",
+    "listing_date": null,
+    "band_low": 7600,
+    "band_high": 9000,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "미래에셋증권",
+    "brokers": [
+      "미래에셋증권"
+    ]
+  },
+  {
+    "name": "래블업",
+    "sub_start": "2026-10-22",
+    "sub_end": "2026-10-23",
+    "listing_date": null,
+    "band_low": 19000,
+    "band_high": 22000,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "NH투자증권",
+    "brokers": [
+      "NH투자증권"
+    ]
+  },
+  {
+    "name": "영광(구.영광공작소)",
+    "sub_start": "2026-10-22",
+    "sub_end": "2026-10-23",
+    "listing_date": null,
+    "band_low": 14000,
+    "band_high": 17000,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "한국투자증권",
+    "brokers": [
+      "한국투자증권"
+    ]
+  },
+  {
+    "name": "이에스티",
+    "sub_start": "2026-10-22",
+    "sub_end": "2026-10-23",
+    "listing_date": null,
+    "band_low": 10600,
+    "band_high": 12400,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "대신증권",
+    "brokers": [
+      "대신증권"
+    ]
+  },
+  {
+    "name": "아이엠스팩1호",
+    "sub_start": "2026-10-26",
+    "sub_end": "2026-10-27",
+    "listing_date": null,
+    "band_low": 2000,
+    "band_high": 2000,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "아이엠증권",
+    "brokers": [
+      "아이엠증권"
+    ]
+  },
+  {
+    "name": "엠비디",
+    "sub_start": "2026-10-28",
+    "sub_end": "2026-10-29",
+    "listing_date": null,
+    "band_low": 9600,
+    "band_high": 11700,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "하나증권",
+    "brokers": [
+      "하나증권"
+    ]
+  },
+  {
+    "name": "동원파츠",
+    "sub_start": "2026-11-02",
+    "sub_end": "2026-11-03",
+    "listing_date": null,
+    "band_low": 23000,
+    "band_high": 26500,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "삼성증권",
+    "brokers": [
+      "삼성증권"
+    ]
+  },
+  {
+    "name": "바로팜",
+    "sub_start": "2026-11-02",
+    "sub_end": "2026-11-03",
+    "listing_date": null,
+    "band_low": 16400,
+    "band_high": 20200,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "미래에셋증권",
+    "brokers": [
+      "미래에셋증권"
+    ]
+  },
+  {
+    "name": "넥스아이",
+    "sub_start": "2026-11-03",
+    "sub_end": "2026-11-04",
+    "listing_date": null,
+    "band_low": 10500,
+    "band_high": 13000,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "한국투자증권",
+    "brokers": [
+      "한국투자증권"
+    ]
+  },
+  {
+    "name": "영광와이케이엠씨",
+    "sub_start": "2026-11-04",
+    "sub_end": "2026-11-05",
+    "listing_date": null,
+    "band_low": 9400,
+    "band_high": 11000,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "대신증권",
+    "brokers": [
+      "대신증권"
+    ]
+  },
+  {
+    "name": "제논",
+    "sub_start": "2026-11-04",
+    "sub_end": "2026-11-05",
+    "listing_date": null,
+    "band_low": 9700,
+    "band_high": 12200,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "삼성증권",
+    "brokers": [
+      "삼성증권"
+    ]
+  },
+  {
+    "name": "옵토닉스",
+    "sub_start": "2026-11-05",
+    "sub_end": "2026-11-06",
+    "listing_date": null,
+    "band_low": 10000,
+    "band_high": 12000,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "한국투자증권",
+    "brokers": [
+      "한국투자증권"
+    ]
+  },
+  {
+    "name": "에이엘로봇",
+    "sub_start": "2026-11-06",
+    "sub_end": "2026-11-09",
+    "listing_date": null,
+    "band_low": 15700,
+    "band_high": 17600,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "대신증권",
+    "brokers": [
+      "대신증권"
+    ]
+  },
+  {
+    "name": "다비오",
+    "sub_start": "2026-11-10",
+    "sub_end": "2026-11-11",
+    "listing_date": null,
+    "band_low": 12300,
+    "band_high": 16600,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": 551.6,
+    "existing_holder_ratio": 69.9,
+    "broker": "대신증권",
+    "brokers": [
+      "대신증권"
+    ]
+  },
+  {
+    "name": "하나에어로다이내믹스",
+    "sub_start": "2026-11-10",
+    "sub_end": "2026-11-11",
+    "listing_date": null,
+    "band_low": 4700,
+    "band_high": 5700,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "IBK투자증권",
+    "brokers": [
+      "IBK투자증권"
+    ]
+  },
+  {
+    "name": "엔키화이트햇",
+    "sub_start": "2026-11-12",
+    "sub_end": "2026-11-13",
+    "listing_date": null,
+    "band_low": 13000,
+    "band_high": 16500,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "신영증권",
+    "brokers": [
+      "신영증권"
+    ]
+  },
+  {
+    "name": "아델",
+    "sub_start": "2026-11-23",
+    "sub_end": "2026-11-24",
+    "listing_date": null,
+    "band_low": 18000,
+    "band_high": 25000,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "삼성증권",
+    "brokers": [
+      "삼성증권",
+      "미래에셋증권"
+    ]
+  },
+  {
+    "name": "케이엠에프",
+    "sub_start": "2026-11-24",
+    "sub_end": "2026-11-25",
+    "listing_date": null,
+    "band_low": 15000,
+    "band_high": 17800,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "IBK투자증권",
+    "brokers": [
+      "IBK투자증권"
+    ]
+  }
 ]
