@@ -95,13 +95,14 @@
   //  비어 있는 항목은 "스토어에서 앱 검색" 화면으로 연결됩니다.
   // =====================================================================
   const BANK_APPS = [
-    { name: "토스",       android: "viva.republica.toss",  iosId: "839333328",  iosScheme: "supertoss://" },
-    { name: "카카오뱅크", android: "com.kakaobank.channel", iosId: "1258016944", iosScheme: "" }
+    { name: "토스",       android: "viva.republica.toss",   androidScheme: "",           iosId: "839333328",  iosScheme: "supertoss://" },
+    { name: "카카오뱅크", android: "com.kakaobank.channel", androidScheme: "kakaobank",  iosId: "1258016944", iosScheme: "kakaobank://" }
   ];
   const BROKER_APPS = {
     // 키는 증권사 이름에서 "증권/투자증권/금융투자"를 뺀 이름
-    "미래에셋": { android: "", iosId: "1248716281", iosScheme: "" }
-    // 예) "키움": { android: "패키지명", iosId: "숫자", iosScheme: "" },
+    // 미래에셋: 2026.10 M-STOCK → MAPS 로 이름이 바뀌었고, 같은 앱이 업데이트된 것
+    "미래에셋": { android: "com.miraeasset.trade", androidScheme: "", iosId: "1248716281", iosScheme: "" }
+    // 예) "키움": { android: "패키지명", androidScheme: "", iosId: "숫자", iosScheme: "" },
   };
   const BROKERS = [
     "미래에셋증권", "KB증권", "NH투자증권", "한국투자증권", "삼성증권", "신한투자증권",
@@ -205,7 +206,12 @@
   // 앱이 있으면 앱을 열고, 없으면 스토어로 보냅니다.
   function openApp(app, label) {
     if (IS_ANDROID) {
-      if (app.android) {
+      if (app.android && app.androidScheme) {
+        // 앱 전용 주소로 열기 (예: kakaobank://)
+        location.href = "intent://#Intent;scheme=" + app.androidScheme + ";package=" + app.android + ";" +
+          "S.browser_fallback_url=" + encodeURIComponent(playStoreUrl(app, label)) + ";end";
+      } else if (app.android) {
+        // 전용 주소를 모르면 앱 실행 아이콘 방식으로 시도
         location.href = "intent:#Intent;action=android.intent.action.MAIN;" +
           "category=android.intent.category.LAUNCHER;package=" + app.android + ";" +
           "S.browser_fallback_url=" + encodeURIComponent(playStoreUrl(app, label)) + ";end";
