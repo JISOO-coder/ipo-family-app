@@ -1,0 +1,43 @@
+name: push
+on:
+  schedule:
+    - cron: "28 23 * * *"   # 한국시간 08:28 → 상장 알림 (GitHub 지연 감안, 보통 8시 반~50분 도착)
+    - cron: "3 1 * * *"     # 한국시간 10:03 → 청약 알림 (늦어져도 늘 10시 이후)
+  workflow_dispatch:         # 수동 실행 버튼
+    inputs:
+      kind:
+        description: "보낼 알림"
+        type: choice
+        options: [test, listing, subscription]
+        default: test
+permissions:
+  contents: write
+concurrency:
+  group: collect
+  cancel-in-progress: false
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q pywebpush
+      - name: 앱 푸시 알림
+        run: python collector/push.py
+        env:
+          PUSH_KIND: ${{ inputs.kind || (github.event.schedule == '28 23 * * *' && 'listing') || 'subscription' }}
+          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+          # 폰마다 Secret 하나 (등록 안 한 칸은 비어 있어도 괜찮음). 폰이 더 생기면 줄을 복사해 이름만 바꾸기
+          PUSH_SUB_JISOO: ${{ secrets.PUSH_SUB_JISOO }}
+          PUSH_SUB_KIM: ${{ secrets.PUSH_SUB_KIM }}
+          PUSH_SUB_SEO: ${{ secrets.PUSH_SUB_SEO }}
+          PUSH_SUB_CHOI: ${{ secrets.PUSH_SUB_CHOI }}
+          PUSH_SUB_PARK: ${{ secrets.PUSH_SUB_PARK }}
+      - name: 보낸 기록 저장 (같은 날 두 번 안 보내게)
+        run: |
+          git config user.name "ipo-bot"
+          git config user.email "ipo-bot@users.noreply.github.com"
+          git add data/push_log.json 2>/dev/null || true
+          git diff --cached --quiet || (git commit -m "push log" && git push)
