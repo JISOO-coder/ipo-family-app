@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parent.parent
 IPOS = ROOT / "data" / "ipos.json"
 LOG = ROOT / "data" / "push_log.json"      # 같은 날 두 번 보내지 않도록 마지막으로 보낸 날짜 기록
 KST = dt.timezone(dt.timedelta(hours=9))
-VAPID_SUB = "https://jisoo-coder.github.io/ipo-family-app/"
+VAPID_SUB = "https://jisoo-coder.github.io"   # 알림 보내는 쪽 연락처 (경로 없이 주소만 허용됨)
 MORNING_UNTIL = 12                         # 이 시각(한국시간) 전 실행에서만 하루 알림을 보냄
 
 

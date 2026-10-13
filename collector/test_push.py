@@ -3,7 +3,9 @@ import base64
 import datetime as dt
 import json
 
-from push import events_for, subscriptions
+import re
+
+from push import VAPID_SUB, events_for, subscriptions
 
 ITEMS = [
     {"name": "가나", "broker": "KB증권", "brokers": ["KB증권", "NH투자증권"],
@@ -21,6 +23,10 @@ def test_events_for_day():
                                                      ("미정", "sub_start")]
     assert ev[0]["key"] == "가나|2026-10-20" and ev[0]["brokers"] == ["KB증권", "NH투자증권"]
     assert ev[1]["brokers"] == ["대신증권"]                     # brokers 없으면 대표 1곳
+
+def test_vapid_sub_is_bare_https_origin():
+    # 발송 라이브러리(py_vapid)는 https 주소에 경로가 붙으면 거부함 (2026-10-14 실제로 겪음)
+    assert re.fullmatch(r"https://[\w-]+\.[\w.-]+", VAPID_SUB)
 
 def test_no_events():
     assert events_for(ITEMS, dt.date(2026, 10, 25)) == []
