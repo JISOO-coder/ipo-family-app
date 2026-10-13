@@ -21,7 +21,7 @@
     "passed": false,
     "grade": 0,
     "reason": "기준 미달",
-    "judged_at": "2026-10-13"
+    "judged_at": "2026-10-14"
   },
   {
     "no": "2324",
@@ -44,7 +44,7 @@
     "passed": true,
     "grade": 4,
     "reason": "예외3: 수요 강한 중대형주",
-    "judged_at": "2026-10-13"
+    "judged_at": "2026-10-14"
   },
   {
     "no": "2316",
@@ -68,7 +68,7 @@
     "passed": false,
     "grade": 0,
     "reason": "기준 미달",
-    "judged_at": "2026-10-13"
+    "judged_at": "2026-10-14"
   },
   {
     "no": "2315",
@@ -91,7 +91,7 @@
     "passed": true,
     "grade": 4,
     "reason": "예외1: 확약 35% 이상",
-    "judged_at": "2026-10-13"
+    "judged_at": "2026-10-14"
   },
   {
     "no": "2320",
@@ -114,7 +114,7 @@
     "passed": false,
     "grade": 0,
     "reason": "기존주주 물량 50% 이상",
-    "judged_at": "2026-10-13"
+    "judged_at": "2026-10-14"
   },
   {
     "no": "2307",

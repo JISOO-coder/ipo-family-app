@@ -1,6 +1,7 @@
 [
   {
     "name": "멜콘(구.에스앤에프솔루션)",
+    "market": "코스닥",
     "sub_start": "2026-10-01",
     "sub_end": "2026-10-02",
     "listing_date": "2026-10-15",
@@ -14,10 +15,12 @@
     "broker": "대신증권",
     "brokers": [
       "대신증권"
-    ]
+    ],
+    "no": "2315"
   },
   {
     "name": "진코스텍",
+    "market": "코스닥",
     "sub_start": "2026-10-02",
     "sub_end": "2026-10-06",
     "listing_date": "2026-10-15",
@@ -31,10 +34,12 @@
     "broker": "하나증권",
     "brokers": [
       "하나증권"
-    ]
+    ],
+    "no": "2320"
   },
   {
     "name": "엘리스그룹",
+    "market": "코스닥",
     "sub_start": "2026-10-07",
     "sub_end": "2026-10-08",
     "listing_date": "2026-10-20",
@@ -49,10 +54,12 @@
     "brokers": [
       "미래에셋증권",
       "삼성증권"
-    ]
+    ],
+    "no": "2316"
   },
   {
     "name": "엠에스바이오",
+    "market": "코스닥",
     "sub_start": "2026-10-12",
     "sub_end": "2026-10-13",
     "listing_date": "2026-10-22",
@@ -66,10 +73,12 @@
     "broker": "KB증권",
     "brokers": [
       "KB증권"
-    ]
+    ],
+    "no": "2324"
   },
   {
     "name": "디티에스(구.동양티에스)",
+    "market": "코스닥",
     "sub_start": "2026-10-13",
     "sub_end": "2026-10-14",
     "listing_date": "2026-10-23",
@@ -84,10 +93,12 @@
     "brokers": [
       "대신증권",
       "유진증권"
-    ]
+    ],
+    "no": "2326"
   },
   {
     "name": "SK증권스팩14호",
+    "market": "코스닥",
     "sub_start": "2026-10-15",
     "sub_end": "2026-10-16",
     "listing_date": "2026-10-27",
@@ -101,10 +112,12 @@
     "broker": "SK증권",
     "brokers": [
       "SK증권"
-    ]
+    ],
+    "no": "2319"
   },
   {
     "name": "한화플러스스팩6호",
+    "market": "코스닥",
     "sub_start": "2026-10-20",
     "sub_end": "2026-10-21",
     "listing_date": null,
@@ -118,10 +131,12 @@
     "broker": "한화투자증권",
     "brokers": [
       "한화투자증권"
-    ]
+    ],
+    "no": "2330"
   },
   {
     "name": "크리에이츠",
+    "market": "코스닥",
     "sub_start": "2026-10-20",
     "sub_end": "2026-10-21",
     "listing_date": null,
@@ -135,10 +150,12 @@
     "broker": "삼성증권",
     "brokers": [
       "삼성증권"
-    ]
+    ],
+    "no": "2323"
   },
   {
     "name": "티앤이코리아",
+    "market": "코스닥",
     "sub_start": "2026-10-20",
     "sub_end": "2026-10-21",
     "listing_date": null,
@@ -152,10 +169,12 @@
     "broker": "신한투자증권",
     "brokers": [
       "신한투자증권"
-    ]
+    ],
+    "no": "2322"
   },
   {
     "name": "인텔리빅스",
+    "market": "코스닥",
     "sub_start": "2026-10-21",
     "sub_end": "2026-10-22",
     "listing_date": null,
@@ -169,10 +188,12 @@
     "broker": "미래에셋증권",
     "brokers": [
       "미래에셋증권"
-    ]
+    ],
+    "no": "2328"
   },
   {
     "name": "래블업",
+    "market": "코스닥",
     "sub_start": "2026-10-22",
     "sub_end": "2026-10-23",
     "listing_date": null,
@@ -186,10 +207,12 @@
     "broker": "NH투자증권",
     "brokers": [
       "NH투자증권"
-    ]
+    ],
+    "no": "2335"
   },
   {
     "name": "영광(구.영광공작소)",
+    "market": "코스닥",
     "sub_start": "2026-10-22",
     "sub_end": "2026-10-23",
     "listing_date": null,
@@ -203,10 +226,12 @@
     "broker": "한국투자증권",
     "brokers": [
       "한국투자증권"
-    ]
+    ],
+    "no": "2333"
   },
   {
     "name": "이에스티",
+    "market": "코스닥",
     "sub_start": "2026-10-22",
     "sub_end": "2026-10-23",
     "listing_date": null,
@@ -220,10 +245,12 @@
     "broker": "대신증권",
     "brokers": [
       "대신증권"
-    ]
+    ],
+    "no": "2332"
   },
   {
     "name": "아이엠스팩1호",
+    "market": "코스닥",
     "sub_start": "2026-10-26",
     "sub_end": "2026-10-27",
     "listing_date": null,
@@ -237,10 +264,12 @@
     "broker": "아이엠증권",
     "brokers": [
       "아이엠증권"
-    ]
+    ],
+    "no": "2329"
   },
   {
     "name": "엠비디",
+    "market": "코스닥",
     "sub_start": "2026-10-28",
     "sub_end": "2026-10-29",
     "listing_date": null,
@@ -254,10 +283,12 @@
     "broker": "하나증권",
     "brokers": [
       "하나증권"
-    ]
+    ],
+    "no": "2321"
   },
   {
     "name": "동원파츠",
+    "market": "코스닥",
     "sub_start": "2026-11-02",
     "sub_end": "2026-11-03",
     "listing_date": null,
@@ -271,10 +302,12 @@
     "broker": "삼성증권",
     "brokers": [
       "삼성증권"
-    ]
+    ],
+    "no": "2339"
   },
   {
     "name": "바로팜",
+    "market": "코스닥",
     "sub_start": "2026-11-02",
     "sub_end": "2026-11-03",
     "listing_date": null,
@@ -288,10 +321,12 @@
     "broker": "미래에셋증권",
     "brokers": [
       "미래에셋증권"
-    ]
+    ],
+    "no": "2325"
   },
   {
     "name": "넥스아이",
+    "market": "코스닥",
     "sub_start": "2026-11-03",
     "sub_end": "2026-11-04",
     "listing_date": null,
@@ -305,10 +340,12 @@
     "broker": "한국투자증권",
     "brokers": [
       "한국투자증권"
-    ]
+    ],
+    "no": "2336"
   },
   {
     "name": "영광와이케이엠씨",
+    "market": "코스닥",
     "sub_start": "2026-11-04",
     "sub_end": "2026-11-05",
     "listing_date": null,
@@ -322,10 +359,12 @@
     "broker": "대신증권",
     "brokers": [
       "대신증권"
-    ]
+    ],
+    "no": "2342"
   },
   {
     "name": "제논",
+    "market": "코스닥",
     "sub_start": "2026-11-04",
     "sub_end": "2026-11-05",
     "listing_date": null,
@@ -339,10 +378,12 @@
     "broker": "삼성증권",
     "brokers": [
       "삼성증권"
-    ]
+    ],
+    "no": "2341"
   },
   {
     "name": "옵토닉스",
+    "market": "코스닥",
     "sub_start": "2026-11-05",
     "sub_end": "2026-11-06",
     "listing_date": null,
@@ -356,10 +397,12 @@
     "broker": "한국투자증권",
     "brokers": [
       "한국투자증권"
-    ]
+    ],
+    "no": "2338"
   },
   {
     "name": "에이엘로봇",
+    "market": "코스닥",
     "sub_start": "2026-11-06",
     "sub_end": "2026-11-09",
     "listing_date": null,
@@ -373,10 +416,12 @@
     "broker": "대신증권",
     "brokers": [
       "대신증권"
-    ]
+    ],
+    "no": "2331"
   },
   {
     "name": "다비오",
+    "market": "코스닥",
     "sub_start": "2026-11-10",
     "sub_end": "2026-11-11",
     "listing_date": null,
@@ -390,10 +435,12 @@
     "broker": "대신증권",
     "brokers": [
       "대신증권"
-    ]
+    ],
+    "no": "2344"
   },
   {
     "name": "하나에어로다이내믹스",
+    "market": "코스닥",
     "sub_start": "2026-11-10",
     "sub_end": "2026-11-11",
     "listing_date": null,
@@ -407,10 +454,12 @@
     "broker": "IBK투자증권",
     "brokers": [
       "IBK투자증권"
-    ]
+    ],
+    "no": "2334"
   },
   {
     "name": "엔키화이트햇",
+    "market": "코스닥",
     "sub_start": "2026-11-12",
     "sub_end": "2026-11-13",
     "listing_date": null,
@@ -424,10 +473,12 @@
     "broker": "신영증권",
     "brokers": [
       "신영증권"
-    ]
+    ],
+    "no": "2343"
   },
   {
     "name": "아델",
+    "market": "코스닥",
     "sub_start": "2026-11-23",
     "sub_end": "2026-11-24",
     "listing_date": null,
@@ -442,10 +493,12 @@
     "brokers": [
       "삼성증권",
       "미래에셋증권"
-    ]
+    ],
+    "no": "2345"
   },
   {
     "name": "케이엠에프",
+    "market": "코스닥",
     "sub_start": "2026-11-24",
     "sub_end": "2026-11-25",
     "listing_date": null,
@@ -459,6 +512,7 @@
     "broker": "IBK투자증권",
     "brokers": [
       "IBK투자증권"
-    ]
+    ],
+    "no": "2340"
   }
 ]
