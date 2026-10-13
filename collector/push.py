@@ -4,7 +4,7 @@
 - 비밀 값은 GitHub 저장소 Secret 에서 받음 (자동 실행 설정 collect.yml 에 이름을 적어 둔 것만 넘어옴)
     VAPID_PRIVATE_KEY : 알림용 비밀 키 (한 번만 등록)
     PUSH_SUB_이름      : 폰마다 하나씩, 앱의 '알림 코드'
-                         (JISOO, MOM, DAD, EXTRA1~3 칸이 준비돼 있음. 더 필요하면 collect.yml 에 줄 추가)
+                         (JISOO, KIM, SEO, CHOI, PARK 칸이 준비돼 있음. 더 필요하면 collect.yml 에 줄 추가)
 - 수동 실행에서 '테스트 알림'을 고르면 지금 바로 테스트 알림을 보냄
 자동 실행에서만 필요한 설치: pip install pywebpush
 """
