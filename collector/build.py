@@ -42,6 +42,7 @@ def build_items(raw: list, today: dt.date) -> list:
         shares = r.get("min_shares") or 10
         items.append({
             "name": r["name"], "broker": r["broker"],
+            "brokers": r.get("brokers") or [r["broker"]],
             "sub_start": r["sub_start"], "sub_end": r["sub_end"],
             "listing_date": r["listing_date"],
             "final_price": r["final_price"],
