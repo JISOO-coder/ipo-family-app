@@ -28,9 +28,9 @@ def test_no_events():
 def test_subscriptions_from_secrets():
     sub = {"endpoint": "https://example.push/abc", "keys": {"p256dh": "x", "auth": "y"}}
     code = base64.urlsafe_b64encode(json.dumps(sub).encode()).decode().rstrip("=")
-    secrets = json.dumps({"PUSH_SUB_JISOO": code + "\n", "VAPID_PRIVATE_KEY": "k",
-                          "PUSH_SUB_BAD": "!!!", "github_token": "t"})
-    subs = subscriptions(secrets)
+    env = {"PUSH_SUB_JISOO": code + "\n", "VAPID_PRIVATE_KEY": "k", "PUSH_SUB_MOM": "",
+           "PUSH_SUB_BAD": "!!!", "PATH": "/usr/bin"}
+    subs = subscriptions(env)
     assert list(subs) == ["PUSH_SUB_JISOO"] and subs["PUSH_SUB_JISOO"] == sub
 
 
