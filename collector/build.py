@@ -28,25 +28,28 @@ REQUIRED = ["name", "band_low", "band_high", "final_price", "inst_competition",
 FLOAT_KEYS = ["float_amount", "existing_holder_ratio"]
 
 
+def judge(r: dict):
+    """수집한 한 종목 → 판정 결과 {grade, show, reason}. 수요예측 결과가 아직 없으면 None
+    (앱 화면과 상장 결과 기록이 같은 판정을 쓰도록 한곳에 모아 둠)"""
+    if any(r.get(k) is None for k in REQUIRED):
+        return None
+    if any(r.get(k) is None for k in FLOAT_KEYS):
+        if maybe_pass(r["band_high"], r["final_price"], r["inst_competition"], r["lockup_ratio"]):
+            return {"grade": 0, "show": True, "reason": "확인 필요: 유통물량 정보를 못 읽음"}
+        return {"grade": 0, "show": False, "reason": "기준 미달(유통물량 정보 없음)"}
+    return grade(Ipo(r["name"], r["band_low"], r["band_high"], r["final_price"],
+                     r["inst_competition"], r["lockup_ratio"], r["float_amount"],
+                     r["existing_holder_ratio"]))
+
+
 def build_items(raw: list, today: dt.date) -> list:
     items = []
     for r in raw:
-        if any(r.get(k) is None for k in REQUIRED):
-            continue
         if r.get("listing_date") and dt.date.fromisoformat(r["listing_date"]) < today:
             continue  # 이미 상장 끝난 종목은 제외 (상장일 미정이면 계속 노출)
-        if any(r.get(k) is None for k in FLOAT_KEYS):
-            if not maybe_pass(r["band_high"], r["final_price"],
-                              r["inst_competition"], r["lockup_ratio"]):
-                continue
-            g = {"grade": 0, "reason": "확인 필요: 유통물량 정보를 못 읽음"}
-        else:
-            ipo = Ipo(r["name"], r["band_low"], r["band_high"], r["final_price"],
-                      r["inst_competition"], r["lockup_ratio"], r["float_amount"],
-                      r["existing_holder_ratio"])
-            g = grade(ipo)
-            if not g["show"]:
-                continue
+        g = judge(r)
+        if not g or not g["show"]:
+            continue
         shares = r.get("min_shares") or 10
         item = {
             "name": r["name"], "broker": r["broker"],

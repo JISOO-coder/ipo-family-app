@@ -62,6 +62,20 @@ def test_msbio_real_values_pass():
     ms = Ipo("엠에스바이오", 6800, 7800, 7800, 1096.56, 30.62, 495.1, 39.5)
     assert grade(ms)["reason"] == "예외3: 수요 강한 중대형주"
 
+def test_exception4_high_lockup_allows_existing_under_70():
+    # 큐리오시스(2025-11) 실제 값: 기존주주 53.8%였지만 확약 55.7%
+    g = grade(make(inst_competition=1031, lockup_ratio=55.7, float_amount=552,
+                   existing_holder_ratio=53.8))
+    assert g["show"] is True and g["reason"].startswith("예외4")
+
+def test_exception4_limits():
+    assert grade(make(lockup_ratio=49, existing_holder_ratio=55))["show"] is False       # 확약 부족
+    assert grade(make(lockup_ratio=60, existing_holder_ratio=70))["show"] is False       # 기존주주 70% 이상
+    assert grade(make(lockup_ratio=60, existing_holder_ratio=55,
+                      inst_competition=400))["show"] is False                            # 경쟁률 부족
+    assert grade(make(lockup_ratio=60, existing_holder_ratio=55,
+                      final_price=11000))["show"] is False                               # 밴드 상단 미만
+
 def test_missing_float_shown_as_check():
     base = dict(name="표못읽음", band_low=10000, band_high=12000, final_price=12000,
                 inst_competition=1200, lockup_ratio=20, float_amount=None,

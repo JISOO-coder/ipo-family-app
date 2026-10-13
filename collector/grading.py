@@ -17,6 +17,11 @@ def grade(ipo: Ipo) -> dict:
     """grade 5 = 매우 좋음, 4 = 보통 이상, 0 = 미달/금지(앱에 노출 안 함)"""
     # 🛑 무조건 거절
     if ipo.existing_holder_ratio >= 50:
+        # 예외4: 확약이 50% 이상으로 아주 높으면 기존주주 70% 미만까지는 허용
+        # (2024-09~2026-10 상장 자료에서 이 조건에 드는 11개 종목이 모두 상장일 수익)
+        if (ipo.lockup_ratio >= 50 and ipo.existing_holder_ratio < 70
+                and ipo.inst_competition >= 500 and ipo.final_price >= ipo.band_high):
+            return {"grade": 4, "show": True, "reason": "예외4: 확약 50% 이상(기존주주 70% 미만)"}
         return {"grade": 0, "show": False, "reason": "기존주주 물량 50% 이상"}
     if ipo.final_price <= ipo.band_low:
         return {"grade": 0, "show": False, "reason": "공모가 밴드 하단 이하"}

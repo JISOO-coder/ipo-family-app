@@ -94,16 +94,85 @@ def _date(y, m, d):
     return f"{int(y):04d}-{int(m):02d}-{int(d):02d}"
 
 
-def _public_float(table: str):
-    """유통가능 물량 표에서 '공모주주'가 상장일에 팔 수 있는 주식수. 못 찾으면 None
-    표 칸 순서: 공모 전 / 공모 후 / 매각제한 / 유통가능 (각각 '주식수 지분율', 빈칸은 '- -')"""
-    m = re.search(r"공모주주\s*소계", table) or re.search(r"공모주주", table)
-    if not m:
+def _float_shares(text: str, offered: int):
+    """'공모후 유통가능 물량' 표 → (상장일 유통가능 주식수, 그중 기존주주 주식수). 못 읽으면 None
+    표 모양이 회사마다 달라서 머리글을 보고 칸 순서를 정함:
+      '…매각제한물량 유통가능물량' 이면 합계 줄의 마지막 칸이 유통가능,
+      '…유통가능물량 매각제한물량' 이면 끝에서 두 번째 칸이 유통가능,
+      유통가능 칸이 없으면 '공모 후 − 매각제한' 으로 계산."""
+    head = re.search(r"공모\s*후\s*유통\s*가능\s*물량(?:\([^)]*\))?", text)
+    if not head:
         return None
-    cells = re.findall(r"(-|[\d,]+)\s+(-|[\d.]+\s*%)", table[m.end():m.end() + 300])
-    if len(cells) < 4 or cells[3][0] == "-":
+    end = text.find("요약재무", head.end())
+    table = text[head.end(): end if end > 0 else head.end() + 8000]   # 재무제표의 '총계'를 잘못 읽지 않게
+    # '주식수 지분율' 한 쌍 (지분율에 %가 빠진 표도 있음)
+    pair = r"([\d,]{4,})\s+(\d{1,3}(?:\.\d+)?)\s*%?(?=\s|$)"
+    tot = None
+    for t in re.finditer(r"(?:총\s*계|합\s*계)", table):              # 표의 마지막 합계 줄
+        if re.search(pair, table[t.end():t.end() + 300]):
+            tot = t
+    if not tot:
         return None
-    return int(_num(cells[3][0]))
+    pairs = re.findall(pair, table[tot.end():tot.end() + 300])
+    if len(pairs) < 2:
+        return None
+    a, b = int(_num(pairs[-2][0])), int(_num(pairs[-1][0]))
+    hdr = table[:300]
+    t_at = re.search(r"유통\s*가능\s*물량", hdr)
+    r_at = re.search(r"(?:매각\s*제한|보호\s*예수)\s*물량", hdr)
+    tradable_first = bool(t_at and r_at and t_at.start() < r_at.start())
+    if t_at and r_at:
+        tradable = a if tradable_first else b
+    elif r_at:
+        if len(pairs) < 3:
+            return None
+        tradable = a - b
+    else:
+        tradable = b                                                  # 머리글을 못 읽으면 예전 방식
+    public = _public_tradable(table[:tot.start()], offered, tradable_first)
+    existing = tradable - public
+    if tradable <= 0 or existing < 0:
+        return None                                                   # 앞뒤가 안 맞으면 못 읽은 것으로
+    return tradable, existing
+
+
+def _row_pairs(s: str) -> list:
+    """표 한 줄의 글자 → [주식수, …] (빈칸 '-'는 0). 줄 이름 같은 한글은 건너뛰고, 다음 한글이 나오면 줄 끝"""
+    toks = s.split()
+    i = 0
+    while i < len(toks) and re.search(r"[가-힣]", toks[i]):
+        i += 1
+    cells = []
+    for tk in toks[i:]:
+        if re.search(r"[가-힣]", tk):
+            break
+        cells.append(tk)
+    if len(cells) % 2:
+        cells = cells[:-1]                                            # 끝의 '기간' 칸 '-'
+    return [int(_num(c)) if re.fullmatch(r"[\d,]+", c) else 0 for c in cells[::2]]
+
+
+def _public_tradable(body: str, offered: int, tradable_first: bool) -> int:
+    """공모주 중 상장일에 팔 수 있는 주식수
+    1순위: '공모주주 소계' 줄의 유통가능 칸 (우리사주·주관사 의무인수처럼 묶인 물량이 빠진 값)
+    2순위: 총공모주식수 − 공모주주 구간의 우리사주 물량
+    (기존주주 중에도 '우리사주조합'이 있을 수 있어, 공모주주 구간 이후에 나오는 것만 셈)"""
+    m = re.search(r"공모주주[^\d%]{0,20}?소계", body)
+    if m:
+        cols = _row_pairs(body[m.end():m.end() + 200])
+        if len(cols) >= 2:
+            v = cols[-2] if tradable_first else cols[-1]
+            if 0 < v <= offered:
+                return v
+    pub = re.search(r"공모주주|공모주식|신주모집|일반공모", body)
+    sec = body[pub.start():] if pub else body
+    m = re.search(r"우리사주", sec)
+    if m:
+        n = re.search(r"[\d,]{4,}", sec[m.end():m.end() + 120])
+        locked = int(_num(n.group())) if n else 0
+        if 0 < locked < offered:
+            return offered - locked
+    return offered
 
 
 def parse_detail(text: str):
@@ -118,11 +187,15 @@ def parse_detail(text: str):
         return None
     sub_start, sub_end = _date(*m.group(1, 2, 3)), _date(*m.group(4, 5, 6))
 
-    out = {"name": name, "sub_start": sub_start, "sub_end": sub_end,
+    out = {"name": name, "market": None, "sub_start": sub_start, "sub_end": sub_end,
            "listing_date": None, "band_low": None, "band_high": None,
            "final_price": None, "inst_competition": None, "lockup_ratio": None,
            "float_amount": None, "existing_holder_ratio": None,
            "broker": None, "brokers": []}
+
+    m = re.search(r"시장구분\s*(코스닥|유가증권|코넥스)", text)
+    if m:
+        out["market"] = m.group(1)
 
     m = re.search(r"(?<!신규)상장일\s*(\d{4})\.(\d{2})\.(\d{2})", text) or \
         re.search(r"신규상장일\s*(\d{4})\.(\d{2})\.(\d{2})", text)
@@ -163,29 +236,13 @@ def parse_detail(text: str):
     # 상장일 유통가능 물량 → 유통금액(억원), 기존주주 비율(%)
     m = re.search(r"총공모주식수\s*([\d,]+)\s*주", text)
     offered = int(_num(m.group(1))) if m else None
-    head = re.search(r"공모\s*후\s*유통\s*가능\s*물량", text)
-    if head and offered:
-        seg = text[head.start():]
-        tot = None
-        for t in re.finditer(r"(?:총\s*계|합\s*계)", seg):   # 표의 마지막 합계 줄
-            tot = t
-            if re.search(r"[\d,]{4,}\s+[\d.]+\s*%", seg[t.start():t.start() + 300]):
-                break
-        if tot:
-            pairs = re.findall(r"([\d,]{4,})\s+([\d.]+)\s*%", seg[tot.start():tot.start() + 300])
-            if pairs:
-                float_shares = int(_num(pairs[-1][0]))
-                # 기존주주 물량 = 전체 유통가능 − 공모주 중 상장일에 팔 수 있는 물량
-                # (우리사주 1년·상장주선인 의무인수분은 공모주라도 못 팔기 때문에 빼고 셈)
-                public = _public_float(seg[:tot.start()])
-                if not (public and public <= offered and public <= float_shares):
-                    public = offered if float_shares >= offered else None   # 표를 못 읽으면 예전 방식
-                if public:
-                    out["existing_holder_ratio"] = round(
-                        (float_shares - public) / float_shares * 100, 2)
-                    price = out["final_price"] or out["band_high"]
-                    if price:
-                        out["float_amount"] = round(float_shares * price / 1e8, 1)
+    fs = _float_shares(text, offered) if offered else None
+    if fs:
+        tradable, existing = fs
+        out["existing_holder_ratio"] = round(existing / tradable * 100, 2)
+        price = out["final_price"] or out["band_high"]
+        if price:
+            out["float_amount"] = round(tradable * price / 1e8, 1)
     if out["inst_competition"] is None:
         out["lockup_ratio"] = None
     return out
@@ -216,6 +273,7 @@ def main():
             print(f"  no={no} 해석 실패(건너뜀)")
             continue
         parsed += 1
+        d["no"] = str(no)                       # 38 종목 번호 (상장 결과 기록에서 같은 종목을 찾는 데 씀)
         end_of_life = d["listing_date"] or d["sub_end"]
         if dt.date.fromisoformat(end_of_life) < today:
             continue                            # 이미 끝난 종목
