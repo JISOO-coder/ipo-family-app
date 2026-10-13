@@ -14,13 +14,13 @@
   :root {
     --bg: #f4f5f7; --card: #ffffff; --text: #1b1d21; --sub: #6b7280;
     --line: #e5e7eb; --accent: #2563eb; --star: #d97706; --star-bg: #fef3c7;
-    --soft: #eef2ff; --soft-text: #1d4ed8;
+    --soft: #eef2ff; --soft-text: #1d4ed8; --ok: #15803d;
   }
   @media (prefers-color-scheme: dark) {
     :root {
       --bg: #111315; --card: #1c1f23; --text: #f1f3f5; --sub: #9aa1ab;
       --line: #2c3036; --accent: #6ea0ff; --star: #fbbf24; --star-bg: #3a2e0f;
-      --soft: #232a3d; --soft-text: #9db8ff;
+      --soft: #232a3d; --soft-text: #9db8ff; --ok: #4ade80;
     }
   }
   * { box-sizing: border-box; }
@@ -35,20 +35,16 @@
     background: var(--card); border: 1px solid var(--line);
     border-radius: 16px; padding: 16px; margin-bottom: 14px;
   }
-  .tag {
-    display: inline-block; background: var(--star-bg); color: var(--star);
-    font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 999px;
-  }
-  .name { font-size: 20px; font-weight: 700; margin: 8px 0 2px; }
-  .badge { font-size: 13px; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+  .card.hot { border: 2px solid var(--star); }
+  .name { font-size: 22px; font-weight: 700; margin: 8px 0 8px; }
   .row { display: flex; justify-content: space-between; gap: 12px;
-         padding: 8px 0; border-top: 1px solid var(--line); font-size: 15px; }
+         padding: 8px 0; border-top: 1px solid var(--line); font-size: 16px; }
   .row .k { color: var(--sub); flex-shrink: 0; }
   .row .v { text-align: right; font-weight: 600; }
   .acct { font-variant-numeric: tabular-nums; }
   .acct.empty { color: var(--sub); font-weight: 400; }
   button {
-    width: 100%; margin-top: 10px; padding: 14px; font-size: 16px; font-weight: 700;
+    width: 100%; margin-top: 10px; padding: 14px; font-size: 17px; font-weight: 700;
     border: none; border-radius: 12px; background: var(--accent); color: #fff;
     cursor: pointer;
   }
@@ -68,22 +64,48 @@
     border: 1px solid var(--line); border-radius: 10px;
     background: var(--bg); color: var(--text);
   }
-  .hint2 { color: var(--sub); font-size: 12px; margin-top: 6px; text-align: center; }
+  .hint2 { color: var(--sub); font-size: 13px; margin-top: 6px; text-align: center; }
+  .sec-title { font-size: 16px; font-weight: 700; color: var(--sub); margin: 22px 0 8px; }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .pill { display: inline-block; font-size: 14px; font-weight: 700; padding: 3px 10px; border-radius: 999px; }
+  .pill.hot { background: var(--star-bg); color: var(--star); }
+  .pill.soon { background: var(--soft); color: var(--soft-text); }
+  .pill.wait { background: var(--bg); color: var(--sub); border: 1px solid var(--line); }
+  .steps { display: flex; align-items: center; gap: 8px; font-size: 15px; color: var(--sub); margin: 4px 0 10px; }
+  .steps .done { color: var(--ok); font-weight: 700; }
+  .steps .line { flex: 1; height: 2px; background: var(--line); }
+  .note { color: var(--sub); font-size: 14px; margin-top: 10px; line-height: 1.5; }
+  details.mini { padding: 0; margin: 0 0 10px; }
+  details.mini > summary { list-style: none; display: flex; justify-content: space-between;
+                           align-items: center; gap: 10px; padding: 14px 16px; font-weight: 400; }
+  details.mini > summary::-webkit-details-marker { display: none; }
+  .mini-name { font-size: 18px; font-weight: 700; }
+  .mini-sub { font-size: 14px; color: var(--sub); margin-top: 2px; }
+  .mini-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+  .chev { color: var(--sub); font-size: 14px; }
+  details.mini[open] .chev { transform: rotate(180deg); }
+  .mini-body { padding: 0 16px 16px; }
+  .next { background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+          padding: 12px 14px; font-size: 15px; line-height: 1.5; margin-bottom: 4px; }
+  .next b { color: var(--accent); }
   .warn { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; border-radius: 12px;
           padding: 12px 14px; font-size: 14px; line-height: 1.5; margin-bottom: 14px; font-weight: 600; }
   @media (prefers-color-scheme: dark) { .warn { background: #3b1414; color: #fca5a5; border-color: #5b2020; } }
   .sum-grid { display: flex; gap: 10px; margin-bottom: 14px; }
   .sum-box { flex: 1; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; }
-  .sum-label { font-size: 13px; color: var(--sub); }
+  .sum-label { font-size: 14px; color: var(--sub); }
   .sum-num { font-size: 26px; font-weight: 800; margin: 2px 0 4px; }
   .sum-num.on { color: var(--accent); }
-  .sum-names { font-size: 13px; line-height: 1.5; color: var(--text); }
+  .sum-names { font-size: 14px; line-height: 1.5; color: var(--text); }
   .selbox { border-top: 1px solid var(--line); padding: 10px 0 2px; }
   .sellabel { font-size: 13px; color: var(--sub); }
   button.chip { width: auto; margin: 8px 6px 0 0; padding: 8px 12px; font-size: 14px; font-weight: 600;
                 background: var(--bg); color: var(--text); border: 1px solid var(--line); }
   button.chip.on { background: var(--soft); color: var(--soft-text); border-color: var(--accent); }
   .needsel { color: var(--star); font-size: 13px; font-weight: 600; margin-top: 8px; }
+  .row .v.mine { color: var(--ok); }
+  button.link { width: auto; display: block; margin: 0 0 4px auto; padding: 4px 0; background: none;
+                color: var(--sub); font-size: 14px; font-weight: 400; text-decoration: underline; }
   .empty-msg { text-align: center; color: var(--sub); padding: 40px 0; line-height: 1.6; }
   footer { color: var(--sub); font-size: 12px; text-align: center; margin: 24px 0; line-height: 1.6; }
 </style>
@@ -179,18 +201,6 @@
   function daysFromToday(s) {
     const t = new Date(); t.setHours(0, 0, 0, 0);
     return Math.round((parseDate(s) - t) / 86400000);
-  }
-  function statusText(it) {
-    const a = daysFromToday(it.sub_start);
-    const b = daysFromToday(it.sub_end);
-    const c = daysFromToday(it.listing_date);
-    if (c === 0) return "🔔 오늘 상장!";
-    if (b === 0) return "🔥 오늘 청약 마감!";
-    if (a === 0) return "🔔 오늘 청약 시작!";
-    if (a > 0) return "청약까지 D-" + a;
-    if (b > 0) return "청약 진행 중";
-    if (c > 0) return "청약 끝 · 상장까지 D-" + c;
-    return "";
   }
   function el(tag, cls, text) {
     const e = document.createElement(tag);
@@ -289,12 +299,22 @@
   function brokersOf(it) {
     return (it.brokers && it.brokers.length) ? it.brokers : [it.broker];
   }
-  // 증권사가 1곳이면 자동 선택, 여러 곳이면 내가 체크한 것만
+  // 증권사가 1곳이면 자동 선택, 여러 곳이면 내가 고른 1곳 (안 골랐으면 빈 목록)
   function selectedOf(it, sel) {
     const all = brokersOf(it);
     if (all.length === 1) return [all[0]];
     const picked = sel[itemKey(it)] || [];
-    return all.filter(function (b) { return picked.indexOf(b) >= 0; });
+    for (let i = 0; i < picked.length; i++) {   // 예전 버전에서 여러 곳 골라 둔 경우 첫 번째만
+      if (all.indexOf(picked[i]) >= 0) return [picked[i]];
+    }
+    return [];
+  }
+  // 종목별로 고른 증권사 저장 (한 곳만). b가 null이면 선택 취소
+  function pickBroker(it, b) {
+    const cur = loadSel();
+    cur[itemKey(it)] = b ? [b] : [];
+    saveSel(cur);
+    renderAll();
   }
 
   // ---------- 오늘 요약 ----------
@@ -334,79 +354,124 @@
       grid.appendChild(bx);
     });
     box.appendChild(grid);
+
+    // 오늘 할 일이 없으면 가장 가까운 다음 일정 하나를 안내
+    if (c.subs.length === 0 && c.lists.length === 0) {
+      const n = nextEvent(ITEMS);
+      if (n) {
+        const nx = el("div", "next");
+        nx.appendChild(document.createTextNode("📅 다음 일정: "));
+        nx.appendChild(el("b", "", fmt(n.date) + " " + n.it.name + " " + n.label));
+        nx.appendChild(document.createTextNode(" · " + (n.d === 1 ? "내일" : n.d + "일 남음")));
+        box.appendChild(nx);
+      }
+    }
+  }
+  function nextEvent(items) {
+    let best = null;
+    items.forEach(function (it) {
+      [["sub_start", "청약 시작"], ["listing_date", "상장"]].forEach(function (k) {
+        const d = daysFromToday(it[k[0]]);
+        if (d > 0 && (!best || d < best.d)) best = { d: d, it: it, label: k[1], date: it[k[0]] };
+      });
+    });
+    return best;
   }
 
   // ---------- 카드 ----------
-  function sortRank(it) {
+  // 종목 단계: today = 오늘 할 일(청약 기간 중이거나 오늘 상장), soon = 청약 예정, wait = 청약 끝·상장 대기
+  function stageOf(it) {
     const a = daysFromToday(it.sub_start), b = daysFromToday(it.sub_end), c = daysFromToday(it.listing_date);
-    if ((a <= 0 && b >= 0) || c === 0) return 0;   // 오늘 할 일
-    if (a > 0) return 1;                            // 청약 예정
-    return 2;                                       // 청약 끝, 상장 대기
+    if ((a <= 0 && b >= 0) || c === 0) return "today";
+    if (a > 0) return "soon";
+    return "wait";
+  }
+  // 카드 맨 위 상태 표시: [문구, 색]
+  function pillOf(it) {
+    const a = daysFromToday(it.sub_start), b = daysFromToday(it.sub_end), c = daysFromToday(it.listing_date);
+    if (c === 0) return ["🔔 오늘 상장", "hot"];
+    if (b < 0) return ["청약 끝", "wait"];
+    if (b === 0) return ["🔥 오늘 청약 마감", "hot"];
+    if (a <= 0) return ["🔔 오늘 청약 · " + (b === 1 ? "내일 마감" : fmt(it.sub_end) + " 마감"), "hot"];
+    return ["청약 D-" + a, "soon"];
+  }
+  function todayRank(it) {
+    if (daysFromToday(it.sub_end) === 0) return 0;      // 오늘 마감이 가장 급함
+    if (daysFromToday(it.listing_date) === 0) return 2; // 상장일은 맨 뒤
+    return 1;
+  }
+  function byDate(key) {
+    return function (x, y) { return x[key] < y[key] ? -1 : x[key] > y[key] ? 1 : 0; };
   }
 
   function renderAll() { renderSummary(); renderCards(); }
 
-  function renderCards() {
-    const list = document.getElementById("list");
-    list.textContent = "";
-    if (ITEMS.length === 0) {
-      const m = el("div", "empty-msg");
-      m.innerHTML = "지금 청약할 만한 추천 공모주가 없습니다.<br>조건에 맞는 종목이 나오면 여기에 표시됩니다.";
-      list.appendChild(m);
-      return;
-    }
-    const accounts = loadAccounts();
-    const sel = loadSel();
-    const sorted = ITEMS.slice().sort(function (x, y) {
-      return (sortRank(x) - sortRank(y)) || (x.sub_start < y.sub_start ? -1 : 1);
-    });
-    sorted.forEach(function (it) {
-      const card = el("div", "card");
-      card.appendChild(el("span", "tag", it.tag || "★ 추천 공모주"));
-      card.appendChild(el("div", "name", it.name));
-      card.appendChild(el("div", "badge", statusText(it)));
+  // 진행 표시: ✔ 청약 끝 ──── 상장 D-3
+  function stepsEl(it) {
+    const c = daysFromToday(it.listing_date);
+    const s = el("div", "steps");
+    s.appendChild(el("span", "done", "✔ 청약 끝"));
+    s.appendChild(el("span", "line"));
+    s.appendChild(el("span", c === 0 ? "done" : "",
+                     c === 0 ? "🔔 오늘 상장" : "상장 " + fmt(it.listing_date) + " · D-" + c));
+    return s;
+  }
 
+  // 카드 안쪽 내용
+  //   mode "sub" = 청약에 필요한 정보와 버튼 전부
+  //   mode "app" = 청약이 끝난 종목: 진행 표시 + 증권사 앱 버튼만 (계좌 복사·은행 버튼 숨김)
+  function fillBody(card, it, accounts, sel, mode) {
+    if (mode === "sub") {
       card.appendChild(row("청약", fmt(it.sub_start) + " ~ " + fmt(it.sub_end)));
       card.appendChild(row("상장일", fmt(it.listing_date)));
       card.appendChild(row("공모가", it.final_price.toLocaleString() + "원"));
-      card.appendChild(row("필요 증거금(" + it.min_shares + "주)",
+      card.appendChild(row("필요 금액(" + it.min_shares + "주)",
                            it.margin.toLocaleString() + "원"));
+    } else {
+      card.appendChild(stepsEl(it));   // 상장일은 진행 표시 안에 함께 보여 줌
+    }
 
-      // 증권사: 1곳이면 그냥 표시, 여러 곳이면 체크 선택
-      const all = brokersOf(it);
-      const chosen = selectedOf(it, sel);
-      if (all.length === 1) {
-        card.appendChild(row("주관 증권사", all[0]));
-      } else {
-        const box = el("div", "selbox");
-        box.appendChild(el("div", "sellabel", "청약한 증권사를 눌러서 선택하세요 (여러 곳 가능)"));
-        all.forEach(function (b) {
-          const on = chosen.indexOf(b) >= 0;
-          const chip = el("button", "chip" + (on ? " on" : ""),
-                          (on ? "✔ " : "") + b + (b === it.broker ? " (대표)" : ""));
-          chip.addEventListener("click", function () {
-            const cur = loadSel();
-            const arr = (cur[itemKey(it)] || []).slice();
-            const i = arr.indexOf(b);
-            if (i >= 0) arr.splice(i, 1); else arr.push(b);
-            cur[itemKey(it)] = arr;
-            saveSel(cur);
-            renderAll();
-          });
-          box.appendChild(chip);
-        });
-        if (chosen.length === 0) {
-          box.appendChild(el("div", "needsel", "증권사를 선택하면 내 계좌번호와 앱 버튼이 나타납니다."));
-        }
-        card.appendChild(box);
+    // 증권사: 1곳이면 그냥 표시, 여러 곳이면 1곳만 골라서 저장
+    const all = brokersOf(it);
+    const chosen = selectedOf(it, sel);
+    if (mode === "app" && chosen.length) {
+      // 청약이 끝난 종목: 청약 때 고른 증권사를 그대로 보여 줌
+      card.appendChild(row("내가 청약한 증권사", "✔ " + chosen[0], "mine"));
+      if (all.length > 1) {
+        const change = el("button", "link", "증권사 바꾸기");
+        change.addEventListener("click", function () { pickBroker(it, null); });
+        card.appendChild(change);
       }
+    } else if (all.length === 1) {
+      card.appendChild(row("청약 증권사", all[0]));
+    } else {
+      const box = el("div", "selbox");
+      box.appendChild(el("div", "sellabel", mode === "sub"
+        ? "청약할 증권사 한 곳을 눌러 주세요"
+        : "청약한 증권사 한 곳을 눌러 주세요"));
+      all.forEach(function (b) {
+        const on = chosen[0] === b;
+        const chip = el("button", "chip" + (on ? " on" : ""),
+                        (on ? "✔ " : "") + b + (b === it.broker ? " (대표)" : ""));
+        // 한 곳만 선택: 다른 곳을 누르면 바뀌고, 고른 곳을 다시 누르면 취소
+        chip.addEventListener("click", function () { pickBroker(it, on ? null : b); });
+        box.appendChild(chip);
+      });
+      if (chosen.length === 0) {
+        box.appendChild(el("div", "needsel", mode === "sub"
+          ? "증권사를 고르면 내 계좌번호와 앱 버튼이 나타납니다."
+          : "증권사를 고르면 앱 버튼이 나타납니다."));
+      }
+      card.appendChild(box);
+    }
 
-      // 선택된 증권사별 계좌 표시 + 복사 버튼
+    if (mode === "sub") {
+      // 고른 증권사의 계좌 표시 + 복사 버튼
       chosen.forEach(function (b) {
         const acct = accounts[norm(b)];
         card.appendChild(row("내 계좌 · " + b, acct ? acct : "미입력 (맨 아래 설정에서 입력)",
                              "acct" + (acct ? "" : " empty")));
-        const label = chosen.length > 1 ? "📋 " + b + " 계좌번호 복사" : "📋 계좌번호 복사";
+        const label = "📋 계좌번호 복사";
         const copyBtn = el("button", "", label);
         copyBtn.addEventListener("click", async function () {
           if (!acct) {
@@ -430,20 +495,97 @@
         bankRow.appendChild(bb);
       });
       card.appendChild(bankRow);
+    } else if (chosen.length) {
+      card.appendChild(el("div", "note", daysFromToday(it.listing_date) === 0
+        ? "오늘부터 받은 주식을 사고팔 수 있어요."
+        : "몇 주 받았는지는 증권사 앱에서 확인할 수 있어요."));
+    }
 
-      // 선택된 증권사 앱 열기 (청약용)
-      chosen.forEach(function (b) {
-        const mts = BROKER_APPS[norm(b)] || {};
-        const mtsBtn = el("button", "soft", "📲 " + b + " 앱 열기");
-        mtsBtn.addEventListener("click", function () { openApp(mts, b); });
-        card.appendChild(mtsBtn);
-      });
-      if (chosen.length) {
-        card.appendChild(el("div", "hint2", "바로 안 열리면 스토어 화면의 '열기'를 눌러 주세요"));
-      }
-
-      list.appendChild(card);
+    // 선택된 증권사 앱 열기
+    chosen.forEach(function (b) {
+      const mts = BROKER_APPS[norm(b)] || {};
+      const mtsBtn = el("button", "soft", "📲 " + b + " 앱 열기");
+      mtsBtn.addEventListener("click", function () { openApp(mts, b); });
+      card.appendChild(mtsBtn);
     });
+    if (chosen.length && mode === "sub") {
+      card.appendChild(el("div", "hint2", "바로 안 열리면 스토어 화면의 '열기'를 눌러 주세요"));
+    }
+  }
+
+  // 크게 보이는 카드 (오늘 할 일, 상장 기다리는 중)
+  function bigCard(it, accounts, sel, mode, hot) {
+    const card = el("div", "card" + (hot ? " hot" : ""));
+    const p = pillOf(it);
+    const pills = el("div", "pills");
+    pills.appendChild(el("span", "pill " + p[1], p[0]));
+    card.appendChild(pills);
+    card.appendChild(el("div", "name", it.name));
+    fillBody(card, it, accounts, sel, mode);
+    return card;
+  }
+
+  // 한 줄짜리 접힌 카드 (곧 청약). 누르면 펼쳐져서 자세한 내용과 버튼이 보임
+  const OPEN = {};   // 펼쳐 둔 카드는 화면을 다시 그려도 펼친 채로 유지
+  function soonCard(it, accounts, sel) {
+    const d = document.createElement("details");
+    d.className = "card mini";
+    if (OPEN[itemKey(it)]) d.open = true;
+    d.addEventListener("toggle", function () { OPEN[itemKey(it)] = d.open; });
+
+    const s = document.createElement("summary");
+    const left = el("div", "");
+    left.appendChild(el("div", "mini-name", it.name));
+    const all = brokersOf(it), chosen = selectedOf(it, sel);
+    const who = chosen.length ? chosen.join(", ")
+              : (all.length > 1 ? "증권사 " + all.length + "곳 중 선택" : it.broker);
+    left.appendChild(el("div", "mini-sub",
+      fmt(it.sub_start) + " 청약 · " + it.margin.toLocaleString() + "원 · " + who));
+    const right = el("div", "mini-right");
+    right.appendChild(el("span", "pill soon", "D-" + daysFromToday(it.sub_start)));
+    right.appendChild(el("span", "chev", "▼"));
+    s.appendChild(left);
+    s.appendChild(right);
+    d.appendChild(s);
+
+    const body = el("div", "mini-body");
+    fillBody(body, it, accounts, sel, "sub");
+    d.appendChild(body);
+    return d;
+  }
+
+  function renderCards() {
+    const list = document.getElementById("list");
+    list.textContent = "";
+    if (ITEMS.length === 0) {
+      const m = el("div", "empty-msg");
+      m.innerHTML = "지금은 조건에 맞는 공모주가 없어요.<br>조건에 맞는 종목이 나오면 여기에 바로 보여요.";
+      list.appendChild(m);
+      return;
+    }
+    const accounts = loadAccounts();
+    const sel = loadSel();
+    const g = { today: [], soon: [], wait: [] };
+    ITEMS.forEach(function (it) { g[stageOf(it)].push(it); });
+    g.today.sort(function (x, y) { return (todayRank(x) - todayRank(y)) || byDate("sub_end")(x, y); });
+    g.soon.sort(byDate("sub_start"));
+    g.wait.sort(byDate("listing_date"));
+
+    if (g.today.length) {
+      list.appendChild(el("div", "sec-title", "🔔 오늘"));
+      g.today.forEach(function (it) {
+        const listing = daysFromToday(it.listing_date) === 0;
+        list.appendChild(bigCard(it, accounts, sel, listing ? "app" : "sub", true));
+      });
+    }
+    if (g.soon.length) {
+      list.appendChild(el("div", "sec-title", "📅 곧 청약 (" + g.soon.length + ")"));
+      g.soon.forEach(function (it) { list.appendChild(soonCard(it, accounts, sel)); });
+    }
+    if (g.wait.length) {
+      list.appendChild(el("div", "sec-title", "⏳ 상장 기다리는 중 (" + g.wait.length + ")"));
+      g.wait.forEach(function (it) { list.appendChild(bigCard(it, accounts, sel, "app", false)); });
+    }
   }
 
   function renderInputs() {
