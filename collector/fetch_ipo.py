@@ -94,6 +94,18 @@ def _date(y, m, d):
     return f"{int(y):04d}-{int(m):02d}-{int(d):02d}"
 
 
+def _public_float(table: str):
+    """유통가능 물량 표에서 '공모주주'가 상장일에 팔 수 있는 주식수. 못 찾으면 None
+    표 칸 순서: 공모 전 / 공모 후 / 매각제한 / 유통가능 (각각 '주식수 지분율', 빈칸은 '- -')"""
+    m = re.search(r"공모주주\s*소계", table) or re.search(r"공모주주", table)
+    if not m:
+        return None
+    cells = re.findall(r"(-|[\d,]+)\s+(-|[\d.]+\s*%)", table[m.end():m.end() + 300])
+    if len(cells) < 4 or cells[3][0] == "-":
+        return None
+    return int(_num(cells[3][0]))
+
+
 def parse_detail(text: str):
     """사이트 글자 → 우리 형식. 필수(이름·일정)가 없으면 None."""
     m = re.search(r"종목명\s+(.+?)\s+진행상황", text)
@@ -163,9 +175,14 @@ def parse_detail(text: str):
             pairs = re.findall(r"([\d,]{4,})\s+([\d.]+)\s*%", seg[tot.start():tot.start() + 300])
             if pairs:
                 float_shares = int(_num(pairs[-1][0]))
-                if float_shares >= offered > 0:
+                # 기존주주 물량 = 전체 유통가능 − 공모주 중 상장일에 팔 수 있는 물량
+                # (우리사주 1년·상장주선인 의무인수분은 공모주라도 못 팔기 때문에 빼고 셈)
+                public = _public_float(seg[:tot.start()])
+                if not (public and public <= offered and public <= float_shares):
+                    public = offered if float_shares >= offered else None   # 표를 못 읽으면 예전 방식
+                if public:
                     out["existing_holder_ratio"] = round(
-                        (float_shares - offered) / float_shares * 100, 2)
+                        (float_shares - public) / float_shares * 100, 2)
                     price = out["final_price"] or out["band_high"]
                     if price:
                         out["float_amount"] = round(float_shares * price / 1e8, 1)

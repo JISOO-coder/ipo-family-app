@@ -35,12 +35,25 @@ def grade(ipo: Ipo) -> dict:
                 and ipo.float_amount <= 400):
             return {"grade": 4, "show": True, "reason": "기본: 알짜 중소형주"}
         if ipo.inst_competition >= 500 and ipo.lockup_ratio >= 35:
-            return {"grade": 4, "show": True, "reason": "예외1: 초대형 대어주"}
+            return {"grade": 4, "show": True, "reason": "예외1: 확약 35% 이상"}
         if (ipo.float_amount <= 200 and ipo.inst_competition >= 800
                 and ipo.lockup_ratio >= 10):
             return {"grade": 4, "show": True, "reason": "예외2: 초경량주"}
+        # 유통금액 400억 초과라도 경쟁률·확약이 모두 강하면 통과 (크기 제한 없음)
+        if ipo.inst_competition >= 1000 and ipo.lockup_ratio >= 25:
+            return {"grade": 4, "show": True, "reason": "예외3: 수요 강한 중대형주"}
 
     return {"grade": 0, "show": False, "reason": "기준 미달"}
+
+
+def maybe_pass(band_high: int, final_price: int, inst_competition: float,
+               lockup_ratio: float) -> bool:
+    """유통물량 표를 못 읽었을 때: 나머지 값만 보면 통과할 수도 있는 종목인지"""
+    if final_price < band_high:
+        return False
+    return ((inst_competition >= 1000 and lockup_ratio >= 15)
+            or (inst_competition >= 500 and lockup_ratio >= 35)
+            or (inst_competition >= 800 and lockup_ratio >= 10))
 
 
 def margin_for(final_price: int, shares: int = 10, rate: float = 0.5) -> int:

@@ -3,7 +3,7 @@ import datetime as dt
 import json
 from pathlib import Path
 
-from grading import Ipo, grade, margin_for
+from grading import Ipo, grade, margin_for, maybe_pass
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw.json"
@@ -20,10 +20,12 @@ ALERT_TIME = {
 }
 ALARM_BEFORE = "-PT10M"        # 일정 10분 전에 알림
 
-# 판정에 꼭 필요한 값. 하나라도 비어 있으면(수요예측 전 등) 노출하지 않음
+# 판정에 꼭 필요한 값. 하나라도 비어 있으면(수요예측 전 등) 아직 판정할 수 없어 노출하지 않음
 REQUIRED = ["name", "band_low", "band_high", "final_price", "inst_competition",
-            "lockup_ratio", "float_amount", "existing_holder_ratio",
-            "sub_start", "sub_end", "listing_date", "broker"]
+            "lockup_ratio", "sub_start", "sub_end", "broker"]
+# 유통물량 표에서 읽는 값. 못 읽었으면 조용히 숨기지 않고, 나머지 값으로 통과 가능성이 있으면
+# '확인 필요'로 노출 (대형주를 놓치지 않기 위해)
+FLOAT_KEYS = ["float_amount", "existing_holder_ratio"]
 
 
 def build_items(raw: list, today: dt.date) -> list:
@@ -31,28 +33,36 @@ def build_items(raw: list, today: dt.date) -> list:
     for r in raw:
         if any(r.get(k) is None for k in REQUIRED):
             continue
-        if dt.date.fromisoformat(r["listing_date"]) < today:
-            continue  # 이미 상장 끝난 종목은 제외
-        ipo = Ipo(r["name"], r["band_low"], r["band_high"], r["final_price"],
-                  r["inst_competition"], r["lockup_ratio"], r["float_amount"],
-                  r["existing_holder_ratio"])
-        g = grade(ipo)
-        if not g["show"]:
-            continue
+        if r.get("listing_date") and dt.date.fromisoformat(r["listing_date"]) < today:
+            continue  # 이미 상장 끝난 종목은 제외 (상장일 미정이면 계속 노출)
+        if any(r.get(k) is None for k in FLOAT_KEYS):
+            if not maybe_pass(r["band_high"], r["final_price"],
+                              r["inst_competition"], r["lockup_ratio"]):
+                continue
+            g = {"grade": 0, "reason": "확인 필요: 유통물량 정보를 못 읽음"}
+        else:
+            ipo = Ipo(r["name"], r["band_low"], r["band_high"], r["final_price"],
+                      r["inst_competition"], r["lockup_ratio"], r["float_amount"],
+                      r["existing_holder_ratio"])
+            g = grade(ipo)
+            if not g["show"]:
+                continue
         shares = r.get("min_shares") or 10
-        items.append({
+        item = {
             "name": r["name"], "broker": r["broker"],
             "brokers": r.get("brokers") or [r["broker"]],
             "sub_start": r["sub_start"], "sub_end": r["sub_end"],
-            "listing_date": r["listing_date"],
+            "listing_date": r.get("listing_date"),
             "final_price": r["final_price"],
             "min_shares": shares,
             "margin": margin_for(r["final_price"], shares),
             "inst_competition": r["inst_competition"],
             "lockup_ratio": r["lockup_ratio"],
             "grade": g["grade"], "reason": g["reason"],
-            "tag": "★ 추천 공모주",
-        })
+        }
+        if g["grade"] == 0:
+            item["check"] = True   # 앱에서 '직접 확인 필요'로 표시
+        items.append(item)
     items.sort(key=lambda x: x["sub_start"])
     return items
 
@@ -86,6 +96,8 @@ def build_ics(items: list, today: dt.date) -> str:
              ("listing_date", "상장일")]
     for it in items:
         for key, label in kinds:
+            if not it.get(key):
+                continue  # 상장일 미정이면 상장 일정은 아직 넣지 않음
             d = dt.date.fromisoformat(it[key])
             # 한국시간 → UTC 변환
             h, m = ALERT_TIME[key]
