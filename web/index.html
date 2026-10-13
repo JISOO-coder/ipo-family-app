@@ -195,10 +195,12 @@
     return new Date(p[0], p[1] - 1, p[2]);
   }
   function fmt(s) {
+    if (!s) return "미정";          // 상장일이 아직 안 나온 경우
     const d = parseDate(s);
     return (d.getMonth() + 1) + "/" + d.getDate() + "(" + DAYS[d.getDay()] + ")";
   }
   function daysFromToday(s) {
+    if (!s) return null;            // 날짜 미정
     const t = new Date(); t.setHours(0, 0, 0, 0);
     return Math.round((parseDate(s) - t) / 86400000);
   }
@@ -401,7 +403,10 @@
     return 1;
   }
   function byDate(key) {
-    return function (x, y) { return x[key] < y[key] ? -1 : x[key] > y[key] ? 1 : 0; };
+    return function (x, y) {
+      const a = x[key] || "9999", b = y[key] || "9999";   // 날짜 미정은 맨 뒤
+      return a < b ? -1 : a > b ? 1 : 0;
+    };
   }
 
   function renderAll() { renderSummary(); renderCards(); }
@@ -413,7 +418,9 @@
     s.appendChild(el("span", "done", "✔ 청약 끝"));
     s.appendChild(el("span", "line"));
     s.appendChild(el("span", c === 0 ? "done" : "",
-                     c === 0 ? "🔔 오늘 상장" : "상장 " + fmt(it.listing_date) + " · D-" + c));
+                     c === 0 ? "🔔 오늘 상장"
+                     : c === null ? "상장일 미정"
+                     : "상장 " + fmt(it.listing_date) + " · D-" + c));
     return s;
   }
 
@@ -421,6 +428,10 @@
   //   mode "sub" = 청약에 필요한 정보와 버튼 전부
   //   mode "app" = 청약이 끝난 종목: 진행 표시 + 증권사 앱 버튼만 (계좌 복사·은행 버튼 숨김)
   function fillBody(card, it, accounts, sel, mode) {
+    if (it.check) {
+      card.appendChild(el("div", "needsel",
+        "⚠️ 유통물량 정보를 못 읽어서 일부 조건은 확인하지 못했어요. 청약 전에 직접 확인해 주세요."));
+    }
     if (mode === "sub") {
       card.appendChild(row("청약", fmt(it.sub_start) + " ~ " + fmt(it.sub_end)));
       card.appendChild(row("상장일", fmt(it.listing_date)));
@@ -438,6 +449,8 @@
       // 청약이 끝난 종목: 청약 때 고른 증권사를 그대로 보여 줌
       card.appendChild(row("내가 청약한 증권사", "✔ " + chosen[0], "mine"));
       if (all.length > 1) {
+        const others = all.filter(function (b) { return b !== chosen[0]; });
+        card.appendChild(row("다른 주관사", others.join(", ")));
         const change = el("button", "link", "증권사 바꾸기");
         change.addEventListener("click", function () { pickBroker(it, null); });
         card.appendChild(change);
@@ -519,6 +532,7 @@
     const p = pillOf(it);
     const pills = el("div", "pills");
     pills.appendChild(el("span", "pill " + p[1], p[0]));
+    if (it.check) pills.appendChild(el("span", "pill wait", "⚠️ 확인 필요"));
     card.appendChild(pills);
     card.appendChild(el("div", "name", it.name));
     fillBody(card, it, accounts, sel, mode);
@@ -542,6 +556,7 @@
     left.appendChild(el("div", "mini-sub",
       fmt(it.sub_start) + " 청약 · " + it.margin.toLocaleString() + "원 · " + who));
     const right = el("div", "mini-right");
+    if (it.check) right.appendChild(el("span", "pill wait", "⚠️"));
     right.appendChild(el("span", "pill soon", "D-" + daysFromToday(it.sub_start)));
     right.appendChild(el("span", "chev", "▼"));
     s.appendChild(left);
