@@ -11,13 +11,14 @@ OUT_JSON = ROOT / "data" / "ipos.json"
 OUT_ICS = ROOT / "web" / "ipo.ics"
 KST = dt.timezone(dt.timedelta(hours=9))
 
-# 알림 시각 (한국시간). 캘린더 일정이 정확히 이 시각에 시작하도록 만듭니다.
+# 캘린더 일정 시작 시각 (한국시간): 전부 오전 9시. 알림은 그 10분 전 = 8시 50분.
 # 바꾸고 싶으면 숫자만 고치세요: (시, 분)
 ALERT_TIME = {
-    "sub_start": (10, 30),     # 청약 시작
-    "sub_end": (8, 50),        # 청약 마감
-    "listing_date": (8, 50),   # 상장일
+    "sub_start": (9, 0),       # 청약 시작
+    "sub_end": (9, 0),         # 청약 마감
+    "listing_date": (9, 0),    # 상장일
 }
+ALARM_BEFORE = "-PT10M"        # 일정 10분 전에 알림
 
 # 판정에 꼭 필요한 값. 하나라도 비어 있으면(수요예측 전 등) 노출하지 않음
 REQUIRED = ["name", "band_low", "band_high", "final_price", "inst_competition",
@@ -85,7 +86,7 @@ def build_ics(items: list, today: dt.date) -> str:
     for it in items:
         for key, label in kinds:
             d = dt.date.fromisoformat(it[key])
-            # 알림 시각 = 일정 시작 시각. (한국시간 → UTC 변환)
+            # 한국시간 → UTC 변환
             h, m = ALERT_TIME[key]
             s_utc = dt.datetime(d.year, d.month, d.day, h, m,
                                 tzinfo=KST).astimezone(dt.timezone.utc)
@@ -100,7 +101,7 @@ def build_ics(items: list, today: dt.date) -> str:
                       f"DESCRIPTION:{_esc(desc)}",
                       "BEGIN:VALARM", "ACTION:DISPLAY",
                       f"DESCRIPTION:{_esc(it['name'] + ' ' + label)}",
-                      "TRIGGER:PT0S", "END:VALARM", "END:VEVENT"]
+                      f"TRIGGER:{ALARM_BEFORE}", "END:VALARM", "END:VEVENT"]
     lines.append("END:VCALENDAR")
     folded = []
     for ln in lines:
