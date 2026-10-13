@@ -11,6 +11,14 @@ OUT_JSON = ROOT / "data" / "ipos.json"
 OUT_ICS = ROOT / "web" / "ipo.ics"
 KST = dt.timezone(dt.timedelta(hours=9))
 
+# 알림 시각 (한국시간). 캘린더 일정이 정확히 이 시각에 시작하도록 만듭니다.
+# 바꾸고 싶으면 숫자만 고치세요: (시, 분)
+ALERT_TIME = {
+    "sub_start": (10, 30),     # 청약 시작
+    "sub_end": (8, 50),        # 청약 마감
+    "listing_date": (8, 50),   # 상장일
+}
+
 # 판정에 꼭 필요한 값. 하나라도 비어 있으면(수요예측 전 등) 노출하지 않음
 REQUIRED = ["name", "band_low", "band_high", "final_price", "inst_competition",
             "lockup_ratio", "float_amount", "existing_holder_ratio",
@@ -77,10 +85,13 @@ def build_ics(items: list, today: dt.date) -> str:
     for it in items:
         for key, label in kinds:
             d = dt.date.fromisoformat(it[key])
-            # 09:00 KST = 00:00 UTC. 알람은 10분 전 = 08:50
-            start = d.strftime("%Y%m%d") + "T000000Z"
-            end = d.strftime("%Y%m%d") + "T010000Z"
-            desc = (f"주간사: {it['broker']}\n10주 증거금: {it['margin']:,}원\n"
+            # 알림 시각 = 일정 시작 시각. (한국시간 → UTC 변환)
+            h, m = ALERT_TIME[key]
+            s_utc = dt.datetime(d.year, d.month, d.day, h, m,
+                                tzinfo=KST).astimezone(dt.timezone.utc)
+            start = s_utc.strftime("%Y%m%dT%H%M%SZ")
+            end = (s_utc + dt.timedelta(minutes=30)).strftime("%Y%m%dT%H%M%SZ")
+            desc = (f"주관사: {it['broker']}\n10주 증거금: {it['margin']:,}원\n"
                     f"공모가: {it['final_price']:,}원\n{it['reason']}")
             lines += ["BEGIN:VEVENT",
                       f"UID:{it['name']}-{key}-{it[key]}@ipo-family",
@@ -89,7 +100,7 @@ def build_ics(items: list, today: dt.date) -> str:
                       f"DESCRIPTION:{_esc(desc)}",
                       "BEGIN:VALARM", "ACTION:DISPLAY",
                       f"DESCRIPTION:{_esc(it['name'] + ' ' + label)}",
-                      "TRIGGER:-PT10M", "END:VALARM", "END:VEVENT"]
+                      "TRIGGER:PT0S", "END:VALARM", "END:VEVENT"]
     lines.append("END:VCALENDAR")
     folded = []
     for ln in lines:
