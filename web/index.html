@@ -10,6 +10,12 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="공모주">
 <link rel="apple-touch-icon" href="icon-192.png">
+<!-- 카톡 등에 링크를 보낼 때 보이는 미리보기 카드 -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="📈 가족 공모주 알림">
+<meta property="og:description" content="오늘 청약·상장할 공모주, 계좌번호 복사, 증권사 앱 바로가기">
+<meta property="og:image" content="https://jisoo-coder.github.io/ipo-family-app/web/icon-512.png">
+<meta property="og:url" content="https://jisoo-coder.github.io/ipo-family-app/web/">
 <style>
   :root {
     --bg: #f4f5f7; --card: #ffffff; --text: #1b1d21; --sub: #6b7280;
@@ -85,6 +91,11 @@
   .chev { color: var(--sub); font-size: 14px; }
   details.mini[open] .chev { transform: rotate(180deg); }
   .mini-body { padding: 0 16px 16px; }
+  .setup { background: var(--soft); border: 2px solid var(--accent); border-radius: 16px;
+           padding: 16px; margin-bottom: 14px; }
+  .setup-title { font-size: 19px; font-weight: 800; color: var(--soft-text); }
+  .setup-desc { font-size: 15px; line-height: 1.5; margin-top: 6px; }
+  .setup button.link { margin: 8px auto 0; }
   .next { background: var(--card); border: 1px solid var(--line); border-radius: 16px;
           padding: 12px 14px; font-size: 15px; line-height: 1.5; margin-bottom: 4px; }
   .next b { color: var(--accent); }
@@ -119,6 +130,7 @@
   <h1>📈 가족 공모주 알림</h1>
   <div class="updated" id="updated">불러오는 중...</div>
   <div class="warn" id="warn" style="display:none"></div>
+  <div id="setup"></div>
   <div id="summary"></div>
   <div id="list"></div>
 
@@ -403,6 +415,26 @@
         nx.appendChild(document.createTextNode(" · " + (n.d === 1 ? "내일" : n.d + "일 남음")));
         box.appendChild(nx);
       }
+    }
+
+    const sb = el("button", "soft", "💬 가족 단톡방에 '공모주 신청하세요~' 보내기");
+    sb.addEventListener("click", shareToday);
+    box.appendChild(sb);
+  }
+
+  // ---------- 카톡으로 "공모주 신청하세요~" 보내기 (앱 링크 포함 → 누르면 앱으로) ----------
+  const APP_URL = "https://jisoo-coder.github.io/ipo-family-app/web/";
+  function shareText() {
+    return "📈 공모주 신청하세요~\n👉 " + APP_URL;
+  }
+  function shareToday() {
+    const text = shareText();
+    if (navigator.share) {
+      navigator.share({ text: text }).catch(function () {});      // 공유 창에서 카카오톡 → 단톡방 선택
+    } else {
+      copyText(text).then(function (ok) {
+        alert(ok ? "내용을 복사했어요. 카톡 단톡방에 붙여 넣어 보내 주세요." : "복사하지 못했어요. 다시 눌러 주세요.");
+      });
     }
   }
   function nextEvent(items) {
@@ -745,55 +777,165 @@
     return btoa(unescape(encodeURIComponent(JSON.stringify(sub))))
       .replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
   }
+  function isStandalone() {
+    return window.matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+  }
+  // 이 폰의 알림 구독 (지원 안 하면 undefined, 아직 안 켰으면 null)
+  function getSub() {
+    if (!("serviceWorker" in navigator) || !("PushManager" in window) || !("Notification" in window)) {
+      return Promise.resolve(undefined);
+    }
+    return navigator.serviceWorker.ready
+      .then(function (reg) { return reg.pushManager.getSubscription(); })
+      .catch(function () { return undefined; });
+  }
+  function enablePush() {
+    return Notification.requestPermission().then(function (p) {
+      if (p !== "granted") {
+        alert("알림이 허용되지 않았어요. 폰 설정에서 이 앱(또는 크롬)의 알림을 허용해 주세요.");
+        return;
+      }
+      return navigator.serviceWorker.ready.then(function (reg) {
+        return reg.pushManager.subscribe({ userVisibleOnly: true,
+                                           applicationServerKey: b64ToBytes(VAPID_PUBLIC) });
+      });
+    }).then(function () { renderPush(); renderSetup(); })
+      .catch(function (e) { alert("알림을 켜지 못했어요: " + e.message); });
+  }
+  // 알림 코드를 지수에게 보내기: 휴대폰 공유 창(카톡 등)을 바로 띄움. 안 되면 복사
+  const SENT_KEY = "ipo_push_code_sent";
+  function markSent(code) {
+    try { localStorage.setItem(SENT_KEY, code); } catch (e) {}
+    renderSetup();
+  }
+  function shareCode(code) {
+    if (navigator.share) {
+      navigator.share({ text: code }).then(function () { markSent(code); }).catch(function () {});
+    } else {
+      copyText(code).then(function (ok) {
+        alert(ok ? "알림 코드를 복사했어요. 카톡에서 지수에게 붙여 넣어 보내 주세요."
+                 : "복사하지 못했어요. 다시 눌러 주세요.");
+        if (ok) markSent(code);
+      });
+    }
+  }
+
   function renderPush() {
     const box = document.getElementById("push"), sum = document.getElementById("pushsum");
     box.textContent = "";
-    const standalone = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone;
-    if (IS_IOS && !standalone) {
+    if (IS_IOS && !isStandalone()) {
       box.appendChild(el("p", "hint", "아이폰은 사파리에서 공유 버튼 → '홈 화면에 추가'를 한 뒤, " +
                                       "홈 화면에 생긴 앱으로 열어야 알림을 켤 수 있어요."));
       return;
     }
-    if (!("serviceWorker" in navigator) || !("PushManager" in window) || !("Notification" in window)) {
-      box.appendChild(el("p", "hint", "이 브라우저는 알림을 지원하지 않아요. 안드로이드는 크롬으로 열어 주세요."));
+    getSub().then(function (sub) {
+      if (sub === undefined) {
+        box.appendChild(el("p", "hint", "이 브라우저는 알림을 지원하지 않아요. 안드로이드는 크롬으로 열어 주세요."));
+        return;
+      }
+      if (!sub) {
+        sum.textContent = "🔔 이 폰에서 알림 받기 (꺼짐)";
+        const on = el("button", "", "🔔 알림 켜기");
+        on.addEventListener("click", enablePush);
+        box.appendChild(on);
+        return;
+      }
+      sum.textContent = "🔔 이 폰에서 알림 받기 (켜짐)";
+      const code = subCode(sub.toJSON());
+      box.appendChild(el("p", "hint", "✅ 이 폰은 알림이 켜졌어요. 처음 한 번만 '알림 코드'를 " +
+                                      "지수에게 카톡으로 보내 주세요. 등록하면 그때부터 알림이 와요."));
+      const sh = el("button", "", "📨 지수에게 알림 코드 보내기");
+      sh.addEventListener("click", function () { shareCode(code); });
+      box.appendChild(sh);
+      const cp = el("button", "soft", "📋 알림 코드 복사");
+      cp.addEventListener("click", async function () {
+        const ok = await copyText(code);
+        cp.textContent = ok ? "✅ 복사됨! 카톡에 붙여 넣어 보내 주세요" : "복사 실패 - 다시 눌러 주세요";
+        setTimeout(function () { cp.textContent = "📋 알림 코드 복사"; }, 2500);
+      });
+      box.appendChild(cp);
+    });
+  }
+
+  // ---------- 처음 설정 도우미 (안드로이드): 카톡 → 크롬 → 앱 설치 → 알림 켜기 → 코드 보내기 ----------
+  // 부모님이 화면 맨 위 카드의 버튼만 차례로 누르면 끝나도록. 다 끝나면 카드가 사라짐
+  const IS_KAKAO = /KAKAOTALK/i.test(UA);
+  const IS_CHROME = /Chrome\/\d/.test(UA) && !/SamsungBrowser|EdgA|OPR|Whale|NAVER|KAKAOTALK|; wv\)/i.test(UA);
+  const HERE = location.href.split("#")[0];
+  function chromeIntent() {
+    return "intent://" + HERE.replace(/^https?:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;end";
+  }
+  // 카카오톡 안의 브라우저에서는 앱 설치·알림이 안 되므로 크롬으로 다시 열기 (안 되면 카톡의 '다른 브라우저로 열기')
+  if (IS_ANDROID && IS_KAKAO) {
+    location.href = chromeIntent();
+    setTimeout(function () {
+      if (!document.hidden) location.href = "kakaotalk://web/openExternal?url=" + encodeURIComponent(HERE);
+    }, 1500);
+  }
+  let installEvt = null, justInstalled = false;
+  window.addEventListener("beforeinstallprompt", function (e) { e.preventDefault(); installEvt = e; renderSetup(); });
+  window.addEventListener("appinstalled", function () { installEvt = null; justInstalled = true; renderSetup(); });
+
+  function renderSetup() {
+    const box = document.getElementById("setup");
+    function show(title, desc, btnText, onClick, linkText, onLink) {
+      box.textContent = "";
+      const c = el("div", "setup");
+      c.appendChild(el("div", "setup-title", title));
+      c.appendChild(el("div", "setup-desc", desc));
+      if (btnText) {
+        const b = el("button", "", btnText);
+        b.addEventListener("click", onClick);
+        c.appendChild(b);
+      }
+      if (linkText) {
+        const l = el("button", "link", linkText);
+        l.addEventListener("click", onLink);
+        c.appendChild(l);
+      }
+      box.appendChild(c);
+    }
+    box.textContent = "";
+    if (!IS_ANDROID) return;                  // 아이폰·PC는 아래 '알림 받기' 칸의 안내로 충분
+    if (IS_KAKAO || (!IS_CHROME && !isStandalone())) {
+      show("크롬으로 열어 주세요",
+           IS_KAKAO ? "카카오톡 안에서는 앱 설치와 알림이 안 돼요. 아래 버튼이 안 되면 오른쪽 위 ⋮ 를 누르고 " +
+                      "'다른 브라우저로 열기'를 눌러 주세요."
+                    : "이 화면은 크롬에서 앱 설치와 알림이 돼요.",
+           "크롬으로 열기", function () { location.href = chromeIntent(); });
       return;
     }
-    navigator.serviceWorker.ready
-      .then(function (reg) { return reg.pushManager.getSubscription(); })
-      .then(function (sub) {
-        if (!sub) {
-          sum.textContent = "🔔 이 폰에서 알림 받기 (꺼짐)";
-          const on = el("button", "", "🔔 알림 켜기");
-          on.addEventListener("click", function () {
-            Notification.requestPermission().then(function (p) {
-              if (p !== "granted") {
-                alert("알림이 허용되지 않았어요. 폰 설정에서 이 앱(또는 크롬)의 알림을 허용해 주세요.");
-                return;
-              }
-              return navigator.serviceWorker.ready.then(function (reg) {
-                return reg.pushManager.subscribe({ userVisibleOnly: true,
-                                                   applicationServerKey: b64ToBytes(VAPID_PUBLIC) });
-              }).then(renderPush);
-            }).catch(function (e) { alert("알림을 켜지 못했어요: " + e.message); });
-          });
-          box.appendChild(on);
-          return;
-        }
-        sum.textContent = "🔔 이 폰에서 알림 받기 (켜짐)";
-        const code = subCode(sub.toJSON());
-        box.appendChild(el("p", "hint", "✅ 이 폰은 알림이 켜졌어요. 처음 한 번만 아래 '알림 코드'를 " +
-                                        "지수에게 카톡으로 보내 주세요. 등록하면 그때부터 알림이 와요."));
-        const cp = el("button", "", "📋 알림 코드 복사");
-        cp.addEventListener("click", async function () {
-          const ok = await copyText(code);
-          cp.textContent = ok ? "✅ 복사됨! 카톡에 붙여 넣어 보내 주세요" : "복사 실패 - 다시 눌러 주세요";
-          setTimeout(function () { cp.textContent = "📋 알림 코드 복사"; }, 2500);
-        });
-        box.appendChild(cp);
-      })
-      .catch(function () {});
+    if (justInstalled && !isStandalone()) {
+      show("✅ 설치됐어요!", "홈 화면에 생긴 '공모주' 아이콘을 눌러 열어 주세요. 거기서 알림을 켜면 돼요.");
+      return;
+    }
+    if (!isStandalone() && installEvt) {
+      show("① 앱으로 설치하기", "홈 화면에 '공모주' 아이콘이 생겨서 다른 앱처럼 쓸 수 있어요.",
+           "📲 앱으로 설치하기", function () {
+             installEvt.prompt();
+             installEvt.userChoice.then(function () { installEvt = null; renderSetup(); });
+           });
+      return;
+    }
+    getSub().then(function (sub) {
+      if (sub === undefined) return;
+      if (!sub) {
+        show("② 알림 켜기", "청약·상장일 아침에 이 폰으로 알림이 와요. 버튼을 누르고 '허용'을 눌러 주세요.",
+             "🔔 알림 켜기", enablePush);
+        return;
+      }
+      const code = subCode(sub.toJSON());
+      let sent = "";
+      try { sent = localStorage.getItem(SENT_KEY) || ""; } catch (e) {}
+      if (sent === code) return;              // 설정 끝 → 카드 숨김
+      show("③ 지수에게 알림 코드 보내기",
+           "버튼을 누르면 공유 창이 떠요. '카카오톡' → 지수를 골라 보내 주세요. 지수가 등록하면 알림이 오기 시작해요.",
+           "📨 알림 코드 보내기", function () { shareCode(code); },
+           "이미 보냈어요", function () { markSent(code); });
+    });
   }
   renderPush();
+  renderSetup();
 
   // ---------- 시작 ----------
   fetch("../data/ipos.json", { cache: "no-store" })
