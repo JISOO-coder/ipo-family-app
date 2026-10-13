@@ -182,9 +182,12 @@ def main():
     except Exception as e:                      # 사이트 접속 실패 → 기존 데이터 유지
         print("목록 페이지를 가져오지 못했습니다:", e)
         sys.exit(1)
+    if not ids:                                  # 차단/개편 등으로 목록이 비어 있음
+        print("종목 목록을 찾지 못했습니다. (사이트 변경 또는 접속 차단 가능성)")
+        sys.exit(1)
     print(f"확인할 종목 {len(ids)}개")
 
-    items = []
+    items, parsed = [], 0
     for no in ids:
         try:
             time.sleep(DELAY_SEC)
@@ -195,12 +198,17 @@ def main():
         if not d:
             print(f"  no={no} 해석 실패(건너뜀)")
             continue
+        parsed += 1
         end_of_life = d["listing_date"] or d["sub_end"]
         if dt.date.fromisoformat(end_of_life) < today:
             continue                            # 이미 끝난 종목
         items.append(d)
         print(f"  {d['name']}: 경쟁률={d['inst_competition']} 확약={d['lockup_ratio']}% "
               f"유통={d['float_amount']}억 확정가={d['final_price']}")
+
+    if parsed == 0:                              # 한 건도 못 읽었으면 기존 데이터 보존
+        print("종목 상세를 하나도 해석하지 못했습니다. 기존 데이터를 그대로 둡니다.")
+        sys.exit(1)
 
     # 직접 고친 값(manual.json)이 있으면 같은 이름 종목에 덮어씀
     if MANUAL.exists():
