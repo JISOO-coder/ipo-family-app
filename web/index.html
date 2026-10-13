@@ -62,6 +62,7 @@
     border: 1px solid var(--line); border-radius: 10px;
     background: var(--bg); color: var(--text);
   }
+  .hint2 { color: var(--sub); font-size: 12px; margin-top: 6px; text-align: center; }
   .empty-msg { text-align: center; color: var(--sub); padding: 40px 0; line-height: 1.6; }
   footer { color: var(--sub); font-size: 12px; text-align: center; margin: 24px 0; line-height: 1.6; }
 </style>
@@ -99,10 +100,20 @@
     { name: "카카오뱅크", android: "com.kakaobank.channel", androidScheme: "kakaobank",  iosId: "1258016944", iosScheme: "kakaobank://" }
   ];
   const BROKER_APPS = {
-    // 키는 증권사 이름에서 "증권/투자증권/금융투자"를 뺀 이름
+    // 키는 증권사 이름에서 "증권/투자증권/금융투자"를 뺀 이름 (소문자)
+    // ※ 아래 패키지명은 직접 수집한 목록이라, 폰에서 눌러 보고 틀린 것만 고치면 됩니다.
     // 미래에셋: 2026.10 M-STOCK → MAPS 로 이름이 바뀌었고, 같은 앱이 업데이트된 것
-    "미래에셋": { android: "com.miraeasset.trade", androidScheme: "", iosId: "1248716281", iosScheme: "" }
-    // 예) "키움": { android: "패키지명", androidScheme: "", iosId: "숫자", iosScheme: "" },
+    "미래에셋":   { android: "com.miraeasset.trade",           androidScheme: "", iosId: "1248716281", iosScheme: "" },
+    "키움":       { android: "com.kiwoom.heromts",             androidScheme: "", iosId: "", iosScheme: "" },
+    "kb":         { android: "com.kbsec.mts.iplustarngm2",     androidScheme: "", iosId: "", iosScheme: "" },
+    "삼성":       { android: "com.samsungpop.android.mpop",    androidScheme: "", iosId: "", iosScheme: "" },
+    "nh":         { android: "com.wooriwm.txsmart",               androidScheme: "", iosId: "", iosScheme: "" },
+    "한국":       { android: "com.truefriend.neosmartarenewal",androidScheme: "", iosId: "", iosScheme: "" },
+    "신한":       { android: "com.shinhaninvest.nsmts",        androidScheme: "", iosId: "", iosScheme: "" },
+    "하나":       { android: "com.hanasec.stock",               androidScheme: "", iosId: "", iosScheme: "" },
+    "유진":       { android: "com.eugenefn.smartchampion2",             androidScheme: "", iosId: "", iosScheme: "" },
+    "대신":       { android: "com.daishin.creon",                androidScheme: "", iosId: "", iosScheme: "" },
+    "메리츠":     { android: "com.imeritz.smartmeritz",             androidScheme: "", iosId: "", iosScheme: "" }
   };
   const BROKERS = [
     "미래에셋증권", "KB증권", "NH투자증권", "한국투자증권", "삼성증권", "신한투자증권",
@@ -294,6 +305,7 @@
       const mtsBtn = el("button", "soft", "📲 " + it.broker + " 앱 열기");
       mtsBtn.addEventListener("click", function () { openApp(mts, it.broker); });
       card.appendChild(mtsBtn);
+      card.appendChild(el("div", "hint2", "바로 안 열리면 스토어 화면의 '열기'를 눌러 주세요"));
 
       list.appendChild(card);
     });
