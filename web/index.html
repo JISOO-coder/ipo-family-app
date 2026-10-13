@@ -91,6 +91,9 @@
   .chev { color: var(--sub); font-size: 14px; }
   details.mini[open] .chev { transform: rotate(180deg); }
   .mini-body { padding: 0 16px 16px; }
+  .topbar { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  button.mini-btn { width: auto; flex-shrink: 0; margin: 0; padding: 6px 10px; font-size: 13px;
+                    font-weight: 600; border-radius: 999px; background: var(--soft); color: var(--soft-text); }
   .setup { background: var(--soft); border: 2px solid var(--accent); border-radius: 16px;
            padding: 16px; margin-bottom: 14px; }
   .setup-title { font-size: 19px; font-weight: 800; color: var(--soft-text); }
@@ -127,7 +130,10 @@
 </style>
 </head>
 <body>
-  <h1>📈 가족 공모주 알림</h1>
+  <div class="topbar">
+    <h1>📈 가족 공모주 알림</h1>
+    <button id="shareBtn" class="mini-btn">💬 단톡방 알림</button>
+  </div>
   <div class="updated" id="updated">불러오는 중...</div>
   <div class="warn" id="warn" style="display:none"></div>
   <div id="setup"></div>
@@ -416,13 +422,11 @@
         box.appendChild(nx);
       }
     }
-
-    const sb = el("button", "soft", "💬 가족 단톡방에 '공모주 신청하세요~' 보내기");
-    sb.addEventListener("click", shareToday);
-    box.appendChild(sb);
   }
 
   // ---------- 카톡으로 "공모주 신청하세요~" 보내기 (앱 링크 포함 → 누르면 앱으로) ----------
+  // 화면 맨 위 오른쪽의 작은 '💬 단톡방 알림' 버튼 (주로 지수가 가족 단톡방에 보낼 때 씀)
+  document.getElementById("shareBtn").addEventListener("click", function () { shareToday(); });
   const APP_URL = "https://jisoo-coder.github.io/ipo-family-app/web/";
   function shareText() {
     return "📈 공모주 신청하세요~\n👉 " + APP_URL;
