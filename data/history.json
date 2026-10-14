@@ -1,5 +1,28 @@
 [
   {
+    "no": "2319",
+    "name": "SK증권스팩14호",
+    "market": "코스닥",
+    "sub_start": "2026-10-15",
+    "sub_end": "2026-10-16",
+    "listing_date": "2026-10-27",
+    "band_low": 2000,
+    "band_high": 2000,
+    "final_price": 2000,
+    "inst_competition": 1228.38,
+    "lockup_ratio": 0.0,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "SK증권",
+    "brokers": [
+      "SK증권"
+    ],
+    "passed": false,
+    "grade": 0,
+    "reason": "기준 미달(유통물량 정보 없음)",
+    "judged_at": "2026-10-14"
+  },
+  {
     "no": "2326",
     "name": "디티에스(구.동양티에스)",
     "market": "코스닥",
