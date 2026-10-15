@@ -1,23 +1,6 @@
 {
-  "updated": "2026-10-15",
+  "updated": "2026-10-16",
   "items": [
-    {
-      "name": "멜콘(구.에스앤에프솔루션)",
-      "broker": "대신증권",
-      "brokers": [
-        "대신증권"
-      ],
-      "sub_start": "2026-10-01",
-      "sub_end": "2026-10-02",
-      "listing_date": "2026-10-15",
-      "final_price": 12300,
-      "min_shares": 10,
-      "margin": 61500,
-      "inst_competition": 1136.84,
-      "lockup_ratio": 36.07,
-      "grade": 4,
-      "reason": "예외1: 확약 35% 이상"
-    },
     {
       "name": "엠에스바이오",
       "broker": "KB증권",

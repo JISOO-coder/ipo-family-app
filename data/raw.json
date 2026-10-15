@@ -1,43 +1,5 @@
 [
   {
-    "name": "멜콘(구.에스앤에프솔루션)",
-    "market": "코스닥",
-    "sub_start": "2026-10-01",
-    "sub_end": "2026-10-02",
-    "listing_date": "2026-10-15",
-    "band_low": 10700,
-    "band_high": 12300,
-    "final_price": 12300,
-    "inst_competition": 1136.84,
-    "lockup_ratio": 36.07,
-    "float_amount": 534.6,
-    "existing_holder_ratio": 43.64,
-    "broker": "대신증권",
-    "brokers": [
-      "대신증권"
-    ],
-    "no": "2315"
-  },
-  {
-    "name": "진코스텍",
-    "market": "코스닥",
-    "sub_start": "2026-10-02",
-    "sub_end": "2026-10-06",
-    "listing_date": "2026-10-15",
-    "band_low": 19500,
-    "band_high": 23500,
-    "final_price": 23500,
-    "inst_competition": 1097.62,
-    "lockup_ratio": 5.29,
-    "float_amount": 520.0,
-    "existing_holder_ratio": 61.5,
-    "broker": "하나증권",
-    "brokers": [
-      "하나증권"
-    ],
-    "no": "2320"
-  },
-  {
     "name": "엘리스그룹",
     "market": "코스닥",
     "sub_start": "2026-10-07",
