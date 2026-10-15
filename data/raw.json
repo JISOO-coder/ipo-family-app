@@ -268,25 +268,6 @@
     "no": "2329"
   },
   {
-    "name": "엠비디",
-    "market": "코스닥",
-    "sub_start": "2026-10-28",
-    "sub_end": "2026-10-29",
-    "listing_date": null,
-    "band_low": 9600,
-    "band_high": 11700,
-    "final_price": null,
-    "inst_competition": null,
-    "lockup_ratio": null,
-    "float_amount": null,
-    "existing_holder_ratio": null,
-    "broker": "하나증권",
-    "brokers": [
-      "하나증권"
-    ],
-    "no": "2321"
-  },
-  {
     "name": "동원파츠",
     "market": "코스닥",
     "sub_start": "2026-11-02",
@@ -475,6 +456,25 @@
       "신영증권"
     ],
     "no": "2343"
+  },
+  {
+    "name": "엠비디",
+    "market": "코스닥",
+    "sub_start": "2026-11-12",
+    "sub_end": "2026-11-13",
+    "listing_date": null,
+    "band_low": 9600,
+    "band_high": 11700,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "하나증권",
+    "brokers": [
+      "하나증권"
+    ],
+    "no": "2321"
   },
   {
     "name": "아델",

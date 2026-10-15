@@ -114,7 +114,12 @@
     "passed": true,
     "grade": 4,
     "reason": "예외1: 확약 35% 이상",
-    "judged_at": "2026-10-15"
+    "judged_at": "2026-10-15",
+    "open_price": 27400,
+    "close_price": 17180,
+    "open_return": 122.8,
+    "close_return": 39.7,
+    "result_at": "2026-10-15"
   },
   {
     "no": "2320",
@@ -137,7 +142,12 @@
     "passed": false,
     "grade": 0,
     "reason": "기존주주 물량 50% 이상",
-    "judged_at": "2026-10-15"
+    "judged_at": "2026-10-15",
+    "open_price": 24000,
+    "close_price": 14450,
+    "open_return": 2.1,
+    "close_return": -38.5,
+    "result_at": "2026-10-15"
   },
   {
     "no": "2307",
