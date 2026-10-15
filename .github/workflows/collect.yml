@@ -11,10 +11,10 @@ concurrency:
   cancel-in-progress: false
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04   # 실행 서버 버전 고정 (ubuntu-latest 는 2026-10-19부터 Ubuntu 26으로 바뀜)
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
       - name: 38커뮤니케이션에서 수집
