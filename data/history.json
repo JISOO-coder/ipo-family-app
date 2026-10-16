@@ -94,6 +94,29 @@
     "judged_at": "2026-10-16"
   },
   {
+    "no": "2322",
+    "name": "티앤이코리아",
+    "market": "코스닥",
+    "sub_start": "2026-10-20",
+    "sub_end": "2026-10-21",
+    "listing_date": null,
+    "band_low": 12600,
+    "band_high": 15300,
+    "final_price": 15300,
+    "inst_competition": 1041.02,
+    "lockup_ratio": 29.52,
+    "float_amount": 543.4,
+    "existing_holder_ratio": 32.43,
+    "broker": "신한투자증권",
+    "brokers": [
+      "신한투자증권"
+    ],
+    "passed": true,
+    "grade": 4,
+    "reason": "예외3: 수요 강한 중대형주",
+    "judged_at": "2026-10-16"
+  },
+  {
     "no": "2315",
     "name": "멜콘(구.에스앤에프솔루션)",
     "market": "코스닥",

@@ -107,8 +107,8 @@
     "final_price": null,
     "inst_competition": null,
     "lockup_ratio": null,
-    "float_amount": null,
-    "existing_holder_ratio": null,
+    "float_amount": 931.8,
+    "existing_holder_ratio": 72.96,
     "broker": "삼성증권",
     "brokers": [
       "삼성증권"
@@ -123,11 +123,11 @@
     "listing_date": null,
     "band_low": 12600,
     "band_high": 15300,
-    "final_price": null,
-    "inst_competition": null,
-    "lockup_ratio": null,
-    "float_amount": null,
-    "existing_holder_ratio": null,
+    "final_price": 15300,
+    "inst_competition": 1041.02,
+    "lockup_ratio": 29.52,
+    "float_amount": 543.4,
+    "existing_holder_ratio": 32.43,
     "broker": "신한투자증권",
     "brokers": [
       "신한투자증권"
@@ -145,8 +145,8 @@
     "final_price": null,
     "inst_competition": null,
     "lockup_ratio": null,
-    "float_amount": null,
-    "existing_holder_ratio": null,
+    "float_amount": 244.4,
+    "existing_holder_ratio": 7.92,
     "broker": "미래에셋증권",
     "brokers": [
       "미래에셋증권"
@@ -183,8 +183,8 @@
     "final_price": null,
     "inst_competition": null,
     "lockup_ratio": null,
-    "float_amount": null,
-    "existing_holder_ratio": null,
+    "float_amount": 488.0,
+    "existing_holder_ratio": 21.28,
     "broker": "한국투자증권",
     "brokers": [
       "한국투자증권"
@@ -399,6 +399,45 @@
       "IBK투자증권"
     ],
     "no": "2334"
+  },
+  {
+    "name": "제이앤티지",
+    "market": "코스닥",
+    "sub_start": "2026-11-12",
+    "sub_end": "2026-11-13",
+    "listing_date": null,
+    "band_low": 26400,
+    "band_high": 31900,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "대신증권",
+    "brokers": [
+      "대신증권",
+      "NH투자증권"
+    ],
+    "no": "2347"
+  },
+  {
+    "name": "씨앤엠",
+    "market": "코스닥",
+    "sub_start": "2026-11-12",
+    "sub_end": "2026-11-13",
+    "listing_date": null,
+    "band_low": 10000,
+    "band_high": 13000,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "한국투자증권",
+    "brokers": [
+      "한국투자증권"
+    ],
+    "no": "2346"
   },
   {
     "name": "엔키화이트햇",
