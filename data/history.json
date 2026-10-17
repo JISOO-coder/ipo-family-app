@@ -20,7 +20,7 @@
     "passed": false,
     "grade": 0,
     "reason": "기준 미달(유통물량 정보 없음)",
-    "judged_at": "2026-10-17"
+    "judged_at": "2026-10-18"
   },
   {
     "no": "2326",
@@ -44,7 +44,7 @@
     "passed": false,
     "grade": 0,
     "reason": "기준 미달",
-    "judged_at": "2026-10-17"
+    "judged_at": "2026-10-18"
   },
   {
     "no": "2324",
@@ -67,7 +67,7 @@
     "passed": true,
     "grade": 4,
     "reason": "예외3: 수요 강한 중대형주",
-    "judged_at": "2026-10-17"
+    "judged_at": "2026-10-18"
   },
   {
     "no": "2316",
@@ -91,7 +91,7 @@
     "passed": false,
     "grade": 0,
     "reason": "기준 미달",
-    "judged_at": "2026-10-17"
+    "judged_at": "2026-10-18"
   },
   {
     "no": "2322",
@@ -114,7 +114,7 @@
     "passed": true,
     "grade": 4,
     "reason": "예외3: 수요 강한 중대형주",
-    "judged_at": "2026-10-17"
+    "judged_at": "2026-10-18"
   },
   {
     "no": "2315",
