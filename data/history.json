@@ -117,6 +117,52 @@
     "judged_at": "2026-10-19"
   },
   {
+    "no": "2330",
+    "name": "한화플러스스팩6호",
+    "market": "코스닥",
+    "sub_start": "2026-10-20",
+    "sub_end": "2026-10-21",
+    "listing_date": null,
+    "band_low": 2000,
+    "band_high": 2000,
+    "final_price": 2000,
+    "inst_competition": 1256.48,
+    "lockup_ratio": 0.0,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "한화투자증권",
+    "brokers": [
+      "한화투자증권"
+    ],
+    "passed": false,
+    "grade": 0,
+    "reason": "기준 미달(유통물량 정보 없음)",
+    "judged_at": "2026-10-19"
+  },
+  {
+    "no": "2323",
+    "name": "크리에이츠",
+    "market": "코스닥",
+    "sub_start": "2026-10-20",
+    "sub_end": "2026-10-21",
+    "listing_date": null,
+    "band_low": 15000,
+    "band_high": 18000,
+    "final_price": 15000,
+    "inst_competition": 240.46,
+    "lockup_ratio": 0.0,
+    "float_amount": 776.5,
+    "existing_holder_ratio": 72.96,
+    "broker": "삼성증권",
+    "brokers": [
+      "삼성증권"
+    ],
+    "passed": false,
+    "grade": 0,
+    "reason": "기존주주 물량 50% 이상",
+    "judged_at": "2026-10-19"
+  },
+  {
     "no": "2315",
     "name": "멜콘(구.에스앤에프솔루션)",
     "market": "코스닥",
