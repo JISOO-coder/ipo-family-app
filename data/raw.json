@@ -82,7 +82,7 @@
     "market": "코스닥",
     "sub_start": "2026-10-20",
     "sub_end": "2026-10-21",
-    "listing_date": null,
+    "listing_date": "2026-10-30",
     "band_low": 2000,
     "band_high": 2000,
     "final_price": 2000,
@@ -101,7 +101,7 @@
     "market": "코스닥",
     "sub_start": "2026-10-20",
     "sub_end": "2026-10-21",
-    "listing_date": null,
+    "listing_date": "2026-10-30",
     "band_low": 15000,
     "band_high": 18000,
     "final_price": 15000,
@@ -120,7 +120,7 @@
     "market": "코스닥",
     "sub_start": "2026-10-20",
     "sub_end": "2026-10-21",
-    "listing_date": null,
+    "listing_date": "2026-10-29",
     "band_low": 12600,
     "band_high": 15300,
     "final_price": 15300,
@@ -139,12 +139,12 @@
     "market": "코스닥",
     "sub_start": "2026-10-21",
     "sub_end": "2026-10-22",
-    "listing_date": null,
+    "listing_date": "2026-10-30",
     "band_low": 7600,
     "band_high": 9000,
-    "final_price": null,
-    "inst_competition": null,
-    "lockup_ratio": null,
+    "final_price": 9000,
+    "inst_competition": 1234.3,
+    "lockup_ratio": 6.14,
     "float_amount": 244.4,
     "existing_holder_ratio": 7.92,
     "broker": "미래에셋증권",
@@ -478,6 +478,27 @@
     "no": "2321"
   },
   {
+    "name": "에스에프씨",
+    "market": null,
+    "sub_start": "2026-11-18",
+    "sub_end": "2026-11-19",
+    "listing_date": null,
+    "band_low": 31600,
+    "band_high": 36100,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "미래에셋증권",
+    "brokers": [
+      "미래에셋증권",
+      "한국투자증권",
+      "삼성증권"
+    ],
+    "no": "2349"
+  },
+  {
     "name": "아델",
     "market": "코스닥",
     "sub_start": "2026-11-23",
@@ -515,5 +536,24 @@
       "IBK투자증권"
     ],
     "no": "2340"
+  },
+  {
+    "name": "씨아이에스케미칼",
+    "market": "코스닥",
+    "sub_start": "2026-12-10",
+    "sub_end": "2026-12-11",
+    "listing_date": null,
+    "band_low": 5400,
+    "band_high": 6800,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "KB증권",
+    "brokers": [
+      "KB증권"
+    ],
+    "no": "2348"
   }
 ]
