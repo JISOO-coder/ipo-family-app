@@ -1,25 +1,5 @@
 [
   {
-    "name": "엘리스그룹",
-    "market": "코스닥",
-    "sub_start": "2026-10-07",
-    "sub_end": "2026-10-08",
-    "listing_date": "2026-10-20",
-    "band_low": 70400,
-    "band_high": 90500,
-    "final_price": 90500,
-    "inst_competition": 388.84,
-    "lockup_ratio": 13.7,
-    "float_amount": 2092.3,
-    "existing_holder_ratio": 3.89,
-    "broker": "미래에셋증권",
-    "brokers": [
-      "미래에셋증권",
-      "삼성증권"
-    ],
-    "no": "2316"
-  },
-  {
     "name": "엠에스바이오",
     "market": "코스닥",
     "sub_start": "2026-10-12",
