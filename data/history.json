@@ -23,6 +23,52 @@
     "judged_at": "2026-10-22"
   },
   {
+    "no": "2329",
+    "name": "아이엠스팩1호",
+    "market": "코스닥",
+    "sub_start": "2026-10-26",
+    "sub_end": "2026-10-27",
+    "listing_date": "2026-11-04",
+    "band_low": 2000,
+    "band_high": 2000,
+    "final_price": 2000,
+    "inst_competition": 1266.52,
+    "lockup_ratio": 0.0,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "아이엠증권",
+    "brokers": [
+      "아이엠증권"
+    ],
+    "passed": false,
+    "grade": 0,
+    "reason": "기준 미달(유통물량 정보 없음)",
+    "judged_at": "2026-10-22"
+  },
+  {
+    "no": "2335",
+    "name": "래블업",
+    "market": "코스닥",
+    "sub_start": "2026-10-22",
+    "sub_end": "2026-10-23",
+    "listing_date": "2026-11-03",
+    "band_low": 19000,
+    "band_high": 22000,
+    "final_price": 19000,
+    "inst_competition": 284.53,
+    "lockup_ratio": 2.09,
+    "float_amount": 982.8,
+    "existing_holder_ratio": 59.12,
+    "broker": "NH투자증권",
+    "brokers": [
+      "NH투자증권"
+    ],
+    "passed": false,
+    "grade": 0,
+    "reason": "기존주주 물량 50% 이상",
+    "judged_at": "2026-10-22"
+  },
+  {
     "no": "2333",
     "name": "영광(구.영광공작소)",
     "market": "코스닥",
@@ -205,30 +251,12 @@
     "passed": true,
     "grade": 4,
     "reason": "예외3: 수요 강한 중대형주",
-    "judged_at": "2026-10-22"
-  },
-  {
-    "no": "2335",
-    "name": "래블업",
-    "market": "코스닥",
-    "sub_start": "2026-10-22",
-    "sub_end": "2026-10-23",
-    "listing_date": null,
-    "band_low": 19000,
-    "band_high": 22000,
-    "final_price": 19000,
-    "inst_competition": 284.53,
-    "lockup_ratio": 2.09,
-    "float_amount": 982.8,
-    "existing_holder_ratio": 59.12,
-    "broker": "NH투자증권",
-    "brokers": [
-      "NH투자증권"
-    ],
-    "passed": false,
-    "grade": 0,
-    "reason": "기존주주 물량 50% 이상",
-    "judged_at": "2026-10-22"
+    "judged_at": "2026-10-22",
+    "open_price": 16000,
+    "close_price": 13070,
+    "open_return": 105.1,
+    "close_return": 67.6,
+    "result_at": "2026-10-22"
   },
   {
     "no": "2316",

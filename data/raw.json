@@ -1,24 +1,5 @@
 [
   {
-    "name": "엠에스바이오",
-    "market": "코스닥",
-    "sub_start": "2026-10-12",
-    "sub_end": "2026-10-13",
-    "listing_date": "2026-10-22",
-    "band_low": 6800,
-    "band_high": 7800,
-    "final_price": 7800,
-    "inst_competition": 1096.56,
-    "lockup_ratio": 30.62,
-    "float_amount": 495.1,
-    "existing_holder_ratio": 39.5,
-    "broker": "KB증권",
-    "brokers": [
-      "KB증권"
-    ],
-    "no": "2324"
-  },
-  {
     "name": "디티에스(구.동양티에스)",
     "market": "코스닥",
     "sub_start": "2026-10-13",
@@ -138,7 +119,7 @@
     "market": "코스닥",
     "sub_start": "2026-10-22",
     "sub_end": "2026-10-23",
-    "listing_date": null,
+    "listing_date": "2026-11-03",
     "band_low": 19000,
     "band_high": 22000,
     "final_price": 19000,
@@ -195,12 +176,12 @@
     "market": "코스닥",
     "sub_start": "2026-10-26",
     "sub_end": "2026-10-27",
-    "listing_date": null,
+    "listing_date": "2026-11-04",
     "band_low": 2000,
     "band_high": 2000,
-    "final_price": null,
-    "inst_competition": null,
-    "lockup_ratio": null,
+    "final_price": 2000,
+    "inst_competition": 1266.52,
+    "lockup_ratio": 0.0,
     "float_amount": null,
     "existing_holder_ratio": null,
     "broker": "아이엠증권",
@@ -456,6 +437,26 @@
       "하나증권"
     ],
     "no": "2321"
+  },
+  {
+    "name": "유캐스트",
+    "market": "코스닥",
+    "sub_start": "2026-11-18",
+    "sub_end": "2026-11-19",
+    "listing_date": null,
+    "band_low": 19000,
+    "band_high": 23000,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "유진투자증권",
+    "brokers": [
+      "유진투자증권",
+      "신영증권"
+    ],
+    "no": "2352"
   },
   {
     "name": "에스에프씨",

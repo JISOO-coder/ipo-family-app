@@ -2,23 +2,6 @@
   "updated": "2026-10-22",
   "items": [
     {
-      "name": "엠에스바이오",
-      "broker": "KB증권",
-      "brokers": [
-        "KB증권"
-      ],
-      "sub_start": "2026-10-12",
-      "sub_end": "2026-10-13",
-      "listing_date": "2026-10-22",
-      "final_price": 7800,
-      "min_shares": 10,
-      "margin": 39000,
-      "inst_competition": 1096.56,
-      "lockup_ratio": 30.62,
-      "grade": 4,
-      "reason": "예외3: 수요 강한 중대형주"
-    },
-    {
       "name": "티앤이코리아",
       "broker": "신한투자증권",
       "brokers": [
