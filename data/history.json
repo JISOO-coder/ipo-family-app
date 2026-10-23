@@ -228,7 +228,12 @@
     "passed": false,
     "grade": 0,
     "reason": "기준 미달",
-    "judged_at": "2026-10-23"
+    "judged_at": "2026-10-23",
+    "open_price": 32350,
+    "close_price": 25050,
+    "open_return": 74.9,
+    "close_return": 35.4,
+    "result_at": "2026-10-23"
   },
   {
     "no": "2324",

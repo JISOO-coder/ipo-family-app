@@ -1,25 +1,5 @@
 [
   {
-    "name": "디티에스(구.동양티에스)",
-    "market": "코스닥",
-    "sub_start": "2026-10-13",
-    "sub_end": "2026-10-14",
-    "listing_date": "2026-10-23",
-    "band_low": 17000,
-    "band_high": 18500,
-    "final_price": 18500,
-    "inst_competition": 983.98,
-    "lockup_ratio": 13.31,
-    "float_amount": 416.4,
-    "existing_holder_ratio": 0.97,
-    "broker": "대신증권",
-    "brokers": [
-      "대신증권",
-      "유진증권"
-    ],
-    "no": "2326"
-  },
-  {
     "name": "SK증권스팩14호",
     "market": "코스닥",
     "sub_start": "2026-10-15",
@@ -201,8 +181,8 @@
     "final_price": null,
     "inst_competition": null,
     "lockup_ratio": null,
-    "float_amount": null,
-    "existing_holder_ratio": null,
+    "float_amount": 724.6,
+    "existing_holder_ratio": 25.76,
     "broker": "삼성증권",
     "brokers": [
       "삼성증권"
@@ -220,8 +200,8 @@
     "final_price": null,
     "inst_competition": null,
     "lockup_ratio": null,
-    "float_amount": null,
-    "existing_holder_ratio": null,
+    "float_amount": 733.2,
+    "existing_holder_ratio": 50.96,
     "broker": "미래에셋증권",
     "brokers": [
       "미래에셋증권"
@@ -239,8 +219,8 @@
     "final_price": null,
     "inst_competition": null,
     "lockup_ratio": null,
-    "float_amount": null,
-    "existing_holder_ratio": null,
+    "float_amount": 2203.2,
+    "existing_holder_ratio": 70.5,
     "broker": "한국투자증권",
     "brokers": [
       "한국투자증권"
@@ -258,8 +238,8 @@
     "final_price": null,
     "inst_competition": null,
     "lockup_ratio": null,
-    "float_amount": null,
-    "existing_holder_ratio": null,
+    "float_amount": 554.5,
+    "existing_holder_ratio": 54.97,
     "broker": "대신증권",
     "brokers": [
       "대신증권"
@@ -277,8 +257,8 @@
     "final_price": null,
     "inst_competition": null,
     "lockup_ratio": null,
-    "float_amount": null,
-    "existing_holder_ratio": null,
+    "float_amount": 508.3,
+    "existing_holder_ratio": 49.59,
     "broker": "삼성증권",
     "brokers": [
       "삼성증권"
@@ -555,6 +535,26 @@
       "한국투자증권"
     ],
     "no": "2351"
+  },
+  {
+    "name": "인터엑스",
+    "market": "코스닥",
+    "sub_start": "2026-12-09",
+    "sub_end": "2026-12-10",
+    "listing_date": null,
+    "band_low": 10000,
+    "band_high": 13000,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "한국투자증권",
+    "brokers": [
+      "한국투자증권",
+      "BNK투자증권"
+    ],
+    "no": "2353"
   },
   {
     "name": "씨아이에스케미칼",
