@@ -1,24 +1,5 @@
 [
   {
-    "name": "SK증권스팩14호",
-    "market": "코스닥",
-    "sub_start": "2026-10-15",
-    "sub_end": "2026-10-16",
-    "listing_date": "2026-10-27",
-    "band_low": 2000,
-    "band_high": 2000,
-    "final_price": 2000,
-    "inst_competition": 1228.38,
-    "lockup_ratio": 0.0,
-    "float_amount": null,
-    "existing_holder_ratio": null,
-    "broker": "SK증권",
-    "brokers": [
-      "SK증권"
-    ],
-    "no": "2319"
-  },
-  {
     "name": "한화플러스스팩6호",
     "market": "코스닥",
     "sub_start": "2026-10-20",
