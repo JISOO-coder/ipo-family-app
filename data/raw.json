@@ -238,8 +238,8 @@
     "final_price": null,
     "inst_competition": null,
     "lockup_ratio": null,
-    "float_amount": null,
-    "existing_holder_ratio": null,
+    "float_amount": 260.7,
+    "existing_holder_ratio": 2.32,
     "broker": "한국투자증권",
     "brokers": [
       "한국투자증권"
@@ -257,8 +257,8 @@
     "final_price": null,
     "inst_competition": null,
     "lockup_ratio": null,
-    "float_amount": null,
-    "existing_holder_ratio": null,
+    "float_amount": 742.4,
+    "existing_holder_ratio": 43.11,
     "broker": "대신증권",
     "brokers": [
       "대신증권"
@@ -341,25 +341,6 @@
       "한국투자증권"
     ],
     "no": "2346"
-  },
-  {
-    "name": "엔키화이트햇",
-    "market": "코스닥",
-    "sub_start": "2026-11-12",
-    "sub_end": "2026-11-13",
-    "listing_date": null,
-    "band_low": 13000,
-    "band_high": 16500,
-    "final_price": null,
-    "inst_competition": null,
-    "lockup_ratio": null,
-    "float_amount": null,
-    "existing_holder_ratio": null,
-    "broker": "신영증권",
-    "brokers": [
-      "신영증권"
-    ],
-    "no": "2343"
   },
   {
     "name": "엠비디",
@@ -499,6 +480,25 @@
     "no": "2350"
   },
   {
+    "name": "엔키화이트햇",
+    "market": "코스닥",
+    "sub_start": "2026-12-01",
+    "sub_end": "2026-12-02",
+    "listing_date": null,
+    "band_low": 13000,
+    "band_high": 16500,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "신영증권",
+    "brokers": [
+      "신영증권"
+    ],
+    "no": "2343"
+  },
+  {
     "name": "우리투자스팩1호",
     "market": "코스닥",
     "sub_start": "2026-12-02",
@@ -574,5 +574,24 @@
       "KB증권"
     ],
     "no": "2348"
+  },
+  {
+    "name": "KTE",
+    "market": "코스닥",
+    "sub_start": "2026-12-14",
+    "sub_end": "2026-12-15",
+    "listing_date": null,
+    "band_low": 19000,
+    "band_high": 23000,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "NH투자증권",
+    "brokers": [
+      "NH투자증권"
+    ],
+    "no": "2355"
   }
 ]
