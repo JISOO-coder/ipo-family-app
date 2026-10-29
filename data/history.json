@@ -1,5 +1,28 @@
 [
   {
+    "no": "2338",
+    "name": "옵토닉스",
+    "market": "코스닥",
+    "sub_start": "2026-11-05",
+    "sub_end": "2026-11-06",
+    "listing_date": "2026-11-17",
+    "band_low": 10000,
+    "band_high": 12000,
+    "final_price": 12000,
+    "inst_competition": 1201.81,
+    "lockup_ratio": 5.62,
+    "float_amount": 260.7,
+    "existing_holder_ratio": 2.32,
+    "broker": "한국투자증권",
+    "brokers": [
+      "한국투자증권"
+    ],
+    "passed": false,
+    "grade": 0,
+    "reason": "기준 미달",
+    "judged_at": "2026-10-29"
+  },
+  {
     "no": "2332",
     "name": "이에스티",
     "market": "코스닥",
@@ -181,7 +204,12 @@
     "passed": true,
     "grade": 4,
     "reason": "예외3: 수요 강한 중대형주",
-    "judged_at": "2026-10-29"
+    "judged_at": "2026-10-29",
+    "open_price": 30350,
+    "close_price": 21250,
+    "open_return": 98.4,
+    "close_return": 38.9,
+    "result_at": "2026-10-29"
   },
   {
     "no": "2319",

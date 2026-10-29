@@ -38,25 +38,6 @@
     "no": "2323"
   },
   {
-    "name": "티앤이코리아",
-    "market": "코스닥",
-    "sub_start": "2026-10-20",
-    "sub_end": "2026-10-21",
-    "listing_date": "2026-10-29",
-    "band_low": 12600,
-    "band_high": 15300,
-    "final_price": 15300,
-    "inst_competition": 1041.02,
-    "lockup_ratio": 29.52,
-    "float_amount": 543.4,
-    "existing_holder_ratio": 32.43,
-    "broker": "신한투자증권",
-    "brokers": [
-      "신한투자증권"
-    ],
-    "no": "2322"
-  },
-  {
     "name": "인텔리빅스",
     "market": "코스닥",
     "sub_start": "2026-10-21",
@@ -232,12 +213,12 @@
     "market": "코스닥",
     "sub_start": "2026-11-05",
     "sub_end": "2026-11-06",
-    "listing_date": null,
+    "listing_date": "2026-11-17",
     "band_low": 10000,
     "band_high": 12000,
-    "final_price": null,
-    "inst_competition": null,
-    "lockup_ratio": null,
+    "final_price": 12000,
+    "inst_competition": 1201.81,
+    "lockup_ratio": 5.62,
     "float_amount": 260.7,
     "existing_holder_ratio": 2.32,
     "broker": "한국투자증권",
@@ -423,6 +404,25 @@
     "no": "2345"
   },
   {
+    "name": "신영스팩12호",
+    "market": "코스닥",
+    "sub_start": "2026-11-24",
+    "sub_end": "2026-11-25",
+    "listing_date": null,
+    "band_low": 2000,
+    "band_high": 2000,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "신영증권",
+    "brokers": [
+      "신영증권"
+    ],
+    "no": "2357"
+  },
+  {
     "name": "제논",
     "market": "코스닥",
     "sub_start": "2026-11-24",
@@ -574,6 +574,25 @@
       "KB증권"
     ],
     "no": "2348"
+  },
+  {
+    "name": "데스틴파워",
+    "market": "코스닥",
+    "sub_start": "2026-12-14",
+    "sub_end": "2026-12-15",
+    "listing_date": null,
+    "band_low": 8000,
+    "band_high": 11000,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "한국투자증권",
+    "brokers": [
+      "한국투자증권"
+    ],
+    "no": "2356"
   },
   {
     "name": "KTE",

@@ -1,22 +1,4 @@
 {
   "updated": "2026-10-29",
-  "items": [
-    {
-      "name": "티앤이코리아",
-      "broker": "신한투자증권",
-      "brokers": [
-        "신한투자증권"
-      ],
-      "sub_start": "2026-10-20",
-      "sub_end": "2026-10-21",
-      "listing_date": "2026-10-29",
-      "final_price": 15300,
-      "min_shares": 10,
-      "margin": 76500,
-      "inst_competition": 1041.02,
-      "lockup_ratio": 29.52,
-      "grade": 4,
-      "reason": "예외3: 수요 강한 중대형주"
-    }
-  ]
+  "items": []
 }
