@@ -23,6 +23,29 @@
     "judged_at": "2026-10-30"
   },
   {
+    "no": "2339",
+    "name": "동원파츠",
+    "market": "코스닥",
+    "sub_start": "2026-11-02",
+    "sub_end": "2026-11-03",
+    "listing_date": "2026-11-10",
+    "band_low": 23000,
+    "band_high": 26500,
+    "final_price": 26500,
+    "inst_competition": 840.86,
+    "lockup_ratio": 16.61,
+    "float_amount": 724.6,
+    "existing_holder_ratio": 25.76,
+    "broker": "삼성증권",
+    "brokers": [
+      "삼성증권"
+    ],
+    "passed": false,
+    "grade": 0,
+    "reason": "기준 미달",
+    "judged_at": "2026-10-30"
+  },
+  {
     "no": "2332",
     "name": "이에스티",
     "market": "코스닥",
@@ -158,7 +181,12 @@
     "passed": false,
     "grade": 0,
     "reason": "기존주주 물량 50% 이상",
-    "judged_at": "2026-10-30"
+    "judged_at": "2026-10-30",
+    "open_price": 12000,
+    "close_price": 9470,
+    "open_return": -20.0,
+    "close_return": -36.9,
+    "result_at": "2026-10-30"
   },
   {
     "no": "2328",
@@ -181,7 +209,12 @@
     "passed": false,
     "grade": 0,
     "reason": "기준 미달",
-    "judged_at": "2026-10-30"
+    "judged_at": "2026-10-30",
+    "open_price": 19290,
+    "close_price": 31750,
+    "open_return": 114.3,
+    "close_return": 252.8,
+    "result_at": "2026-10-30"
   },
   {
     "no": "2322",
