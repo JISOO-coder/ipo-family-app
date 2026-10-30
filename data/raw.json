@@ -1,24 +1,5 @@
 [
   {
-    "name": "인텔리빅스",
-    "market": "코스닥",
-    "sub_start": "2026-10-21",
-    "sub_end": "2026-10-22",
-    "listing_date": "2026-10-30",
-    "band_low": 7600,
-    "band_high": 9000,
-    "final_price": 9000,
-    "inst_competition": 1234.3,
-    "lockup_ratio": 6.14,
-    "float_amount": 244.4,
-    "existing_holder_ratio": 7.92,
-    "broker": "미래에셋증권",
-    "brokers": [
-      "미래에셋증권"
-    ],
-    "no": "2328"
-  },
-  {
     "name": "래블업",
     "market": "코스닥",
     "sub_start": "2026-10-22",
