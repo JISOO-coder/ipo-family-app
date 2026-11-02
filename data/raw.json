@@ -19,25 +19,6 @@
     "no": "2335"
   },
   {
-    "name": "영광(구.영광공작소)",
-    "market": "코스닥",
-    "sub_start": "2026-10-22",
-    "sub_end": "2026-10-23",
-    "listing_date": "2026-11-02",
-    "band_low": 14000,
-    "band_high": 17000,
-    "final_price": 17000,
-    "inst_competition": 1000.07,
-    "lockup_ratio": 0.87,
-    "float_amount": 488.0,
-    "existing_holder_ratio": 21.28,
-    "broker": "한국투자증권",
-    "brokers": [
-      "한국투자증권"
-    ],
-    "no": "2333"
-  },
-  {
     "name": "이에스티",
     "market": "코스닥",
     "sub_start": "2026-10-22",
