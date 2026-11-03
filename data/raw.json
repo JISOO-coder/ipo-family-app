@@ -1,24 +1,5 @@
 [
   {
-    "name": "래블업",
-    "market": "코스닥",
-    "sub_start": "2026-10-22",
-    "sub_end": "2026-10-23",
-    "listing_date": "2026-11-03",
-    "band_low": 19000,
-    "band_high": 22000,
-    "final_price": 19000,
-    "inst_competition": 284.53,
-    "lockup_ratio": 2.09,
-    "float_amount": 982.8,
-    "existing_holder_ratio": 59.12,
-    "broker": "NH투자증권",
-    "brokers": [
-      "NH투자증권"
-    ],
-    "no": "2335"
-  },
-  {
     "name": "이에스티",
     "market": "코스닥",
     "sub_start": "2026-10-22",
