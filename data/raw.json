@@ -1,24 +1,5 @@
 [
   {
-    "name": "동원파츠",
-    "market": "코스닥",
-    "sub_start": "2026-11-02",
-    "sub_end": "2026-11-03",
-    "listing_date": "2026-11-10",
-    "band_low": 23000,
-    "band_high": 26500,
-    "final_price": 26500,
-    "inst_competition": 840.86,
-    "lockup_ratio": 16.61,
-    "float_amount": 724.6,
-    "existing_holder_ratio": 25.76,
-    "broker": "삼성증권",
-    "brokers": [
-      "삼성증권"
-    ],
-    "no": "2339"
-  },
-  {
     "name": "바로팜",
     "market": "코스닥",
     "sub_start": "2026-11-02",
