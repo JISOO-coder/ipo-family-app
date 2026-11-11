@@ -20,7 +20,7 @@
     "passed": false,
     "grade": 0,
     "reason": "기준 미달",
-    "judged_at": "2026-11-11"
+    "judged_at": "2026-11-12"
   },
   {
     "no": "2331",
@@ -43,7 +43,7 @@
     "passed": false,
     "grade": 0,
     "reason": "기준 미달",
-    "judged_at": "2026-11-11"
+    "judged_at": "2026-11-12"
   },
   {
     "no": "2338",
@@ -66,7 +66,7 @@
     "passed": false,
     "grade": 0,
     "reason": "기준 미달",
-    "judged_at": "2026-11-11"
+    "judged_at": "2026-11-12"
   },
   {
     "no": "2342",
@@ -89,7 +89,7 @@
     "passed": false,
     "grade": 0,
     "reason": "기존주주 물량 50% 이상",
-    "judged_at": "2026-11-11"
+    "judged_at": "2026-11-12"
   },
   {
     "no": "2336",
@@ -112,7 +112,7 @@
     "passed": false,
     "grade": 0,
     "reason": "기존주주 물량 50% 이상",
-    "judged_at": "2026-11-11"
+    "judged_at": "2026-11-12"
   },
   {
     "no": "2325",
@@ -135,7 +135,12 @@
     "passed": false,
     "grade": 0,
     "reason": "기존주주 물량 50% 이상",
-    "judged_at": "2026-11-11"
+    "judged_at": "2026-11-11",
+    "open_price": 16000,
+    "close_price": 11780,
+    "open_return": -2.4,
+    "close_return": -28.2,
+    "result_at": "2026-11-12"
   },
   {
     "no": "2339",

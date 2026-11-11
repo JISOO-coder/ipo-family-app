@@ -1,24 +1,5 @@
 [
   {
-    "name": "바로팜",
-    "market": "코스닥",
-    "sub_start": "2026-11-02",
-    "sub_end": "2026-11-03",
-    "listing_date": "2026-11-11",
-    "band_low": 16400,
-    "band_high": 20200,
-    "final_price": 16400,
-    "inst_competition": 152.36,
-    "lockup_ratio": 0.03,
-    "float_amount": 595.3,
-    "existing_holder_ratio": 50.96,
-    "broker": "미래에셋증권",
-    "brokers": [
-      "미래에셋증권"
-    ],
-    "no": "2325"
-  },
-  {
     "name": "넥스아이",
     "market": "코스닥",
     "sub_start": "2026-11-03",
