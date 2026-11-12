@@ -1,24 +1,5 @@
 [
   {
-    "name": "넥스아이",
-    "market": "코스닥",
-    "sub_start": "2026-11-03",
-    "sub_end": "2026-11-04",
-    "listing_date": "2026-11-12",
-    "band_low": 10500,
-    "band_high": 13000,
-    "final_price": 8000,
-    "inst_competition": 66.58,
-    "lockup_ratio": 0.06,
-    "float_amount": 1355.8,
-    "existing_holder_ratio": 70.5,
-    "broker": "한국투자증권",
-    "brokers": [
-      "한국투자증권"
-    ],
-    "no": "2336"
-  },
-  {
     "name": "영광와이케이엠씨",
     "market": "코스닥",
     "sub_start": "2026-11-04",
