@@ -105,8 +105,8 @@
     "final_price": 7000,
     "inst_competition": null,
     "lockup_ratio": null,
-    "float_amount": null,
-    "existing_holder_ratio": null,
+    "float_amount": 341.5,
+    "existing_holder_ratio": 59.0,
     "broker": "하나증권",
     "brokers": [
       "하나증권"
@@ -118,7 +118,7 @@
     "market": "코스닥",
     "sub_start": "2026-11-18",
     "sub_end": "2026-11-19",
-    "listing_date": null,
+    "listing_date": "2026-11-30",
     "band_low": 19000,
     "band_high": 23000,
     "final_price": null,
@@ -138,7 +138,7 @@
     "market": null,
     "sub_start": "2026-11-18",
     "sub_end": "2026-11-19",
-    "listing_date": null,
+    "listing_date": "2026-11-27",
     "band_low": 31600,
     "band_high": 36100,
     "final_price": null,
@@ -159,7 +159,7 @@
     "market": "코스닥",
     "sub_start": "2026-11-23",
     "sub_end": "2026-11-24",
-    "listing_date": null,
+    "listing_date": "2026-12-02",
     "band_low": 18000,
     "band_high": 25000,
     "final_price": null,
@@ -251,25 +251,6 @@
     "no": "2350"
   },
   {
-    "name": "다비오",
-    "market": "코스닥",
-    "sub_start": "2026-12-01",
-    "sub_end": "2026-12-02",
-    "listing_date": null,
-    "band_low": 12300,
-    "band_high": 16600,
-    "final_price": null,
-    "inst_competition": null,
-    "lockup_ratio": null,
-    "float_amount": 551.6,
-    "existing_holder_ratio": 69.9,
-    "broker": "대신증권",
-    "brokers": [
-      "대신증권"
-    ],
-    "no": "2358"
-  },
-  {
     "name": "엔키화이트햇",
     "market": "코스닥",
     "sub_start": "2026-12-01",
@@ -345,6 +326,25 @@
       "NH투자증권"
     ],
     "no": "2359"
+  },
+  {
+    "name": "다비오",
+    "market": "코스닥",
+    "sub_start": "2026-12-09",
+    "sub_end": "2026-12-10",
+    "listing_date": null,
+    "band_low": 12300,
+    "band_high": 16600,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": 551.6,
+    "existing_holder_ratio": 69.9,
+    "broker": "대신증권",
+    "brokers": [
+      "대신증권"
+    ],
+    "no": "2358"
   },
   {
     "name": "인터엑스",

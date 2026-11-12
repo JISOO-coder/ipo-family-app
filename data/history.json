@@ -112,7 +112,12 @@
     "passed": false,
     "grade": 0,
     "reason": "기존주주 물량 50% 이상",
-    "judged_at": "2026-11-12"
+    "judged_at": "2026-11-12",
+    "open_price": 7620,
+    "close_price": 4810,
+    "open_return": -4.7,
+    "close_return": -39.9,
+    "result_at": "2026-11-12"
   },
   {
     "no": "2325",
