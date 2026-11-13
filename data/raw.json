@@ -175,25 +175,6 @@
     "no": "2357"
   },
   {
-    "name": "제논",
-    "market": "코스닥",
-    "sub_start": "2026-11-24",
-    "sub_end": "2026-11-25",
-    "listing_date": null,
-    "band_low": 9700,
-    "band_high": 12200,
-    "final_price": null,
-    "inst_competition": null,
-    "lockup_ratio": null,
-    "float_amount": 508.3,
-    "existing_holder_ratio": 49.59,
-    "broker": "삼성증권",
-    "brokers": [
-      "삼성증권"
-    ],
-    "no": "2341"
-  },
-  {
     "name": "케이엠에프",
     "market": "코스닥",
     "sub_start": "2026-11-24",
@@ -367,6 +348,26 @@
     "no": "2348"
   },
   {
+    "name": "태석광학",
+    "market": "코스닥",
+    "sub_start": "2026-12-14",
+    "sub_end": "2026-12-15",
+    "listing_date": null,
+    "band_low": 17500,
+    "band_high": 20200,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "신한투자증권",
+    "brokers": [
+      "신한투자증권",
+      "대신증권"
+    ],
+    "no": "2360"
+  },
+  {
     "name": "데스틴파워",
     "market": "코스닥",
     "sub_start": "2026-12-14",
@@ -403,5 +404,24 @@
       "NH투자증권"
     ],
     "no": "2355"
+  },
+  {
+    "name": "제논",
+    "market": "코스닥",
+    "sub_start": "2026-12-14",
+    "sub_end": "2026-12-15",
+    "listing_date": null,
+    "band_low": 9700,
+    "band_high": 12200,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": 508.3,
+    "existing_holder_ratio": 49.59,
+    "broker": "삼성증권",
+    "brokers": [
+      "삼성증권"
+    ],
+    "no": "2341"
   }
 ]
