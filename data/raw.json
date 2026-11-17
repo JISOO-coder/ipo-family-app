@@ -329,6 +329,25 @@
     "no": "2348"
   },
   {
+    "name": "데스틴파워",
+    "market": "코스닥",
+    "sub_start": "2026-12-11",
+    "sub_end": "2026-12-14",
+    "listing_date": null,
+    "band_low": 8000,
+    "band_high": 11000,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "한국투자증권",
+    "brokers": [
+      "한국투자증권"
+    ],
+    "no": "2356"
+  },
+  {
     "name": "태석광학",
     "market": "코스닥",
     "sub_start": "2026-12-14",
@@ -347,25 +366,6 @@
       "대신증권"
     ],
     "no": "2360"
-  },
-  {
-    "name": "데스틴파워",
-    "market": "코스닥",
-    "sub_start": "2026-12-14",
-    "sub_end": "2026-12-15",
-    "listing_date": null,
-    "band_low": 8000,
-    "band_high": 11000,
-    "final_price": null,
-    "inst_competition": null,
-    "lockup_ratio": null,
-    "float_amount": null,
-    "existing_holder_ratio": null,
-    "broker": "한국투자증권",
-    "brokers": [
-      "한국투자증권"
-    ],
-    "no": "2356"
   },
   {
     "name": "KTE",
