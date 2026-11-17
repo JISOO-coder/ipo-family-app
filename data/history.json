@@ -1,5 +1,29 @@
 [
   {
+    "no": "2352",
+    "name": "유캐스트",
+    "market": "코스닥",
+    "sub_start": "2026-11-18",
+    "sub_end": "2026-11-19",
+    "listing_date": "2026-11-30",
+    "band_low": 19000,
+    "band_high": 23000,
+    "final_price": 19000,
+    "inst_competition": 173.42,
+    "lockup_ratio": 0.57,
+    "float_amount": 411.9,
+    "existing_holder_ratio": 63.1,
+    "broker": "유진투자증권",
+    "brokers": [
+      "유진투자증권",
+      "신영증권"
+    ],
+    "passed": false,
+    "grade": 0,
+    "reason": "기존주주 물량 50% 이상",
+    "judged_at": "2026-11-18"
+  },
+  {
     "no": "2334",
     "name": "하나에어로다이내믹스",
     "market": "코스닥",
@@ -20,7 +44,7 @@
     "passed": false,
     "grade": 0,
     "reason": "기준 미달",
-    "judged_at": "2026-11-17"
+    "judged_at": "2026-11-18"
   },
   {
     "no": "2331",
@@ -43,7 +67,7 @@
     "passed": false,
     "grade": 0,
     "reason": "기준 미달",
-    "judged_at": "2026-11-17"
+    "judged_at": "2026-11-18"
   },
   {
     "no": "2338",
@@ -66,7 +90,12 @@
     "passed": false,
     "grade": 0,
     "reason": "기준 미달",
-    "judged_at": "2026-11-17"
+    "judged_at": "2026-11-17",
+    "open_price": 31000,
+    "close_price": 18170,
+    "open_return": 158.3,
+    "close_return": 51.4,
+    "result_at": "2026-11-18"
   },
   {
     "no": "2342",
