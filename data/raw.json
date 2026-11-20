@@ -1,24 +1,5 @@
 [
   {
-    "name": "하나에어로다이내믹스",
-    "market": "코스닥",
-    "sub_start": "2026-11-10",
-    "sub_end": "2026-11-11",
-    "listing_date": "2026-11-20",
-    "band_low": 4700,
-    "band_high": 5700,
-    "final_price": 5700,
-    "inst_competition": 1051.38,
-    "lockup_ratio": 4.16,
-    "float_amount": 311.5,
-    "existing_holder_ratio": 19.49,
-    "broker": "IBK투자증권",
-    "brokers": [
-      "IBK투자증권"
-    ],
-    "no": "2334"
-  },
-  {
     "name": "엠비디",
     "market": "코스닥",
     "sub_start": "2026-11-12",
@@ -363,5 +344,25 @@
       "한국투자증권"
     ],
     "no": "2361"
+  },
+  {
+    "name": "피지티",
+    "market": "코스닥",
+    "sub_start": "2026-12-17",
+    "sub_end": "2026-12-18",
+    "listing_date": null,
+    "band_low": 18000,
+    "band_high": 20000,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "한국투자증권",
+    "brokers": [
+      "한국투자증권",
+      "유안타증권"
+    ],
+    "no": "2363"
   }
 ]

@@ -21,7 +21,7 @@
     "passed": false,
     "grade": 0,
     "reason": "기존주주 물량 50% 이상",
-    "judged_at": "2026-11-20"
+    "judged_at": "2026-11-21"
   },
   {
     "no": "2334",
@@ -44,7 +44,12 @@
     "passed": false,
     "grade": 0,
     "reason": "기준 미달",
-    "judged_at": "2026-11-20"
+    "judged_at": "2026-11-20",
+    "open_price": 10130,
+    "close_price": 6050,
+    "open_return": 77.7,
+    "close_return": 6.1,
+    "result_at": "2026-11-21"
   },
   {
     "no": "2331",
