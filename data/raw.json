@@ -46,9 +46,9 @@
     "listing_date": null,
     "band_low": 2000,
     "band_high": 2000,
-    "final_price": null,
-    "inst_competition": null,
-    "lockup_ratio": null,
+    "final_price": 2000,
+    "inst_competition": 1275.8,
+    "lockup_ratio": 0.0,
     "float_amount": null,
     "existing_holder_ratio": null,
     "broker": "신영증권",
@@ -56,25 +56,6 @@
       "신영증권"
     ],
     "no": "2357"
-  },
-  {
-    "name": "케이엠에프",
-    "market": "코스닥",
-    "sub_start": "2026-11-24",
-    "sub_end": "2026-11-25",
-    "listing_date": null,
-    "band_low": 15000,
-    "band_high": 17800,
-    "final_price": null,
-    "inst_competition": null,
-    "lockup_ratio": null,
-    "float_amount": 578.5,
-    "existing_holder_ratio": 38.47,
-    "broker": "IBK투자증권",
-    "brokers": [
-      "IBK투자증권"
-    ],
-    "no": "2340"
   },
   {
     "name": "에이엔에이치스트럭쳐",
