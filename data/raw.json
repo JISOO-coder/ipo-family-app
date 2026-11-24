@@ -1,24 +1,5 @@
 [
   {
-    "name": "엠비디",
-    "market": "코스닥",
-    "sub_start": "2026-11-12",
-    "sub_end": "2026-11-13",
-    "listing_date": "2026-11-24",
-    "band_low": 9600,
-    "band_high": 11700,
-    "final_price": 7000,
-    "inst_competition": null,
-    "lockup_ratio": null,
-    "float_amount": 341.5,
-    "existing_holder_ratio": 59.0,
-    "broker": "하나증권",
-    "brokers": [
-      "하나증권"
-    ],
-    "no": "2321"
-  },
-  {
     "name": "유캐스트",
     "market": "코스닥",
     "sub_start": "2026-11-18",
@@ -43,7 +24,7 @@
     "market": "코스닥",
     "sub_start": "2026-11-24",
     "sub_end": "2026-11-25",
-    "listing_date": null,
+    "listing_date": "2026-12-03",
     "band_low": 2000,
     "band_high": 2000,
     "final_price": 2000,
@@ -125,8 +106,8 @@
     "final_price": null,
     "inst_competition": null,
     "lockup_ratio": null,
-    "float_amount": null,
-    "existing_holder_ratio": null,
+    "float_amount": 864.2,
+    "existing_holder_ratio": 38.9,
     "broker": "한국투자증권",
     "brokers": [
       "한국투자증권"
@@ -144,8 +125,8 @@
     "final_price": null,
     "inst_competition": null,
     "lockup_ratio": null,
-    "float_amount": null,
-    "existing_holder_ratio": null,
+    "float_amount": 1001.2,
+    "existing_holder_ratio": 65.24,
     "broker": "KB증권",
     "brokers": [
       "KB증권",
@@ -183,8 +164,8 @@
     "final_price": null,
     "inst_competition": null,
     "lockup_ratio": null,
-    "float_amount": null,
-    "existing_holder_ratio": null,
+    "float_amount": 711.7,
+    "existing_holder_ratio": 45.2,
     "broker": "한국투자증권",
     "brokers": [
       "한국투자증권",
@@ -203,8 +184,8 @@
     "final_price": null,
     "inst_competition": null,
     "lockup_ratio": null,
-    "float_amount": null,
-    "existing_holder_ratio": null,
+    "float_amount": 792.8,
+    "existing_holder_ratio": 65.69,
     "broker": "KB증권",
     "brokers": [
       "KB증권"

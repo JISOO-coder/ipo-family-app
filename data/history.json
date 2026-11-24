@@ -1,5 +1,28 @@
 [
   {
+    "no": "2357",
+    "name": "신영스팩12호",
+    "market": "코스닥",
+    "sub_start": "2026-11-24",
+    "sub_end": "2026-11-25",
+    "listing_date": "2026-12-03",
+    "band_low": 2000,
+    "band_high": 2000,
+    "final_price": 2000,
+    "inst_competition": 1275.8,
+    "lockup_ratio": 0.0,
+    "float_amount": null,
+    "existing_holder_ratio": null,
+    "broker": "신영증권",
+    "brokers": [
+      "신영증권"
+    ],
+    "passed": false,
+    "grade": 0,
+    "reason": "기준 미달(유통물량 정보 없음)",
+    "judged_at": "2026-11-25"
+  },
+  {
     "no": "2352",
     "name": "유캐스트",
     "market": "코스닥",
@@ -21,30 +44,7 @@
     "passed": false,
     "grade": 0,
     "reason": "기존주주 물량 50% 이상",
-    "judged_at": "2026-11-24"
-  },
-  {
-    "no": "2357",
-    "name": "신영스팩12호",
-    "market": "코스닥",
-    "sub_start": "2026-11-24",
-    "sub_end": "2026-11-25",
-    "listing_date": null,
-    "band_low": 2000,
-    "band_high": 2000,
-    "final_price": 2000,
-    "inst_competition": 1275.8,
-    "lockup_ratio": 0.0,
-    "float_amount": null,
-    "existing_holder_ratio": null,
-    "broker": "신영증권",
-    "brokers": [
-      "신영증권"
-    ],
-    "passed": false,
-    "grade": 0,
-    "reason": "기준 미달(유통물량 정보 없음)",
-    "judged_at": "2026-11-24"
+    "judged_at": "2026-11-25"
   },
   {
     "no": "2334",
