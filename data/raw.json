@@ -155,25 +155,6 @@
     "no": "2353"
   },
   {
-    "name": "씨아이에스케미칼",
-    "market": "코스닥",
-    "sub_start": "2026-12-10",
-    "sub_end": "2026-12-11",
-    "listing_date": null,
-    "band_low": 5400,
-    "band_high": 6800,
-    "final_price": null,
-    "inst_competition": null,
-    "lockup_ratio": null,
-    "float_amount": 792.8,
-    "existing_holder_ratio": 65.69,
-    "broker": "KB증권",
-    "brokers": [
-      "KB증권"
-    ],
-    "no": "2348"
-  },
-  {
     "name": "데스틴파워",
     "market": "코스닥",
     "sub_start": "2026-12-11",
@@ -328,5 +309,24 @@
       "유안타증권"
     ],
     "no": "2363"
+  },
+  {
+    "name": "씨아이에스케미칼",
+    "market": "코스닥",
+    "sub_start": "2027-01-21",
+    "sub_end": "2027-01-22",
+    "listing_date": null,
+    "band_low": 5000,
+    "band_high": 6000,
+    "final_price": null,
+    "inst_competition": null,
+    "lockup_ratio": null,
+    "float_amount": 699.5,
+    "existing_holder_ratio": 65.69,
+    "broker": "KB증권",
+    "brokers": [
+      "KB증권"
+    ],
+    "no": "2348"
   }
 ]
